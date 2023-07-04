@@ -1,0 +1,25 @@
+$white: #ffffff;
+$black: #000000;
+$graphit: #1e1e1e;
+$spacegrey: #3c3b3a;
+$spacegray: #393a3d;
+$lowspacegrey: #957f7f;
+$superspacegrey: #3b3a3a;
+$whiteGrey: #7c7c7c;
+$gray: #d9d9d9;
+$grey: #1d1c1cab;
+$graey: #1d1c1cab;
+$whiteGrey: #25252580;
+$maxWidth: 1280;
+
+@mixin adaptiv-font($pcSize, $mobSize) {
+  $addSize: $pcSize - $mobSize;
+  $maxWidth: $maxWidth - 320;
+  font-size: calc(#{$mobSize + px} + #{calc($addSize / 1.5)} * ((100vw - 320px) / #{$maxWidth}));
+}
+
+@mixin adaptiv-lineHeight($pcSize, $mobSize) {
+  $addSize: $pcSize - $mobSize;
+  $maxWidth: $maxWidth - 320;
+  line-height: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth}));
+}

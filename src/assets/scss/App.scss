@@ -1,0 +1,59 @@
+@import "./varibles.scss";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+@font-face {
+  font-family: "Raleway-Regular";
+  src: url("../fonts/Raleway-Regular.ttf");
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  background: $white;
+  font-family: "Raleway-Regular", sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  width: 100vw;
+  min-height: 100vh;
+  color: $black;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 0 15px;
+}
+
+section {
+  scroll-snap-stop: always;
+}
+main {
+  margin-top: 50px;
+  flex: 1 0 100%;
+
+  @media (min-width: 767px) {
+    margin-top: 60px;
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "header": {
+    "new": "New",
+    "catalog": "Catalog",
+    "aboutUs": "About us",
+    "search": "Search",
+    "favorites": "Favorites",
+    "profile": "Profile",
+    "shoppingCard": "Shopping card"
+  },
+  "Home": {
+    "Preview": {
+      "watchТovelties": "WATCH TOVELTIES",
+      "boyAndGirl": "Boy and girl",
+      "boy": "Boy"
+    },
+    "Categories": {
+      "categories": "Categories",
+      "tshirts": "T-shirts",
+      "hoodies": "Hoodies",
+      "trousers": "Trousers",
+      "hats": "Hats"
+    },
+    "Subscride": {
+      "knowTovelties": "Be the first to know about new products",
+      "SubscrideTelegramChannel": "Subscribe to our telegram channel"
+    }
+  },
+  "Shop": {
+    "Aside": {
+      "catalog": "Catalog",
+      "filtres": "Filtres",
+      "Select": {
+        "byPrice": "By price",
+        "byPopularity": "By popularity"
+      }
+    },
+    "loadMore": "Show more",
+    "Product": {
+      "addToFavorite": "Add to favorite"
+    }
+  },
+  "PaymentAndDevelivery": {
+    "paymentAndDevelivery": "Payment and delivery",
+    "Pay": {
+      "youCanPayAnywayByMethod": "You can pay for the goods in one of the following ways",
+      "paymentVisaMasterCard": "Visa/MasterCard",
+      "prepaymentTelegram": "full prepayment through the telegram channel"
+    },
+    "Develivery": {
+      "weReadyGiveSomeVariants": "We are ready to offer several delivery options",
+      "russiaMail": "Through the territory of the Russian Federation to the Rosia Mail Department (7-14 days)",
+      "cdek": "International Delivery Services for residents of Abroad: SDEK (1-3 weeks)",
+      "momentalDevelivery": "Delivery time: 1-2 days from the date of order"
+    }
+  },
+  "SingIn": {
+    "ThisEmailFieldRequired": "This email field is required",
+    "ThisPasswordFieldRequired": "This password field is required",
+    "email": "Your Email",
+    "password": "Your Password",
+    "forgetPassword": "Forger password",
+    "noAccount": "No account",
+    "somethingWentWrong": "Something went wrong",
+    "minLengthLetters": "The password must contain at least {minLengthLetters} symbols",
+    "maxLengthLetters": "The password may contain before {maxLengthLetters} symbols",
+    "singIn": "Sing in"
+  },
+  "LogIn": {
+    "ThisEmailFieldRequired": "This email field is required",
+    "ThisPasswordFieldRequired": "This password field is required",
+    "email": "Your Email",
+    "password": "Your Password",
+    "logIn": "Register",
+    "somethingWentWrong": "Something went wrong",
+    "minLengthLetters": "The password must contain at least {minLengthLetters} symbols",
+    "maxLengthLetters": "The password may contain before {maxLengthLetters} symbols",
+    "confirmPassword": "Confirm password",
+    "newPasswordConfirm": "Confirm your new password",
+    "Registered": {
+      "complitedRegistered": "registration completed successfully",
+      "complitedRegisteredDescription": {
+        "first": "You have successfully registered",
+        "second": "Pleasant purchases"
+      }
+    }
+  },
+  "ForgetPasswordForm": {
+    "ThisEmailFieldRequired": "This email field is required",
+    "ThisPasswordFieldRequired": "This password field is required",
+    "minLengthLetters": "The password must contain at least {minLengthLetters} symbols",
+    "maxLengthLetters": "The password may contain before {maxLengthLetters} symbols",
+    "confirmPassword": "Confirm password",
+    "newPasswordConfirm": "Confirm your new password",
+    "email": "Your Email",
+    "newPassword": "Your new Password",
+    "somethingWentWrong": "Something went wrong",
+    "continue": "Continue",
+    "sendConfirm": "We sent you an email with confirmation",
+    "singIn": "Sing in"
+  },
+  "NotFound": {
+    "pageNotFound": "Page not found",
+    "goToHome": "Go back to main page"
+  },
+  "Contacts": {
+    "feedback": "Связаться с нами",
+    "social-net": {
+      "social": "В социальных сетях",
+      "telegram": "telegram"
+    },
+    "byNumber": {
+      "byNumber": "По номеру телефона",
+      "number": "+7 ( 123) 456-67-89"
+    },
+    "byMail": {
+      "byMail": "По почте",
+      "mail": "bakerbrands@mail.com"
+    }
+  },
+  "Loader": {
+    "loading": "Loading"
+  },
+  "Routes": {
+    "Home": "Home",
+    "Shop": "Shop",
+    "PaymentAndDevelivery": "Payment and develivery",
+    "Contacts": "Contacts"
+  },
+  "Categories": {
+    "categories": "Categories",
+    "tshirts": "T-shirt",
+    "hoodies": "Hoodie",
+    "trousers": "Trouser",
+    "hats": "Hat"
+  },
+  "PayСurrency": "$",
+  "footer": {
+    "company": "Company",
+    "aboutUs": "About us",
+    "contacts": "Contacts",
+    "usefull": "Usefull",
+    "payAndDelivery": "Pay and delivery",
+    "toTheBuyer": "To the buyer",
+    "favorites": "Favorites",
+    "policy": "Privacy Policy"
+  }
+}

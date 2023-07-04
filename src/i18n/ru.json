@@ -1,0 +1,148 @@
+{
+  "header": {
+    "new": "Новинки",
+    "catalog": "Каталог",
+    "aboutUs": "О нас",
+    "search": "Поиск",
+    "favorites": "Избранное",
+    "profile": "Профиль",
+    "shoppingCard": "Карта покупок"
+  },
+  "Home": {
+    "Preview": {
+      "watchТovelties": "СМОТРЕТЬ НОВИНКИ",
+      "boyAndGirl": "Мужчина и девушка",
+      "boy": "Мужчина"
+    },
+    "Categories": {
+      "categories": "Категории",
+      "tshirts": "Футболки",
+      "hoodies": "Толстовки",
+      "trousers": "Штаны",
+      "hats": "Головные уборы"
+    },
+    "Subscride": {
+      "knowTovelties": "Узнайте первым о новинках",
+      "SubscrideTelegramChannel": "Подпишись на наш телеграмм канал"
+    }
+  },
+  "Shop": {
+    "Aside": {
+      "catalog": "Каталог",
+      "filtres": "Фильтры",
+      "Select": {
+        "byPrice": "По цене",
+        "byPopularity": "По популярности"
+      }
+    },
+    "loadMore": "Показать еще",
+    "Product": {
+      "addToFavorite": "Добавить в понравившиеся"
+    }
+  },
+  "PaymentAndDevelivery": {
+    "paymentAndDevelivery": "Оплата и доставка",
+    "Pay": {
+      "youCanPayAnywayByMethod": "Вы можете оплатить товар одним из следущих способов",
+      "paymentVisaMasterCard": "денежным переводом Visa/MasterCard",
+      "prepaymentTelegram": "полная предоплата через телеграмм канал"
+    },
+    "Develivery": {
+      "weReadyGiveSomeVariants": "Мы готовы предложить несколько вариантов доставки",
+      "russiaMail": "По территории РФ  в отделение Почты Росиии (7-14 дней)",
+      "cdek": "Международные сервисы доставки для жителей зарубежья: СДЕК(1-3 недели)",
+      "momentalDevelivery": "Срок доставки: 1–2 дня с момента заказа"
+    }
+  },
+  "SingIn": {
+    "ThisEmailFieldRequired": "Это поле почты обезательное",
+    "ThisPasswordFieldRequired": "Это поле пароля обезательное",
+    "email": "Ваша почта",
+    "password": "Ваш пароль",
+    "forgetPassword": "Забыли пароль",
+    "noAccount": "Нет аккаунта",
+    "somethingWentWrong": "Что то пошло не так",
+    "minLengthLetters": "Пароль должен содержать не менее {minLengthLetters} символов",
+    "maxLengthLetters": "Пароль может содержать до {maxLengthLetters} символов",
+    "singIn": "Войти"
+  },
+  "LogIn": {
+    "ThisEmailFieldRequired": "Это поле почты обезательное",
+    "ThisPasswordFieldRequired": "Это поле пароля обезательное",
+    "email": "Ваша почта",
+    "password": "Ваш пароль",
+    "logIn": "Зарегестрироваться",
+    "somethingWentWrong": "Что то пошло не так",
+    "minLengthLetters": "Пароль должен содержать не менее {minLengthLetters} символов",
+    "maxLengthLetters": "Пароль может содержать до {maxLengthLetters} символов",
+    "confirmPassword": "Подтвердите пароль",
+    "newPasswordConfirm": "Подтвердите ваш новый пароль",
+    "Registered": {
+      "complitedRegistered": "Регистрация прошла успешно",
+      "complitedRegisteredDescription": {
+        "first": "Вы успешно зарегестрировались",
+        "second": "Приятных покупок"
+      }
+    }
+  },
+  "ForgetPasswordForm": {
+    "ThisEmailFieldRequired": "Это поле почты обезательное",
+    "ThisPasswordFieldRequired": "Это поле пароля обезательное",
+    "minLengthLetters": "Пароль должен содержать не менее {minLengthLetters} символов",
+    "maxLengthLetters": "Пароль может содержать до {maxLengthLetters} символов",
+    "confirmPassword": "Подтвердите пароль",
+    "email": "Ваша почта",
+    "newPassword": "Ваш новый пароль",
+    "newPasswordConfirm": "Подтвердите ваш новый пароль",
+    "continue": "Продолжить",
+    "somethingWentWrong": "Что то пошло не так",
+    "sendConfirm": "Мы отправили вам электронное письмо с подтверждением",
+    "singIn": "Войти"
+  },
+  "NotFound": {
+    "pageNotFound": "Страница не найдена",
+    "goToHome": "Вернуться на главную страницу"
+  },
+  "Contacts": {
+    "feedback": "Связаться с нами",
+    "social-net": {
+      "social": "В социальных сетях",
+      "telegram": "telegram"
+    },
+    "byNumber": {
+      "byNumber": "По номеру телефона",
+      "number": "+7 ( 123) 456-67-89"
+    },
+    "byMail": {
+      "byMail": "По почте",
+      "mail": "bakerbrands@mail.com"
+    }
+  },
+  "Loader": {
+    "loading": "Загрузка"
+  },
+  "Routes": {
+    "Home": "Главная",
+    "Shop": "Категории",
+    "PaymentAndDevelivery": "Оплата и доставка",
+    "Contacts": "Контакты"
+  },
+  "Categories": {
+    "categories": "Категории",
+    "tshirts": "Футболка",
+    "hoodies": "Толстовка",
+    "trousers": "Штаны",
+    "hats": "Головные убор"
+  },
+  "PayСurrency": "руб",
+  "footer": {
+    "company": "Компания",
+    "aboutUs": "О нас",
+    "contacts": "Контакты",
+    "usefull": "Полезно",
+    "payAndDelivery": "Оплата и доставка",
+    "toTheBuyer": "Покупателю",
+    "favorites": "Избранное",
+    "policy": "Политика конфиденциальности"
+  }
+}
