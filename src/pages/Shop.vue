@@ -2,21 +2,21 @@
 import type { IProduct } from "@/types";
 
 import Filter from "@/components/Filter.vue";
-import Loader from "@/components/Loader.vue";
 import Location from "@/components/Location.vue";
+import ProductItemSkeleton from "@/components/ProductItemSkeleton.vue";
 import Products from "@/components/Products.vue";
 import ShowMore from "@/components/ShowMore.vue";
 import { useProductsStore } from "@/store/products";
-import { ref } from "vue";
-import { onMounted } from "vue";
+import { storeToRefs } from "pinia";
+import { onMounted, ref, watchEffect } from "vue";
 
-const { fetchProducts, fetchProductsByCategory, length, loading, products } = useProductsStore();
+const { fetchProducts, fetchProductsByCategory } = useProductsStore();
+const { length, loading, products } = storeToRefs(useProductsStore());
 const currentCategory = ref<IProduct["category"]>();
 
 const onClick = async (category?: IProduct["category"]) => {
-  console.log(category);
   currentCategory.value = category;
-  await fetchProductsByCategory(currentCategory.value ?? category);
+  await fetchProductsByCategory(category ?? currentCategory.value!);
 };
 
 onMounted(async () => {
@@ -28,17 +28,29 @@ onMounted(async () => {
   <main class="Shop">
     <section class="Products">
       <div class="Products__container container">
-        <template v-if="!loading">
-          <Location />
-          <Filter @click="onClick">
+        <Location />
+        <Filter @click="onClick">
+          <template v-if="!loading">
             <Products :products="products" :length="length" />
             <ShowMore v-if="products.length < length" @click="onClick" />
-          </Filter>
-        </template>
-        <Loader v-else />
+          </template>
+          <template v-else>
+            <ul class="products-list">
+              <ProductItemSkeleton v-for="n of 16" :key="n" />
+            </ul>
+          </template>
+        </Filter>
       </div>
     </section>
   </main>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.products-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  width: 100%;
+  gap: 15px;
+  list-style: none;
+}
+</style>

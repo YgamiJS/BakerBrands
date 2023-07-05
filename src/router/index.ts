@@ -1,13 +1,3 @@
-import Contacts from "@/pages/Contacts.vue";
-import ForgetPassword from "@/pages/ForgetPasswordPage.vue";
-import Home from "@/pages/Home.vue";
-import LogIn from "@/pages/LogIn.vue";
-import NotFound from "@/pages/NotFound.vue";
-import PaymentAndDevelivery from "@/pages/PaymentAndDevelivery.vue";
-import Product from "@/pages/Product.vue";
-import Shop from "@/pages/Shop.vue";
-import SingIn from "@/pages/SingIn.vue";
-import UserProfile from "@/pages/UserProfile.vue";
 import { useUserStore } from "@/store/user";
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -15,23 +5,23 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      component: Home,
+      component: () => import("@/pages/Home.vue"),
       path: "/"
     },
     {
-      component: Shop,
+      component: () => import("@/pages/Shop.vue"),
       path: `/Shop/`
     },
     {
-      component: Product,
+      component: () => import("@/pages/Product.vue"),
       path: `/Shop/:id`
     },
     {
-      component: PaymentAndDevelivery,
+      component: () => import("@/pages/PaymentAndDevelivery.vue"),
       path: "/PaymentAndDevelivery"
     },
     {
-      component: UserProfile,
+      component: () => import("@/pages/UserProfile.vue"),
       path: "/UserProfile",
       redirect: () => {
         const userStore = useUserStore();
@@ -39,23 +29,23 @@ const router = createRouter({
       }
     },
     {
-      component: NotFound,
+      component: () => import("@/pages/NotFound.vue"),
       path: "/:catchAll(.*)"
     },
     {
-      component: Contacts,
+      component: () => import("@/pages/Contacts.vue"),
       path: "/Contacts"
     },
     {
-      component: SingIn,
+      component: () => import("@/pages/SingIn.vue"),
       path: "/SingIn"
     },
     {
-      component: LogIn,
+      component: () => import("@/pages/LogIn.vue"),
       path: "/LogIn"
     },
     {
-      component: ForgetPassword,
+      component: () => import("@/pages/ForgetPasswordPage.vue"),
       path: "/ForgetPassword"
     }
   ]

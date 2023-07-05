@@ -10,6 +10,8 @@ $gray: #d9d9d9;
 $grey: #1d1c1cab;
 $graey: #1d1c1cab;
 $whiteGrey: #25252580;
+$graySkeleton: #eee;
+$graySkeletonLoading: #dedede;
 $maxWidth: 1280;
 
 @mixin adaptiv-font($pcSize, $mobSize) {

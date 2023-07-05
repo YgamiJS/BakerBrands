@@ -6,29 +6,33 @@ const { product } = defineProps<{ product: IProduct }>();
 </script>
 
 <template>
-  <RouterLink class="product-list__item" :to="product.id">
-    <img class="product-list__img" :src="product.img" :alt="product.name" />
-    <div class="product-list__favorite" v-if="!product.favorite">
-      <img
-        class="product-list__favorite-img"
-        :src="images.favorite"
-        :title="$t('Shop.Product.addToFavorite')"
-        :alt="$t('Shop.Product.addToFavorite')"
-      />
-    </div>
-    <p class="product-list__name">{{ $t(`Categories.${product.category}`) }} {{ product.name }}</p>
-    <p class="product-list__price">{{ product.price }} {{ $t("PayСurrency") }}</p>
-    <div class="product-list__sizes">
-      <p class="product-list__size" v-for="size of product.sizes" :key="size">{{ size }}</p>
-    </div>
-  </RouterLink>
+  <li class="product-list__item">
+    <RouterLink class="product-list__link" :to="product.id">
+      <img class="product-list__img" :src="product.img" :alt="product.name" />
+      <div class="product-list__favorite" v-if="!product.favorite">
+        <img
+          class="product-list__favorite-img"
+          :src="images.favorite"
+          :title="$t('Shop.Product.addToFavorite')"
+          :alt="$t('Shop.Product.addToFavorite')"
+        />
+      </div>
+      <p class="product-list__name">
+        {{ $t(`Categories.${product.category}`) }} {{ product.name }}
+      </p>
+      <p class="product-list__price">{{ product.price }} {{ $t("PayСurrency") }}</p>
+      <div class="product-list__sizes">
+        <p class="product-list__size" v-for="size of product.sizes" :key="size">{{ size }}</p>
+      </div>
+    </RouterLink>
+  </li>
 </template>
 
 <style scoped lang="scss">
 @import "@/assets/scss/App.scss";
 .product-list {
   scroll-snap-stop: always;
-  &__item {
+  &__link {
     display: flex;
     flex-direction: column;
     position: relative;

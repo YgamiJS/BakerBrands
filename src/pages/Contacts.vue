@@ -29,7 +29,7 @@ import Location from "@/components/Location.vue";
           <ul class="Contacts-info-list__list">
             <li class="Contacts-info-list__head">{{ $t("Contacts.byMail.byMail") }}</li>
             <li class="Contacts-info-list__item">
-              <a class="Contacts-info-list__link" href="mailto:bakerbrands@mail.com">
+              <a class="Contacts-info-list__link" href="mailto:bakerbrands@gmail.com">
                 {{ $t("Contacts.byMail.mail") }}
               </a>
             </li>
