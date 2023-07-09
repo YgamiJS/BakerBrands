@@ -19,7 +19,7 @@ import { RouterLink } from "vue-router";
 
 .NotFound {
   scroll-snap-stop: always;
-  height: 100vh;
+  flex: 1 0 auto;
 }
 .NotFound-info {
   display: flex;

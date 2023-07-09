@@ -5,43 +5,47 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      component: () => import("@/pages/Home.vue"),
+      component: () => import("@/pages/HomePage.vue"),
       path: "/"
     },
     {
-      component: () => import("@/pages/Shop.vue"),
+      component: () => import("@/pages/ShopPage.vue"),
       path: `/Shop/`
     },
     {
-      component: () => import("@/pages/Product.vue"),
+      component: () => import("@/pages/ProductPage.vue"),
       path: `/Shop/:id`
     },
     {
-      component: () => import("@/pages/PaymentAndDevelivery.vue"),
+      component: () => import("@/pages/PaymentAndDeveliveryPage.vue"),
       path: "/PaymentAndDevelivery"
     },
     {
-      component: () => import("@/pages/UserProfile.vue"),
-      path: "/UserProfile",
-      redirect: () => {
-        const userStore = useUserStore();
-        if (!userStore.user.email) return { path: "/SingIn" };
-      }
+      beforeEnter: (to, from, next) => {
+        const { isAuth } = useUserStore();
+        if (!isAuth()) {
+          next("/SingIn");
+        } else {
+          next();
+        }
+      },
+      component: () => import("@/pages/UserProfilePage.vue"),
+      path: "/Profile"
     },
     {
-      component: () => import("@/pages/NotFound.vue"),
+      component: () => import("@/pages/NotFoundPage.vue"),
       path: "/:catchAll(.*)"
     },
     {
-      component: () => import("@/pages/Contacts.vue"),
+      component: () => import("@/pages/ContactsPage.vue"),
       path: "/Contacts"
     },
     {
-      component: () => import("@/pages/SingIn.vue"),
+      component: () => import("@/pages/SingInPage.vue"),
       path: "/SingIn"
     },
     {
-      component: () => import("@/pages/LogIn.vue"),
+      component: () => import("@/pages/LogInPage.vue"),
       path: "/LogIn"
     },
     {

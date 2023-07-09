@@ -8,7 +8,7 @@ const { routes } = useRoutes();
   <p class="location">
     <span class="location__link">{{ $t("Routes.Home") }}</span>
     <span class="location__link" v-for="route of routes" :key="route">{{
-      $t(`Routes.${route}`)
+      $t(`Routes.${route || "Product"}`)
     }}</span>
   </p>
 </template>

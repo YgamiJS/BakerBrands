@@ -64,7 +64,7 @@ const toggleMobileNav = () => {
                 /></RouterLink>
               </li>
               <li class="menu__item">
-                <RouterLink class="menu__link-img" to="/UserProfile"
+                <RouterLink class="menu__link-img" to="/Profile"
                   ><img
                     class="menu__icon"
                     :src="images.user"
@@ -109,7 +109,7 @@ const toggleMobileNav = () => {
             /></RouterLink>
           </li>
           <li class="menu__item">
-            <RouterLink class="menu__link-img" to="/UserProfile"
+            <RouterLink class="menu__link-img" to="/Profile"
               ><img
                 class="menu__icon"
                 :src="images.user"
@@ -216,6 +216,7 @@ const toggleMobileNav = () => {
         color: $white;
       }
     }
+
     .menu__link-img {
       padding: 10px 20px;
     }

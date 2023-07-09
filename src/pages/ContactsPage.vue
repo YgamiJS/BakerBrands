@@ -45,7 +45,7 @@ import Location from "@/components/Location.vue";
 
 .Contacts {
   scroll-snap-stop: always;
-  height: 100vh;
+  flex: 1 0 auto;
 }
 .Contacts-info {
   &__h1 {

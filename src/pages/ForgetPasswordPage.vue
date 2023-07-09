@@ -46,7 +46,7 @@ const onSubmit = (data: IForgetPasswordForm) => {
 @import "@/assets/scss/App.scss";
 .ForgetPasswordPage {
   scroll-snap-stop: always;
-  height: 100vh;
+  flex: 1 0 auto;
   &__something-went-wrong {
     margin-top: 20px;
   }

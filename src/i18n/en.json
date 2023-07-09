@@ -35,10 +35,20 @@
         "byPopularity": "By popularity"
       }
     },
+    "Empty": {
+      "noProducts": "No products found",
+      "noProductsByCategory": "By сategory {category} nothing found"
+    },
     "loadMore": "Show more",
     "Product": {
       "addToFavorite": "Add to favorite"
     }
+  },
+  "Product": {
+    "new": "New",
+    "popularity": "Popularity",
+    "addToBasket": "Add to Basket",
+    "goToBasket": "Go to the basket"
   },
   "PaymentAndDevelivery": {
     "paymentAndDevelivery": "Payment and delivery",
@@ -125,9 +135,11 @@
     "Home": "Home",
     "Shop": "Shop",
     "PaymentAndDevelivery": "Payment and develivery",
-    "Contacts": "Contacts"
+    "Contacts": "Contacts",
+    "Product": "Product"
   },
   "Categories": {
+    "category": "Category",
     "categories": "Categories",
     "tshirts": "T-shirt",
     "hoodies": "Hoodie",

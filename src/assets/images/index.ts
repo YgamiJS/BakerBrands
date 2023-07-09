@@ -9,6 +9,7 @@ import favorite from "./favorite.svg";
 import filter from "./filter.svg";
 import hotHuman from "./full-shot-teen-holding-skateboard.jpg";
 import heart from "./heart.svg";
+import inLike from "./inLike.svg";
 import leftPhoto from "./LEFT.jpg";
 import love from "./love.png";
 import asianHuman from "./man-looking-aside-using-phone-listening-music.jpg";
@@ -36,6 +37,7 @@ export const images = {
   hatHuman,
   heart,
   hotHuman,
+  inLike,
   input,
   leftPhoto,
   love,

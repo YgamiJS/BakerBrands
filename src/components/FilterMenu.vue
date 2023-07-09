@@ -4,23 +4,23 @@ import type { IProduct } from "@/types";
 import { useProductsStore } from "@/store/products";
 import { ref } from "vue";
 
-import Categories from "./Categories.vue";
+import Categories from "./CategoriesList.vue";
 import Select from "./Select.vue";
 
-const { onClick } = defineProps<{
+const props = defineProps<{
   onClick: (category?: IProduct["category"]) => void;
 }>();
-const isOpenSelectButton = ref<boolean>(false);
+
 const isOpenFilterButton = ref<boolean>(false);
 const { categories, sortBy } = useProductsStore();
 </script>
 
 <template>
   <aside class="Filter">
-    <div class="Filter__selects-button" @click="isOpenSelectButton = !isOpenSelectButton">
+    <p class="Filter__selects-button">
       {{ $t("Shop.Aside.catalog") }}
-    </div>
-    <div class="Filter__filters" :class="{ active: isOpenSelectButton }">
+    </p>
+    <div class="Filter__filters">
       <p class="Filter__p">{{ $t("Shop.Aside.catalog") }}</p>
       <div class="Filter__selects">
         <Select :options="sortBy.firstSortBy"></Select>
@@ -30,12 +30,27 @@ const { categories, sortBy } = useProductsStore();
     <div class="Filter__selects-filtres" @click="isOpenFilterButton = !isOpenFilterButton">
       <span class="Filter__selects-filters-span">{{ $t("Shop.Aside.filtres") }}</span>
     </div>
+    <div class="allFiltres" :class="{ active: isOpenFilterButton }">
+      <div class="allFiltres__selects">
+        <Select :options="sortBy.firstSortBy"></Select>
+        <Select :options="sortBy.secondSortBy"></Select>
+      </div>
+      <div class="allFiltres__categories">
+        <Categories
+          :categories="categories"
+          :is-open-filter-button="isOpenFilterButton"
+          @click="props.onClick"
+        />
+      </div>
+    </div>
     <div class="Filter__categories">
-      <Categories
-        :categories="categories"
-        :is-open-filter-button="isOpenFilterButton"
-        @click="onClick"
-      />
+      <div class="Filter__categories-list">
+        <Categories
+          :categories="categories"
+          :is-open-filter-button="isOpenFilterButton"
+          @click="onClick"
+        />
+      </div>
       <slot></slot>
     </div>
   </aside>
@@ -106,7 +121,9 @@ const { categories, sortBy } = useProductsStore();
     position: relative;
     align-items: center;
     padding-bottom: 10px;
+    margin-bottom: 15px;
     border-bottom: 1px solid $black;
+    cursor: pointer;
     &::after {
       content: url("@/assets/images/chevron-down-black.svg");
       position: absolute;
@@ -123,6 +140,30 @@ const { categories, sortBy } = useProductsStore();
       align-items: center;
       justify-content: center;
       margin-left: 13px;
+    }
+  }
+
+  .allFiltres {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+
+    &.active {
+      @media (max-width: 950px) {
+        display: flex;
+      }
+    }
+
+    &.active + .Filter__categories .Filter__categories-list {
+      @media (max-width: 950px) {
+        display: none;
+      }
+    }
+
+    &__selects {
+      display: flex;
+      gap: 30px;
     }
   }
 

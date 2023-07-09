@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { ICategories, IProduct } from "@/types";
 
-import Category from "./Category.vue";
+import CategoryItem from "./CategoryItem.vue";
 
-const { categories, isOpenFilterButton, onClick } = defineProps<{
+const props = defineProps<{
   categories: ICategories;
   isOpenFilterButton: boolean;
   onClick: (category?: IProduct["category"]) => void;
@@ -11,12 +11,12 @@ const { categories, isOpenFilterButton, onClick } = defineProps<{
 </script>
 
 <template>
-  <ul class="Filter__categories-list" :class="{ active: isOpenFilterButton }">
-    <Category
-      v-for="category of categories.categories"
+  <ul class="Filter__categories-list" :class="{ active: props.isOpenFilterButton }">
+    <CategoryItem
+      v-for="category of props.categories.categories"
       :key="category"
       :category="category"
-      @click="onClick"
+      @click="props.onClick"
     />
   </ul>
 </template>

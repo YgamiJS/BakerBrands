@@ -21,25 +21,25 @@ import { RouterLink } from "vue-router";
         <h2 class="Categories__h2">{{ $t("Home.Categories.categories") }}</h2>
         <ul class="categories-list">
           <li class="categories-list__item">
-            <RouterLink to="#">
+            <RouterLink to="/Shop">
               <img class="categories-list__img" :src="images.capHuman" alt="Boy" />
               <div class="categories-list__category">{{ $t("Home.Categories.tshirts") }}</div>
             </RouterLink>
           </li>
           <li class="categories-list__item">
-            <RouterLink to="#">
+            <RouterLink to="/Shop">
               <img class="categories-list__img" :src="images.hotHuman" alt="Boy" />
               <div class="categories-list__category">{{ $t("Home.Categories.hoodies") }}</div>
             </RouterLink>
           </li>
           <li class="categories-list__item">
-            <RouterLink to="#">
+            <RouterLink to="/Shop">
               <img class="categories-list__img" :src="images.asianHuman" alt="Boy" />
               <div class="categories-list__category">{{ $t("Home.Categories.trousers") }}</div>
             </RouterLink>
           </li>
           <li class="categories-list__item">
-            <RouterLink to="#">
+            <RouterLink to="/Shop">
               <img class="categories-list__img" :src="images.hatHuman" alt="Boy" />
               <div class="categories-list__category">{{ $t("Home.Categories.hats") }}</div>
             </RouterLink>
@@ -103,14 +103,15 @@ import { RouterLink } from "vue-router";
     position: relative;
     transition: all 300ms ease;
     &::before {
-      content: url("@/assets/images/arrowRight.svg");
+      content: "";
+      background: url("@/assets/images/arrowRight.svg");
       position: absolute;
       top: 50%;
       left: 110%;
       transform: translate(-110%, -50%);
       display: flex;
-      width: 6px;
-      height: 8px;
+      width: 8px;
+      height: 10px;
       transition: all 300ms ease;
     }
     &:hover::before {

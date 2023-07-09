@@ -40,7 +40,7 @@ const onSubmit = (data: ISingInForm) => {
 @import "@/assets/scss/App.scss";
 .SingIn {
   scroll-snap-stop: always;
-  height: 100vh;
+  flex: 1 0 auto;
   &__something-went-wrong {
     margin-top: 20px;
   }

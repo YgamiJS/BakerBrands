@@ -1,13 +1,24 @@
 import type { ICategories, IProduct, ISortBy } from "@/types";
 
 import { db } from "@/services/vuefire";
-import { collection, getDocs, limit, orderBy, query, startAfter, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  startAfter,
+  where
+} from "firebase/firestore";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useProductsStore = defineStore("products", () => {
   const products = ref<IProduct[]>([]);
   const categories = ref<ICategories>({ categories: ["tshirts", "hoodies", "trousers", "hats"] });
+  const currentProduct = ref<IProduct>();
   const loading = ref<boolean>(false);
   const sortBy = ref<ISortBy>({
     firstSortBy: ["byPrice"],
@@ -18,6 +29,7 @@ export const useProductsStore = defineStore("products", () => {
   let lastVisible: null | object = null;
 
   /*
+    fetchCurrentProducts
     fetchProduct
     fetchProductsWithScrolling
     fetchProductsByCategory
@@ -33,23 +45,31 @@ export const useProductsStore = defineStore("products", () => {
     lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
     const fbProducts: IProduct[] = [];
-    (async () =>
-      documentSnapshots.forEach((product) => {
-        const prod: IProduct = {
-          id: product.id,
-          ...product.data()
-        };
+    documentSnapshots.forEach((product) => {
+      const prod = {
+        ...product.data()
+      };
 
-        fbProducts.push(prod);
+      fbProducts.push(prod as IProduct);
+    });
 
-        products.value = fbProducts;
-      }))().then(() => (loading.value = false));
+    loading.value = false;
+
+    products.value = fbProducts;
+  };
+
+  const fetchCurrentProduct = async (id: string) => {
+    loading.value = true;
+
+    const fbProduct = await getDoc(doc(db, "products", id));
+
+    currentProduct.value = fbProduct.data() as IProduct;
+
+    loading.value = false;
   };
 
   const fetchProductsByCategory = async (queryCategory: IProduct["category"]) => {
     loading.value = true;
-
-    console.log(loading.value);
 
     const fbProductsStore = query(
       collection(db, "products"),
@@ -62,19 +82,17 @@ export const useProductsStore = defineStore("products", () => {
     lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
     const fbProducts: IProduct[] = [];
-    (async () =>
-      documentSnapshots.forEach((product) => {
-        const prod: IProduct = {
-          id: product.id,
-          ...product.data()
-        };
+    documentSnapshots.forEach((product) => {
+      const prod = {
+        ...product.data()
+      };
 
-        fbProducts.push(prod);
+      fbProducts.push(prod as IProduct);
+    });
 
-        products.value = fbProducts;
-      }))()
-      .then(() => (loading.value = false))
-      .then(() => console.log(loading.value, products.value.length));
+    loading.value = false;
+
+    products.value = fbProducts;
   };
 
   const fetchProducts = async () => {
@@ -86,19 +104,17 @@ export const useProductsStore = defineStore("products", () => {
     lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
     const fbProducts: IProduct[] = [];
-    (async () =>
-      documentSnapshots.forEach((product) => {
-        const prod: IProduct = {
-          id: product.id,
-          ...product.data()
-        };
+    documentSnapshots.forEach((product) => {
+      const prod = {
+        ...product.data()
+      };
 
-        fbProducts.push(prod);
+      fbProducts.push(prod as IProduct);
+    });
 
-        products.value = fbProducts;
-      }))()
-      .then(() => (loading.value = false))
-      .then(() => console.log(loading.value, products.value.length));
+    loading.value = false;
+
+    products.value = fbProducts;
   };
 
   const fetchProductsWithScrolling = async (
@@ -149,21 +165,23 @@ export const useProductsStore = defineStore("products", () => {
     lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
     const fbProducts: IProduct[] = [];
-    (async () =>
-      documentSnapshots.forEach((product) => {
-        const prod: IProduct = {
-          id: product.id,
-          ...product.data()
-        };
+    documentSnapshots.forEach((product) => {
+      const prod = {
+        ...product.data()
+      };
 
-        fbProducts.push(prod);
+      fbProducts.push(prod as IProduct);
+    });
 
-        products.value = fbProducts;
-      }))().then(() => (loading.value = false));
+    loading.value = false;
+
+    products.value = fbProducts;
   };
 
   return {
     categories,
+    currentProduct,
+    fetchCurrentProduct,
     fetchProducts,
     fetchProductsByCategory,
     fetchProductsWithScrolling,

@@ -9,6 +9,9 @@
       </div>
       <div class="product-list__info">
         <p class="product-list__name"></p>
+        <div class="product-list__rating">
+          <div class="product-list__star" v-for="n of 5" :key="n"></div>
+        </div>
         <p class="product-list__price"></p>
         <div class="product-list__sizes">
           <p class="product-list__size" v-for="size of 4" :key="size"></p>
@@ -38,7 +41,7 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
-    padding: 5px;
+    padding: 10px;
   }
 
   &__img {
@@ -73,12 +76,37 @@
 
   &__price {
     animation: pulse-bg 1s infinite;
+    align-self: center;
     border-radius: 28px;
     height: 19px;
-    width: 100%;
+    width: 40%;
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;
+  }
+
+  &__rating {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  &__star {
+    animation: pulse-bg 1s infinite;
+    width: 20px;
+    height: 20px;
+    clip-path: polygon(
+      50% 0%,
+      61% 35%,
+      98% 35%,
+      68% 57%,
+      79% 91%,
+      50% 70%,
+      21% 91%,
+      32% 57%,
+      2% 35%,
+      39% 35%
+    );
   }
 
   &__sizes {

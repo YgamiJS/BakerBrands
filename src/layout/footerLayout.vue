@@ -74,6 +74,7 @@ import { RouterLink } from "vue-router";
 <style scoped lang="scss">
 @import "@/assets/scss/App.scss";
 .footer {
+  flex-shrink: 0;
   padding: 15px 0;
   &__container {
     display: flex;

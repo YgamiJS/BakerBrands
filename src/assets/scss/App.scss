@@ -20,7 +20,8 @@ ul {
   src: url("../fonts/Raleway-Regular.ttf");
 }
 
-#root {
+#root,
+#app {
   display: flex;
   flex-direction: column;
   width: 100vw;

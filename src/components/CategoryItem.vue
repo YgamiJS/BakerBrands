@@ -4,11 +4,11 @@ import type { IProduct } from "@/types";
 defineEmits<{
   (e: "click", category: IProduct["category"]): void;
 }>();
-const { category } = defineProps<{ category: IProduct["category"] }>();
+const props = defineProps<{ category: IProduct["category"] }>();
 </script>
 <template>
-  <li class="Filter__category" @click="$emit('click', category)">
-    {{ $t(`Home.Categories.${category}`) }}
+  <li class="Filter__category" @click="$emit('click', props.category)">
+    {{ $t(`Home.Categories.${props.category}`) }}
   </li>
 </template>
 <style scoped lang="scss">

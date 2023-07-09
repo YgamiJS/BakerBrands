@@ -20,9 +20,13 @@ export const useUserStore = defineStore("user", () => {
     };
   }
 
+  function isAuth() {
+    return !!user.value.email;
+  }
+
   function setUser(newUser: IUser) {
     user.value = newUser;
   }
 
-  return { $reset, setUser, user };
+  return { $reset, isAuth, setUser, user };
 });

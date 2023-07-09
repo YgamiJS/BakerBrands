@@ -6,7 +6,7 @@
     "search": "Поиск",
     "favorites": "Избранное",
     "profile": "Профиль",
-    "shoppingCard": "Карта покупок"
+    "shoppingCard": "Карзина покупок"
   },
   "Home": {
     "Preview": {
@@ -35,10 +35,20 @@
         "byPopularity": "По популярности"
       }
     },
+    "Empty": {
+      "noProducts": "Не найдено товаров",
+      "noProductsByCategory": "По категории {category} нечего не найдено"
+    },
     "loadMore": "Показать еще",
     "Product": {
       "addToFavorite": "Добавить в понравившиеся"
     }
+  },
+  "Product": {
+    "new": "Новое",
+    "popularity": "Популярное",
+    "addToBasket": "Добавить в корзину",
+    "goToBasket": "Перейти в корзину"
   },
   "PaymentAndDevelivery": {
     "paymentAndDevelivery": "Оплата и доставка",
@@ -125,14 +135,16 @@
     "Home": "Главная",
     "Shop": "Категории",
     "PaymentAndDevelivery": "Оплата и доставка",
-    "Contacts": "Контакты"
+    "Contacts": "Контакты",
+    "Product": "Продукт"
   },
   "Categories": {
+    "category": "Категория",
     "categories": "Категории",
     "tshirts": "Футболка",
     "hoodies": "Толстовка",
     "trousers": "Штаны",
-    "hats": "Головные убор"
+    "hats": "Головные уборы"
   },
   "PayСurrency": "руб",
   "footer": {

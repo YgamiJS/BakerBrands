@@ -1,19 +1,41 @@
 import type { IUser } from "@/types";
 
+import { db } from "@/services/vuefire";
 import { useUserStore } from "@/store/user";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
+import { ref } from "vue";
 
 export const LogInFirebase = async ({ email, password }: Pick<IUser, "email" | "password">) => {
-  const userStore = useUserStore();
+  const { setUser } = useUserStore();
   const auth = getAuth();
+  const user = ref<IUser>();
 
-  return signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-    const user = userCredential.user;
-    userStore.setUser({
-      email: user.email,
-      id: user.id,
-      password,
-      token: user.token
+  const addUserToFirebase = async (user: IUser) => {
+    await addDoc(collection(db, "users", email), {
+      ...user,
+      boughtProducts: [],
+      favoriteProducts: []
     });
-  });
+  };
+
+  return createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const currentUser = userCredential.user;
+
+      user.value = {
+        email,
+        id: currentUser.uid,
+        password,
+        token: currentUser.refreshToken
+      };
+
+      setUser({
+        email,
+        id: currentUser.uid,
+        password,
+        token: currentUser.refreshToken
+      });
+    })
+    .then(() => addUserToFirebase(user.value!));
 };
