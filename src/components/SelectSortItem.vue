@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const { value } = defineProps<{ value: string }>();
+const props = defineProps<{ value: string }>();
 </script>
 <template>
-  <option class="option" :value="value">{{ $t(`Shop.Aside.Select.${value}`) }}</option>
+  <option class="option" :value="props.value">{{ $t(`Shop.Aside.Select.${props.value}`) }}</option>
 </template>
 <style scoped lang="scss">
 @import "@/assets/scss/App.scss";

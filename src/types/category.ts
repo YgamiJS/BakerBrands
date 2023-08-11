@@ -1,3 +1,5 @@
 export interface ICategories {
-  categories: ["tshirts", "hoodies", "trousers", "hats"];
+  categories: ["all", "tshirts", "hoodies", "trousers", "hats"];
 }
+
+export type ICategory = "all" | "hats" | "hoodies" | "trousers" | "tshirts";

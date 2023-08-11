@@ -31,8 +31,19 @@
       "catalog": "Catalog",
       "filtres": "Filtres",
       "Select": {
+        "sortBy": "Sort by",
         "byPrice": "By price",
         "byPopularity": "By popularity"
+      },
+      "Find": {
+        "findAnyWay": "Find anything",
+        "find": "Find"
+      },
+      "SetPrice": {
+        "price": "Price",
+        "minPrice": "From {minPrice}",
+        "maxPrice": "To {maxPrice}",
+        "pickup": "Pick up"
       }
     },
     "Empty": {
@@ -41,7 +52,8 @@
     },
     "loadMore": "Show more",
     "Product": {
-      "addToFavorite": "Add to favorite"
+      "addToFavorite": "Add to favorite",
+      "removeFromFavorite": "Remove from favorite"
     }
   },
   "Product": {
@@ -64,6 +76,12 @@
       "momentalDevelivery": "Delivery time: 1-2 days from the date of order"
     }
   },
+  "Search": {
+    "findAnyWay": "Find anything",
+    "ThisSearchFieldRequired": "This is the search field",
+    "minLengthLetters": "Minimum search length 3 characters",
+    "maxLengthLetters": "Maximum search length 32 symbols"
+  },
   "SingIn": {
     "ThisEmailFieldRequired": "This email field is required",
     "ThisPasswordFieldRequired": "This password field is required",
@@ -74,7 +92,8 @@
     "somethingWentWrong": "Something went wrong",
     "minLengthLetters": "The password must contain at least {minLengthLetters} symbols",
     "maxLengthLetters": "The password may contain before {maxLengthLetters} symbols",
-    "singIn": "Sing in"
+    "singIn": "Sing in",
+    "manyRetry": "Too much attempt to enter. Try later."
   },
   "LogIn": {
     "ThisEmailFieldRequired": "This email field is required",
@@ -107,7 +126,8 @@
     "somethingWentWrong": "Something went wrong",
     "continue": "Continue",
     "sendConfirm": "We sent you an email with confirmation",
-    "singIn": "Sing in"
+    "singIn": "Sing in",
+    "manyRetry": "Too many attempts to restore the password. Try later."
   },
   "NotFound": {
     "pageNotFound": "Page not found",
@@ -141,6 +161,7 @@
   "Categories": {
     "category": "Category",
     "categories": "Categories",
+    "all": "All",
     "tshirts": "T-shirt",
     "hoodies": "Hoodie",
     "trousers": "Trouser",

@@ -7,7 +7,7 @@ const props = defineProps<{
   min?: number | string;
   name: string;
   placeholder?: string;
-  type: "email" | "password" | "text";
+  type: "email" | "number" | "password" | "text";
 }>();
 
 const { value: inputValue } = useField(props.name, {

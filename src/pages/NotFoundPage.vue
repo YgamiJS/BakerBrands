@@ -18,7 +18,6 @@ import { RouterLink } from "vue-router";
 @import "@/assets/scss/App.scss";
 
 .NotFound {
-  scroll-snap-stop: always;
   flex: 1 0 auto;
 }
 .NotFound-info {

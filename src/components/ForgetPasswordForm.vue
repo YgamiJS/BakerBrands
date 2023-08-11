@@ -12,10 +12,13 @@ interface ForgetPasswordForm {
 }
 
 const emit = defineEmits<{
+  (e: "manyRetry"): void;
   (e: "submit", data: ForgetPasswordForm): void;
 }>();
 
 const { t } = useI18n();
+
+const maxRetry = 3;
 
 const schema = yup.object({
   email: yup.string().required(t("ForgetPasswordForm.ThisEmailFieldRequired")),
@@ -32,12 +35,12 @@ const schema = yup.object({
     .required()
 });
 
-const { errors, handleSubmit, meta } = useForm<ForgetPasswordForm>({
+const { errors, handleSubmit, meta, submitCount } = useForm<ForgetPasswordForm>({
   validationSchema: schema
 });
 
 const onSubmit = handleSubmit((data) => {
-  emit("submit", { email: data.email, password: data.password });
+  submitCount.value > maxRetry ? emit("manyRetry") : emit("submit", data);
 });
 </script>
 

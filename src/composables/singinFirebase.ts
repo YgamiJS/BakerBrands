@@ -3,8 +3,8 @@ import type { IFavoriteProduct, IUser } from "@/types";
 import { db } from "@/services/vuefire";
 import { useFavoritesStore } from "@/store/favorites";
 import { useUserStore } from "@/store/user";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 
@@ -16,27 +16,23 @@ export const SingInFirebase = async ({ email, password }: Pick<IUser, "email" | 
 
   const addFavoriteProductsToFireBase = async (favoriteProducts: IFavoriteProduct[]) => {
     await updateDoc(doc(db, "users", email), {
-      favoriteProducts: favoriteProducts
+      favoriteProducts: arrayUnion(favoriteProducts)
     });
   };
 
-  return createUserWithEmailAndPassword(auth, email, password)
+  return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const currentUser = userCredential.user;
-
-      user.value = {
+      const SingInUser = {
         email,
         id: currentUser.uid,
         password,
         token: currentUser.refreshToken
       };
 
-      setUser({
-        email,
-        id: currentUser.uid,
-        password,
-        token: currentUser.refreshToken
-      });
+      user.value = SingInUser;
+
+      setUser(SingInUser);
     })
     .then(() => addFavoriteProductsToFireBase(favoriteProducts.value!));
 };

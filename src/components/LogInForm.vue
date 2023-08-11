@@ -37,7 +37,7 @@ const { errors, handleSubmit, meta } = useForm<LogInForm>({
 });
 
 const onSubmit = handleSubmit((data) => {
-  emit("submit", { email: data.email, password: data.password });
+  emit("submit", data);
 });
 </script>
 

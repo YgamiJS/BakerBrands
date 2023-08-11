@@ -1,29 +1,38 @@
 <script setup lang="ts">
 import type { IProduct } from "@/types";
 
-import { images } from "@/assets/images";
+import InFavoriteIcon from "@/assets/icons/InFavoriteIcon.vue";
 import { useFavoritesStore } from "@/store/favorites";
+import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
 const props = defineProps<{ product: IProduct }>();
-const { favoriteProducts } = useFavoritesStore();
+const { addFavoriteProduct, removeFavoriteProduct } = useFavoritesStore();
+const { favoriteProducts } = storeToRefs(useFavoritesStore());
 
 const isLike = computed(
-  () => !!favoriteProducts.find((favoriteProduct) => (favoriteProduct.id = props.product.id))
+  () =>
+    !!favoriteProducts.value.find((favoriteProduct) => favoriteProduct.id == props.product.id)?.id
 );
+
+const addOrRemoveToFavoriteProducts = async (product: IProduct) => {
+  !isLike.value ? await addFavoriteProduct(product) : await removeFavoriteProduct(product.id);
+};
 </script>
 
 <template>
   <li class="product-list__item">
     <RouterLink class="product-list__link" :to="props.product.id">
       <img class="product-list__img" :src="props.product.img" :alt="props.product.name" />
-      <div class="product-list__favorite" v-if="!isLike">
-        <img
-          class="product-list__favorite-img"
-          :src="images.favorite"
-          :title="$t('Shop.Product.addToFavorite')"
-          :alt="$t('Shop.Product.addToFavorite')"
-        />
+      <div
+        class="product-list__favorite"
+        :class="{ 'product-list__inFavorite': isLike }"
+        :description="
+          !isLike ? $t('Shop.Product.addToFavorite') : $t('Shop.Product.removeFromFavorite')
+        "
+        @click.prevent="addOrRemoveToFavoriteProducts(props.product)"
+      >
+        <InFavoriteIcon class="product-list__favorite-img" />
       </div>
       <p class="product-list__name">
         {{ $t(`Categories.${props.product.category}`) }} {{ props.product.name }}
@@ -46,6 +55,15 @@ const isLike = computed(
 
 <style scoped lang="scss">
 @import "@/assets/scss/App.scss";
+
+:deep(.product-list__favorite:hover .product-list__favorite-img path) {
+  stroke: $lowspacegrey;
+}
+
+:deep(.product-list__inFavorite .product-list__favorite-img path) {
+  stroke: $lowspacegrey;
+}
+
 .product-list {
   scroll-snap-stop: always;
   &__link {
@@ -60,6 +78,7 @@ const isLike = computed(
   &__img {
     height: 360px;
     margin-bottom: 10px;
+    z-index: -1;
   }
 
   &__favorite {
@@ -72,6 +91,18 @@ const isLike = computed(
     width: 40px;
     height: 40px;
     border-radius: 0px 0px 0px 20px;
+
+    @media (min-width: 950px) {
+      &:hover::after {
+        content: attr(description);
+        border-radius: 8px;
+        z-index: 100;
+        background: $black;
+        padding: 5px 10px;
+        position: absolute;
+        color: $white;
+      }
+    }
   }
 
   &__name {

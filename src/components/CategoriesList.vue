@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { ICategories, IProduct } from "@/types";
+import type { ICategories, ICategory } from "@/types";
 
 import CategoryItem from "./CategoryItem.vue";
 
 const props = defineProps<{
   categories: ICategories;
   isOpenFilterButton: boolean;
-  onClick: (category?: IProduct["category"]) => void;
+  onClick: (category?: ICategory) => void;
 }>();
 </script>
 

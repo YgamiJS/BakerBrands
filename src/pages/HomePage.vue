@@ -61,7 +61,7 @@ import { RouterLink } from "vue-router";
 <style scoped lang="scss">
 @import "@/assets/scss/App.scss";
 .Home {
-  scroll-snap-stop: always;
+  flex: 1 0 auto;
 }
 .Preview {
   display: grid;

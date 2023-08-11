@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import FavoriteIcon from "@/assets/icons/FavoriteIcon.vue";
+import SearchIcon from "@/assets/icons/SearchIcon.vue";
+import ShopIcon from "@/assets/icons/ShopIcon.vue";
+import UserIcon from "@/assets/icons/UserIcon.vue";
 import { images } from "@/assets/images";
 import ChangeLocale from "@/components/ChangeLocale.vue";
 import { ref } from "vue";
@@ -18,13 +22,13 @@ const toggleMobileNav = () => {
         <nav class="header__nav">
           <ul class="menu">
             <li class="menu__item">
-              <RouterLink class="menu__link" to="#">{{ $t("header.new") }}</RouterLink>
+              <RouterLink class="menu__link" to="/ShopNew/">{{ $t("header.new") }}</RouterLink>
             </li>
             <li class="menu__item">
               <RouterLink class="menu__link" to="/Shop/">{{ $t("header.catalog") }}</RouterLink>
             </li>
             <li class="menu__item">
-              <RouterLink class="menu__link" to="#">{{ $t("header.aboutUs") }}</RouterLink>
+              <RouterLink class="menu__link" to="/AboutUs/">{{ $t("header.aboutUs") }}</RouterLink>
             </li>
           </ul>
         </nav>
@@ -35,51 +39,41 @@ const toggleMobileNav = () => {
           <nav class="overlay__nav">
             <ul class="menu">
               <li class="menu__item">
-                <RouterLink class="menu__link" to="#">{{ $t("header.new") }}</RouterLink>
+                <RouterLink class="menu__link" to="/ShopNew/">{{ $t("header.new") }}</RouterLink>
               </li>
               <li class="menu__item">
                 <RouterLink class="menu__link" to="/Shop/">{{ $t("header.catalog") }}</RouterLink>
               </li>
               <li class="menu__item">
-                <RouterLink class="menu__link" to="#">{{ $t("header.aboutUs") }}</RouterLink>
+                <RouterLink class="menu__link" to="/AboutUs/">{{
+                  $t("header.aboutUs")
+                }}</RouterLink>
               </li>
             </ul>
             <ul class="menu">
               <li class="menu__item">
-                <RouterLink class="menu__link-img" to="#"
-                  ><img
-                    class="menu__icon"
-                    :src="images.input"
-                    :title="$t('header.search')"
-                    :alt="$t('header.search')"
-                /></RouterLink>
+                <RouterLink class="menu__link-img" to="/Search/" :description="$t('header.search')">
+                  <SearchIcon class="menu__icon" />
+                </RouterLink>
               </li>
               <li class="menu__item">
-                <RouterLink class="menu__link-img" to="#"
-                  ><img
-                    class="menu__icon"
-                    :src="images.heart"
-                    :title="$t('header.favorites')"
-                    :alt="$t('header.favorites')"
-                /></RouterLink>
+                <RouterLink class="menu__link-img" to="#" :description="$t('header.favorites')">
+                  <FavoriteIcon class="menu__icon" />
+                </RouterLink>
               </li>
               <li class="menu__item">
-                <RouterLink class="menu__link-img" to="/Profile"
-                  ><img
-                    class="menu__icon"
-                    :src="images.user"
-                    :title="$t('header.profile')"
-                    :alt="$t('header.profile')"
-                /></RouterLink>
+                <RouterLink
+                  class="menu__link-img"
+                  to="/Profile"
+                  :description="$t('header.profile')"
+                >
+                  <UserIcon class="menu__icon" />
+                </RouterLink>
               </li>
               <li class="menu__item">
-                <RouterLink class="menu__link-img" to="#"
-                  ><img
-                    class="menu__icon"
-                    :src="images.shoppingCard"
-                    :title="$t('header.shoppingCard')"
-                    :alt="$t('header.shoppingCard')"
-                /></RouterLink>
+                <RouterLink class="menu__link-img" to="#" :description="$t('header.shoppingCard')">
+                  <ShopIcon class="menu__icon" />
+                </RouterLink>
               </li>
               <li class="menu__item-locale">
                 <ChangeLocale />
@@ -91,40 +85,24 @@ const toggleMobileNav = () => {
       <nav class="header__nav">
         <ul class="menu">
           <li class="menu__item">
-            <RouterLink class="menu__link-img" to="#"
-              ><img
-                class="menu__icon"
-                :src="images.input"
-                :title="$t('header.search')"
-                :alt="$t('header.search')"
-            /></RouterLink>
+            <RouterLink class="menu__link-img" to="/Search/" :description="$t('header.search')">
+              <SearchIcon class="menu__icon" />
+            </RouterLink>
           </li>
           <li class="menu__item">
-            <RouterLink class="menu__link-img" to="#"
-              ><img
-                class="menu__icon"
-                :src="images.heart"
-                :title="$t('header.favorites')"
-                :alt="$t('header.favorites')"
-            /></RouterLink>
+            <RouterLink class="menu__link-img" to="#" :description="$t('header.favorites')">
+              <FavoriteIcon class="menu__icon" />
+            </RouterLink>
           </li>
           <li class="menu__item">
-            <RouterLink class="menu__link-img" to="/Profile"
-              ><img
-                class="menu__icon"
-                :src="images.user"
-                :title="$t('header.profile')"
-                :alt="$t('header.profile')"
-            /></RouterLink>
+            <RouterLink class="menu__link-img" to="/Profile" :description="$t('header.profile')">
+              <UserIcon class="menu__icon" />
+            </RouterLink>
           </li>
           <li class="menu__item">
-            <RouterLink class="menu__link-img" to="#"
-              ><img
-                class="menu__icon"
-                :src="images.shoppingCard"
-                :title="$t('header.shoppingCard')"
-                :alt="$t('header.shoppingCard')"
-            /></RouterLink>
+            <RouterLink class="menu__link-img" to="#" :description="$t('header.shoppingCard')">
+              <ShopIcon class="menu__icon" />
+            </RouterLink>
           </li>
           <li class="menu__item-locale">
             <ChangeLocale />
@@ -211,14 +189,31 @@ const toggleMobileNav = () => {
       color: $black;
       white-space: nowrap;
       transition: all 300ms ease;
+
+      &.router-link-active,
       &:hover {
         background: $superspacegrey;
         color: $white;
       }
     }
 
+    :deep(.menu__link-img:hover .menu__icon path) {
+      stroke: $lowspacegrey;
+    }
+
     .menu__link-img {
+      position: relative;
       padding: 10px 20px;
+
+      &:hover::after {
+        content: attr(description);
+        border-radius: 8px;
+        z-index: 3;
+        background: $black;
+        padding: 5px 10px;
+        position: absolute;
+        color: $white;
+      }
     }
   }
   .logo {

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import SingInForm from "@/components/SingInForm.vue";
 import { SingInFirebase } from "@/composables";
-import { ref } from "vue";
+import { useStorage } from "@vueuse/core";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
 interface ISingInForm {
@@ -9,8 +10,10 @@ interface ISingInForm {
   password: string;
 }
 
+const bannedTime = useStorage<Date | null>("bannedTimeSingIn", null);
+const currentTime = new Date();
 const router = useRouter();
-
+const manyRetried = ref<boolean>(false);
 const isError = ref<boolean>(false);
 
 const onSubmit = (data: ISingInForm) => {
@@ -20,6 +23,22 @@ const onSubmit = (data: ISingInForm) => {
       if (error.message) isError.value = !isError.value;
     });
 };
+
+const manyRetry = () => {
+  manyRetried.value = true;
+  bannedTime.value = new Date(currentTime.getTime() + 60 * 60 * 1000);
+};
+
+onMounted(() => {
+  if (bannedTime == null) return;
+
+  if (currentTime.getHours() > new Date(bannedTime.value!).getHours()) {
+    manyRetried.value = false;
+    bannedTime.value = null;
+  } else {
+    manyRetried.value = true;
+  }
+});
 </script>
 
 <template>
@@ -27,10 +46,13 @@ const onSubmit = (data: ISingInForm) => {
     <section class="SingIn-form">
       <div class="SingIn-form__container container">
         <h1 class="SingIn-form__h1">{{ $t("SingIn.singIn") }}</h1>
-        <SingInForm @submit="onSubmit" />
-        <h1 class="SingIn-form__h1 SingIn__something-went-wrong" v-if="isError">
-          {{ $t("SingIn.somethingWentWrong") }}
-        </h1>
+        <template v-if="!manyRetried">
+          <SingInForm @submit="onSubmit" @many-retry="manyRetry" />
+          <h1 class="SingIn-form__h1 SingIn__something-went-wrong" v-if="isError">
+            {{ $t("SingIn.somethingWentWrong") }}
+          </h1>
+        </template>
+        <h2 class="SingIn__tooManyTry" v-else>{{ $t("SingIn.manyRetry") }}</h2>
       </div>
     </section>
   </main>
@@ -39,10 +61,18 @@ const onSubmit = (data: ISingInForm) => {
 <style scoped lang="scss">
 @import "@/assets/scss/App.scss";
 .SingIn {
-  scroll-snap-stop: always;
   flex: 1 0 auto;
   &__something-went-wrong {
     margin-top: 20px;
+  }
+  &__tooManyTry {
+    color: $black;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 31px;
+    text-align: center;
   }
 }
 .SingIn-form {

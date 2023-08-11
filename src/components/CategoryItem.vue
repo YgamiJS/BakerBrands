@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { IProduct } from "@/types";
+import type { ICategory } from "@/types";
 
 defineEmits<{
-  (e: "click", category: IProduct["category"]): void;
+  (e: "click", category: ICategory): void;
 }>();
-const props = defineProps<{ category: IProduct["category"] }>();
+const props = defineProps<{ category: ICategory }>();
 </script>
 <template>
   <li class="Filter__category" @click="$emit('click', props.category)">
-    {{ $t(`Home.Categories.${props.category}`) }}
+    {{ $t(`Categories.${props.category}`) }}
   </li>
 </template>
 <style scoped lang="scss">
@@ -20,5 +20,9 @@ const props = defineProps<{ category: IProduct["category"] }>();
   font-size: 16px;
   line-height: 19px;
   color: $black;
+  transition: 300ms all ease;
+  &:hover {
+    color: $superspacegrey;
+  }
 }
 </style>

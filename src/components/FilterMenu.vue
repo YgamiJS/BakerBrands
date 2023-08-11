@@ -1,18 +1,26 @@
 <script setup lang="ts">
-import type { IProduct } from "@/types";
+import type { ICategory, IFind, ISetPrice, SortBy } from "@/types";
 
 import { useProductsStore } from "@/store/products";
+import { storeToRefs } from "pinia";
 import { ref } from "vue";
 
 import Categories from "./CategoriesList.vue";
-import Select from "./Select.vue";
+import FilterMenuFind from "./FilterMenuFind.vue";
+import Select from "./SelectSort.vue";
+import SetPrice from "./SetPrice.vue";
 
 const props = defineProps<{
-  onClick: (category?: IProduct["category"]) => void;
+  onClick: (category?: ICategory) => void;
+  onSelect: (filter: SortBy) => void;
+  onSubmit: (data: IFind) => void;
+  onSubmitSetPrice: (data: ISetPrice) => void;
 }>();
 
 const isOpenFilterButton = ref<boolean>(false);
 const { categories, sortBy } = useProductsStore();
+
+const { maxPriceByCategory, minPriceByCategory } = storeToRefs(useProductsStore());
 </script>
 
 <template>
@@ -23,8 +31,8 @@ const { categories, sortBy } = useProductsStore();
     <div class="Filter__filters">
       <p class="Filter__p">{{ $t("Shop.Aside.catalog") }}</p>
       <div class="Filter__selects">
-        <Select :options="sortBy.firstSortBy"></Select>
-        <Select :options="sortBy.secondSortBy"></Select>
+        <Select @select="props.onSelect" :options="sortBy.firstSortBy"></Select>
+        <Select @select="props.onSelect" :options="sortBy.secondSortBy"></Select>
       </div>
     </div>
     <div class="Filter__selects-filtres" @click="isOpenFilterButton = !isOpenFilterButton">
@@ -32,10 +40,18 @@ const { categories, sortBy } = useProductsStore();
     </div>
     <div class="allFiltres" :class="{ active: isOpenFilterButton }">
       <div class="allFiltres__selects">
-        <Select :options="sortBy.firstSortBy"></Select>
-        <Select :options="sortBy.secondSortBy"></Select>
+        <Select @select="props.onSelect" :options="sortBy.firstSortBy"></Select>
+        <Select @select="props.onSelect" :options="sortBy.secondSortBy"></Select>
       </div>
       <div class="allFiltres__categories">
+        <FilterMenuFind class-name="allFiltres__find" @submit="props.onSubmit" />
+        <SetPrice
+          @submit="props.onSubmitSetPrice"
+          class-name="allFiltres__setPrice"
+          :max-price="maxPriceByCategory"
+          v-if="isOpenFilterButton"
+          :min-price="minPriceByCategory"
+        />
         <Categories
           :categories="categories"
           :is-open-filter-button="isOpenFilterButton"
@@ -45,10 +61,20 @@ const { categories, sortBy } = useProductsStore();
     </div>
     <div class="Filter__categories">
       <div class="Filter__categories-list">
+        <FilterMenuFind
+          class-name="allFiltres__find allFiltres__find_pc"
+          @submit="props.onSubmit"
+        />
+        <SetPrice
+          @submit="props.onSubmitSetPrice"
+          class-name="allFiltres__setPrice allFiltres__setPrice_pc"
+          :max-price="maxPriceByCategory"
+          :min-price="minPriceByCategory"
+        />
         <Categories
           :categories="categories"
           :is-open-filter-button="isOpenFilterButton"
-          @click="onClick"
+          @click="props.onClick"
         />
       </div>
       <slot></slot>
@@ -87,6 +113,16 @@ const { categories, sortBy } = useProductsStore();
 
     @media (max-width: 950px) {
       flex-wrap: wrap;
+    }
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      @media (max-width: 950px) {
+        display: none;
+      }
     }
   }
 
@@ -149,6 +185,20 @@ const { categories, sortBy } = useProductsStore();
     gap: 10px;
     margin-bottom: 15px;
 
+    &__find {
+      &_pc {
+        @media (max-width: 950px) {
+          display: none;
+        }
+      }
+    }
+
+    &__categories {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
     &.active {
       @media (max-width: 950px) {
         display: flex;
@@ -164,6 +214,30 @@ const { categories, sortBy } = useProductsStore();
     &__selects {
       display: flex;
       gap: 30px;
+    }
+
+    &__find {
+      max-width: 200px;
+      width: 100%;
+
+      @media (max-width: 950px) {
+        max-width: 100%;
+      }
+    }
+
+    &__setPrice {
+      max-width: 200px;
+      width: 100%;
+
+      @media (max-width: 950px) {
+        max-width: 100%;
+      }
+
+      &_pc {
+        @media (max-width: 950px) {
+          display: none;
+        }
+      }
     }
   }
 

@@ -6,6 +6,9 @@ export const messages = { en, ru };
 export const i18nConfig = {
   fallbackLocale: "en",
   legacy: false,
-  locale: navigator.language.slice(0, 2) || "en",
+  locale: localStorage.getItem("lang") || navigator.language.slice(0, 2) || "en",
   messages
 };
+
+document.documentElement.lang =
+  localStorage.getItem("lang") || navigator.language.slice(0, 2) || "en";

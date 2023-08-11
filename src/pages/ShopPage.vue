@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IProduct } from "@/types";
+import type { ICategory, IFind, ISetPrice, SortBy } from "@/types";
 
 import FilterMenu from "@/components/FilterMenu.vue";
 import Location from "@/components/Location.vue";
@@ -8,22 +8,37 @@ import ProductsList from "@/components/ProductsList.vue";
 import ShowMore from "@/components/ShowMore.vue";
 import { useProductsStore } from "@/store/products";
 import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 
-const { fetchProducts, fetchProductsByCategory } = useProductsStore();
-const { length, loading, products } = storeToRefs(useProductsStore());
-const currentCategory = ref<IProduct["category"]>();
+const {
+  fetchByFindField,
+  fetchMinAndMaxPriceByCategory,
+  fetchProducts,
+  fetchProductsByCategory,
+  fetchProductsByCategoryWithSettingPrice,
+  sortProductsBySortBy
+} = useProductsStore();
+const { currentCategory, length, loading, products } = storeToRefs(useProductsStore());
 
 const { t } = useI18n();
 
-const onClick = async (category?: IProduct["category"]) => {
-  currentCategory.value = category;
-  await fetchProductsByCategory(category ?? currentCategory.value!);
+const onClick = async (category?: ICategory) => {
+  currentCategory.value = category ?? currentCategory.value;
+  await fetchProductsByCategory();
+  await fetchMinAndMaxPriceByCategory();
 };
+
+const onSelect = async (filter: SortBy) => await sortProductsBySortBy(filter);
+
+const onSubmit = async (data: IFind) => await fetchByFindField(data);
+
+const submitSetPrice = async (data: ISetPrice) =>
+  await fetchProductsByCategoryWithSettingPrice(data);
 
 onMounted(async () => {
   await fetchProducts();
+  await fetchMinAndMaxPriceByCategory();
 });
 </script>
 
@@ -32,7 +47,12 @@ onMounted(async () => {
     <section class="Products">
       <div class="Products__container container">
         <Location />
-        <FilterMenu @click="onClick">
+        <FilterMenu
+          @click="onClick"
+          @submit="onSubmit"
+          @submit-set-price="submitSetPrice"
+          @select="onSelect"
+        >
           <template v-if="!loading">
             <ProductsList :products="products" :length="length" v-if="products.length > 0" />
             <div class="empty" v-else>

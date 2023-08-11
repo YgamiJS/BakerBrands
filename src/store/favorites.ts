@@ -2,28 +2,33 @@ import type { IFavoriteProduct, IProduct } from "@/types";
 
 import { db } from "@/services/vuefire";
 import { useStorage } from "@vueuse/core";
-import { deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { arrayUnion, deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
 import { useUserStore } from "./user";
 
 export const useFavoritesStore = defineStore("favorites", () => {
   const favoriteProducts = useStorage<IFavoriteProduct[]>("favorites", []);
+  const loading = ref<boolean>(false);
   const { isAuth, user } = useUserStore();
 
   const addFavoriteProduct = async (favoriteProduct: IProduct) => {
+    const NewFavoriteProduct = {
+      ...favoriteProduct,
+      count: 1
+    };
+
     if (isAuth()) {
-      setDoc(doc(db, "users", user.email, "favoriteProducts"), favoriteProduct).then(() =>
-        favoriteProducts.value.push({
-          ...favoriteProduct,
-          count: 1
-        })
-      );
-    } else {
-      favoriteProducts.value.push({
-        ...favoriteProduct,
-        count: 1
+      loading.value = true;
+      updateDoc(doc(db, "users", user.email), {
+        favoriteProducts: arrayUnion(NewFavoriteProduct)
+      }).then(() => {
+        favoriteProducts.value.push(NewFavoriteProduct);
+        loading.value = false;
       });
+    } else {
+      favoriteProducts.value.push(NewFavoriteProduct);
     }
   };
 
@@ -88,9 +93,13 @@ export const useFavoritesStore = defineStore("favorites", () => {
   const removeFavoriteProduct = async (favoriteProductId: IFavoriteProduct["id"]) => {
     if (isAuth()) {
       await deleteDoc(doc(db, "users", user.email, "favoriteProducts", favoriteProductId!));
-      favoriteProducts.value.filter((favoriteProduct) => favoriteProduct.id !== favoriteProductId);
+      favoriteProducts.value = favoriteProducts.value.filter(
+        (favoriteProduct) => favoriteProduct.id !== favoriteProductId
+      );
     } else {
-      favoriteProducts.value.filter((favoriteProduct) => favoriteProduct.id !== favoriteProductId);
+      favoriteProducts.value = favoriteProducts.value.filter(
+        (favoriteProduct) => favoriteProduct.id !== favoriteProductId
+      );
     }
   };
 

@@ -22,20 +22,16 @@ export const LogInFirebase = async ({ email, password }: Pick<IUser, "email" | "
   return createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const currentUser = userCredential.user;
-
-      user.value = {
+      const LogInUser = {
         email,
         id: currentUser.uid,
         password,
         token: currentUser.refreshToken
       };
 
-      setUser({
-        email,
-        id: currentUser.uid,
-        password,
-        token: currentUser.refreshToken
-      });
+      user.value = LogInUser;
+
+      setUser(LogInUser);
     })
     .then(() => addUserToFirebase(user.value!));
 };

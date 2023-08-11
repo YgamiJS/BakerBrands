@@ -44,7 +44,6 @@ import Location from "@/components/Location.vue";
 @import "@/assets/scss/App.scss";
 
 .Contacts {
-  scroll-snap-stop: always;
   flex: 1 0 auto;
 }
 .Contacts-info {

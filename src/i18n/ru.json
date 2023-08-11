@@ -6,7 +6,7 @@
     "search": "Поиск",
     "favorites": "Избранное",
     "profile": "Профиль",
-    "shoppingCard": "Карзина покупок"
+    "shoppingCard": "Корзина покупок"
   },
   "Home": {
     "Preview": {
@@ -31,8 +31,19 @@
       "catalog": "Каталог",
       "filtres": "Фильтры",
       "Select": {
+        "sortBy": "Сортировать по",
         "byPrice": "По цене",
         "byPopularity": "По популярности"
+      },
+      "Find": {
+        "findAnyWay": "Найти что угодно",
+        "find": "Найти"
+      },
+      "SetPrice": {
+        "price": "Цена",
+        "minPrice": "От {minPrice}",
+        "maxPrice": "До {maxPrice}",
+        "pickup": "Подобрать"
       }
     },
     "Empty": {
@@ -41,7 +52,8 @@
     },
     "loadMore": "Показать еще",
     "Product": {
-      "addToFavorite": "Добавить в понравившиеся"
+      "addToFavorite": "Добавить в понравившиеся",
+      "removeFromFavorite": "Убрать из понравившихся"
     }
   },
   "Product": {
@@ -64,6 +76,12 @@
       "momentalDevelivery": "Срок доставки: 1–2 дня с момента заказа"
     }
   },
+  "Search": {
+    "findAnyWay": "Найти что угодно",
+    "ThisSearchFieldRequired": "Это поле поиска обезательное",
+    "minLengthLetters": "Минимальная длина поиска {minLengthLetters} символа",
+    "maxLengthLetters": "Максимальная длина поиска {maxLengthLetters} символа"
+  },
   "SingIn": {
     "ThisEmailFieldRequired": "Это поле почты обезательное",
     "ThisPasswordFieldRequired": "Это поле пароля обезательное",
@@ -74,7 +92,8 @@
     "somethingWentWrong": "Что то пошло не так",
     "minLengthLetters": "Пароль должен содержать не менее {minLengthLetters} символов",
     "maxLengthLetters": "Пароль может содержать до {maxLengthLetters} символов",
-    "singIn": "Войти"
+    "singIn": "Войти",
+    "manyRetry": "Слишком много попыток входа. Попробуйте позже."
   },
   "LogIn": {
     "ThisEmailFieldRequired": "Это поле почты обезательное",
@@ -107,7 +126,8 @@
     "continue": "Продолжить",
     "somethingWentWrong": "Что то пошло не так",
     "sendConfirm": "Мы отправили вам электронное письмо с подтверждением",
-    "singIn": "Войти"
+    "singIn": "Войти",
+    "manyRetry": "Слишком много попыток восстановления пароля. Попробуйте позже."
   },
   "NotFound": {
     "pageNotFound": "Страница не найдена",
@@ -141,6 +161,7 @@
   "Categories": {
     "category": "Категория",
     "categories": "Категории",
+    "all": "Все",
     "tshirts": "Футболка",
     "hoodies": "Толстовка",
     "trousers": "Штаны",

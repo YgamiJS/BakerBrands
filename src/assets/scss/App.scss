@@ -37,6 +37,7 @@ body {
   width: 100vw;
   min-height: 100vh;
   color: $black;
+  -webkit-tap-highlight-color: transparent;
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
 }
@@ -50,6 +51,7 @@ body {
 section {
   scroll-snap-stop: always;
 }
+
 main {
   margin-top: 50px;
   flex: 1 0 100%;

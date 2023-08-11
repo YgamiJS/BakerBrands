@@ -48,7 +48,6 @@ const onSubmit = (data: ILogInForm) => {
 <style scoped lang="scss">
 @import "@/assets/scss/App.scss";
 .LogIn {
-  scroll-snap-stop: always;
   flex: 1 0 auto;
   &__something-went-wrong {
     margin-top: 20px;

@@ -1,8 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const selectLanguage = (lang: string) => {
+  document.documentElement.lang = lang;
+  localStorage.setItem("lang", lang);
+};
+</script>
 
 <template>
   <div class="locale-changer" @click.stop>
-    <select class="select" v-model="$i18n.locale">
+    <select class="select" v-model="$i18n.locale" @change="selectLanguage($i18n.locale)">
       <option v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`" :value="locale">
         {{ locale }}
       </option>
