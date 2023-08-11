@@ -3,10 +3,13 @@ import type { ICategories, ICategory } from "@/types";
 
 import CategoryItem from "./CategoryItem.vue";
 
+defineEmits<{
+  (e: "click", category?: ICategory): void;
+}>();
+
 const props = defineProps<{
   categories: ICategories;
   isOpenFilterButton: boolean;
-  onClick: (category?: ICategory) => void;
 }>();
 </script>
 
@@ -16,7 +19,7 @@ const props = defineProps<{
       v-for="category of props.categories.categories"
       :key="category"
       :category="category"
-      @click="props.onClick"
+      @click="(category) => $emit('click', category)"
     />
   </ul>
 </template>

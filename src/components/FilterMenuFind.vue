@@ -9,15 +9,9 @@ interface IFind {
   findfield: string;
 }
 
-interface Props {
-  className?: string;
-}
-
 const emit = defineEmits<{
   (e: "submit", data: IFind): void;
 }>();
-
-const props = defineProps<Props>();
 
 const schema = yup.object({
   findfield: yup.string()
@@ -35,7 +29,7 @@ const debouncedSubmit = debounce(onSubmit, 300);
 </script>
 
 <template>
-  <form class="find" @submit.prevent="onSubmit" :class="props.className">
+  <form class="find" @submit.prevent="onSubmit" :class="$attrs.className">
     <p class="find__search">{{ $t("Shop.Aside.Find.find") }}</p>
     <InputForm
       class-name="find__findfield"

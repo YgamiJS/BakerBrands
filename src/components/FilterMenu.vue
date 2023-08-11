@@ -10,11 +10,11 @@ import FilterMenuFind from "./FilterMenuFind.vue";
 import Select from "./SelectSort.vue";
 import SetPrice from "./SetPrice.vue";
 
-const props = defineProps<{
-  onClick: (category?: ICategory) => void;
-  onSelect: (filter: SortBy) => void;
-  onSubmit: (data: IFind) => void;
-  onSubmitSetPrice: (data: ISetPrice) => void;
+defineEmits<{
+  (e: "click", category?: ICategory): void;
+  (e: "select", filter: SortBy): void;
+  (e: "submit", data: IFind): void;
+  (e: "submitSetPrice", data: ISetPrice): void;
 }>();
 
 const isOpenFilterButton = ref<boolean>(false);
@@ -31,8 +31,14 @@ const { maxPriceByCategory, minPriceByCategory } = storeToRefs(useProductsStore(
     <div class="Filter__filters">
       <p class="Filter__p">{{ $t("Shop.Aside.catalog") }}</p>
       <div class="Filter__selects">
-        <Select @select="props.onSelect" :options="sortBy.firstSortBy"></Select>
-        <Select @select="props.onSelect" :options="sortBy.secondSortBy"></Select>
+        <Select
+          @select="(filter) => $emit('select', filter)"
+          :options="sortBy.firstSortBy"
+        ></Select>
+        <Select
+          @select="(filter) => $emit('select', filter)"
+          :options="sortBy.secondSortBy"
+        ></Select>
       </div>
     </div>
     <div class="Filter__selects-filtres" @click="isOpenFilterButton = !isOpenFilterButton">
@@ -40,13 +46,19 @@ const { maxPriceByCategory, minPriceByCategory } = storeToRefs(useProductsStore(
     </div>
     <div class="allFiltres" :class="{ active: isOpenFilterButton }">
       <div class="allFiltres__selects">
-        <Select @select="props.onSelect" :options="sortBy.firstSortBy"></Select>
-        <Select @select="props.onSelect" :options="sortBy.secondSortBy"></Select>
+        <Select
+          @select="(filter) => $emit('select', filter)"
+          :options="sortBy.firstSortBy"
+        ></Select>
+        <Select
+          @select="(filter) => $emit('select', filter)"
+          :options="sortBy.secondSortBy"
+        ></Select>
       </div>
       <div class="allFiltres__categories">
-        <FilterMenuFind class-name="allFiltres__find" @submit="props.onSubmit" />
+        <FilterMenuFind class-name="allFiltres__find" @submit="(data) => $emit('submit', data)" />
         <SetPrice
-          @submit="props.onSubmitSetPrice"
+          @submit="(data) => $emit('submitSetPrice', data)"
           class-name="allFiltres__setPrice"
           :max-price="maxPriceByCategory"
           v-if="isOpenFilterButton"
@@ -55,7 +67,7 @@ const { maxPriceByCategory, minPriceByCategory } = storeToRefs(useProductsStore(
         <Categories
           :categories="categories"
           :is-open-filter-button="isOpenFilterButton"
-          @click="props.onClick"
+          @click="(category) => $emit('click', category)"
         />
       </div>
     </div>
@@ -63,10 +75,10 @@ const { maxPriceByCategory, minPriceByCategory } = storeToRefs(useProductsStore(
       <div class="Filter__categories-list">
         <FilterMenuFind
           class-name="allFiltres__find allFiltres__find_pc"
-          @submit="props.onSubmit"
+          @submit="(data) => $emit('submit', data)"
         />
         <SetPrice
-          @submit="props.onSubmitSetPrice"
+          @submit="(data) => $emit('submitSetPrice', data)"
           class-name="allFiltres__setPrice allFiltres__setPrice_pc"
           :max-price="maxPriceByCategory"
           :min-price="minPriceByCategory"
@@ -74,7 +86,7 @@ const { maxPriceByCategory, minPriceByCategory } = storeToRefs(useProductsStore(
         <Categories
           :categories="categories"
           :is-open-filter-button="isOpenFilterButton"
-          @click="props.onClick"
+          @click="(category) => $emit('click', category)"
         />
       </div>
       <slot></slot>

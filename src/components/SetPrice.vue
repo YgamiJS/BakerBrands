@@ -10,15 +10,11 @@ interface ISetPrice {
   minPrice: number;
 }
 
-interface Props extends ISetPrice {
-  className?: string;
-}
-
 const emit = defineEmits<{
   (e: "submit", data: ISetPrice): void;
 }>();
 
-const props = defineProps<Props>();
+const props = defineProps<ISetPrice>();
 
 const schema = yup.object({
   maxPrice: yup.number().transform((value) => (isNaN(value) ? 0 : value)),
@@ -45,7 +41,7 @@ const onSubmit = handleSubmit((data) => {
 </script>
 
 <template>
-  <form class="setPrice" @submit.prevent="onSubmit" :class="props.className">
+  <form class="setPrice" @submit.prevent="onSubmit" :class="$attrs.className">
     <p class="setPrice__price">{{ $t("Shop.Aside.SetPrice.price") }}</p>
     <InputForm
       type="number"
