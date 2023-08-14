@@ -49,6 +49,8 @@ const onSubmit = (data: ILogInForm) => {
 @import "@/assets/scss/App.scss";
 .LogIn {
   flex: 1 0 auto;
+  min-height: 90vh;
+
   &__something-went-wrong {
     margin-top: 20px;
   }

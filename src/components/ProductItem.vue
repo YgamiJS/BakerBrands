@@ -6,6 +6,8 @@ import { useFavoritesStore } from "@/store/favorites";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
+import ProductRating from "./ProductRating.vue";
+
 const props = defineProps<{ product: IProduct }>();
 const { addFavoriteProduct, removeFavoriteProduct } = useFavoritesStore();
 const { favoriteProducts } = storeToRefs(useFavoritesStore());
@@ -37,14 +39,7 @@ const addOrRemoveToFavoriteProducts = async (product: IProduct) => {
       <p class="product-list__name">
         {{ $t(`Categories.${props.product.category}`) }} {{ props.product.name }}
       </p>
-      <div class="product-list__rating">
-        <div
-          class="product-list__star"
-          v-for="n of 5"
-          :key="n"
-          :class="{ active: n <= props.product.rating.rating }"
-        ></div>
-      </div>
+      <ProductRating :product="props.product" />
       <p class="product-list__price">{{ props.product.price }} {{ $t("PayСurrency") }}</p>
       <div class="product-list__sizes">
         <p class="product-list__size" v-for="size of props.product.sizes" :key="size">{{ size }}</p>
@@ -115,33 +110,6 @@ const addOrRemoveToFavoriteProducts = async (product: IProduct) => {
     font-weight: 700;
     font-size: 16px;
     line-height: 19px;
-  }
-
-  &__rating {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  &__star {
-    background: $whiteGrey;
-    width: 20px;
-    height: 20px;
-    clip-path: polygon(
-      50% 0%,
-      61% 35%,
-      98% 35%,
-      68% 57%,
-      79% 91%,
-      50% 70%,
-      21% 91%,
-      32% 57%,
-      2% 35%,
-      39% 35%
-    );
-    &.active {
-      background: $yellow;
-    }
   }
 
   &__sizes {

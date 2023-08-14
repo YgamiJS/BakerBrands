@@ -62,6 +62,7 @@ onMounted(() => {
 @import "@/assets/scss/App.scss";
 .SingIn {
   flex: 1 0 auto;
+  min-height: 90vh;
   &__something-went-wrong {
     margin-top: 20px;
   }

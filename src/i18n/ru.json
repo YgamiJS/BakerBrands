@@ -48,7 +48,9 @@
     },
     "Empty": {
       "noProducts": "Не найдено товаров",
-      "noProductsByCategory": "По категории {category} нечего не найдено"
+      "noProductsByCategoryAndQuery": "По категории {category} и запросу {query} нечего не найдено",
+      "noProductsByCategory": "По категории {category} нечего не найдено",
+      "noProductsByQuery": "По запросу {query} нечего не найдено"
     },
     "loadMore": "Показать еще",
     "Product": {
@@ -80,7 +82,9 @@
     "findAnyWay": "Найти что угодно",
     "ThisSearchFieldRequired": "Это поле поиска обезательное",
     "minLengthLetters": "Минимальная длина поиска {minLengthLetters} символа",
-    "maxLengthLetters": "Максимальная длина поиска {maxLengthLetters} символа"
+    "maxLengthLetters": "Максимальная длина поиска {maxLengthLetters} символа",
+    "see": "Смотреть",
+    "noResults": "Нет результатов поиска"
   },
   "SingIn": {
     "ThisEmailFieldRequired": "Это поле почты обезательное",

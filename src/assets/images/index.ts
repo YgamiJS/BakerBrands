@@ -13,6 +13,7 @@ import leftPhoto from "./LEFT.jpg";
 import love from "./love.png";
 import asianHuman from "./man-looking-aside-using-phone-listening-music.jpg";
 import hatHuman from "./man-posing-with-trucker-hat-side-view.jpg";
+import noResults from "./noresults.png";
 import capHuman from "./portrait-cool-teenage-boy-wearing-cap.jpg";
 import rightPhoto from "./RIGHT.jpg";
 import telegram from "./telegram.svg";
@@ -35,6 +36,7 @@ export const images = {
   inLike,
   leftPhoto,
   love,
+  noResults,
   product,
   rightPhoto,
   telegram

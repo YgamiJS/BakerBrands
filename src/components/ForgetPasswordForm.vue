@@ -21,7 +21,7 @@ const { t } = useI18n();
 const maxRetry = 3;
 
 const schema = yup.object({
-  email: yup.string().required(t("ForgetPasswordForm.ThisEmailFieldRequired")),
+  email: yup.string().email().required(t("ForgetPasswordForm.ThisEmailFieldRequired")),
   password: yup
     .string()
     .min(6, t("ForgetPasswordForm.minLengthLetters", { minLengthLetters: 6 }))
@@ -73,7 +73,12 @@ const onSubmit = handleSubmit((data) => {
     <p class="ForgetPasswordForm-form__errorMessage" v-if="errors.password">
       {{ errors.password }}
     </p>
-    <ButtonForm class-name="ForgetPasswordForm-form__button" type="submit" :disabled="!meta.valid">
+    <ButtonForm
+      class-name="ForgetPasswordForm-form__button"
+      :class="{ error: errors.email || errors.password }"
+      type="submit"
+      :disabled="!meta.valid"
+    >
       {{ $t("ForgetPasswordForm.continue") }}
     </ButtonForm>
   </form>

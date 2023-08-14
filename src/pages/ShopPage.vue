@@ -19,7 +19,9 @@ const {
   fetchProductsByCategoryWithSettingPrice,
   sortProductsBySortBy
 } = useProductsStore();
-const { currentCategory, length, loading, products } = storeToRefs(useProductsStore());
+const { currentCategory, currentQuery, length, loading, products } = storeToRefs(
+  useProductsStore()
+);
 
 const { t } = useI18n();
 
@@ -59,9 +61,16 @@ onMounted(async () => {
               <h1 class="empty__h1">{{ $t("Shop.Empty.noProducts") }}</h1>
               <p class="empty__p">
                 {{
-                  $t("Shop.Empty.noProductsByCategory", {
-                    category: t(`Categories.${currentCategory}`)
-                  })
+                  currentCategory !== "all"
+                    ? currentQuery
+                      ? $t("Shop.Empty.noProductsByCategoryAndQuery", {
+                          category: t(`Categories.${currentCategory}`),
+                          query: currentQuery
+                        })
+                      : $t("Shop.Empty.noProductsByCategory", {
+                          category: t(`Categories.${currentCategory}`)
+                        })
+                    : $t("Shop.Empty.noProductsByQuery", { query: currentQuery })
                 }}
               </p>
             </div>

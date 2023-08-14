@@ -5,3 +5,4 @@ export * from "./user";
 export * from "./favorite";
 export * from "./setPrice";
 export * from "./find";
+export * from "./category";

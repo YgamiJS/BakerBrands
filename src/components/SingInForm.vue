@@ -62,7 +62,12 @@ const onSubmit = handleSubmit((data) => {
       >
       <RouterLink class="singin-form__p" to="/LogIn">{{ $t("SingIn.noAccount") }}?</RouterLink>
     </div>
-    <ButtonForm class-name="singin-form__button" type="submit" :disabled="!meta.valid">
+    <ButtonForm
+      class-name="singin-form__button"
+      :class="{ error: errors.email || errors.password }"
+      type="submit"
+      :disabled="!meta.valid"
+    >
       {{ $t("SingIn.singIn") }}
     </ButtonForm>
   </form>

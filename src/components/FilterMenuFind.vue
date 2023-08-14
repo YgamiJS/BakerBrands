@@ -22,7 +22,16 @@ const { errors, handleSubmit } = useForm<IFind>({
 });
 
 const onSubmit = handleSubmit((data) => {
-  emit("submit", data);
+  emit(
+    "submit",
+    data.findfield
+      ? data
+      : ({
+          findfield: matchMedia("(max-width: 950px)").matches
+            ? (document.querySelectorAll(".find__findfield")[1] as HTMLInputElement).value
+            : (document.querySelectorAll(".find__findfield")[0] as HTMLInputElement).value
+        } as IFind)
+  );
 });
 
 const debouncedSubmit = debounce(onSubmit, 300);
@@ -37,6 +46,7 @@ const debouncedSubmit = debounce(onSubmit, 300);
       type="text"
       :placeholder="$t('Shop.Aside.Find.findAnyWay')"
       @input="debouncedSubmit"
+      @change="debouncedSubmit"
     />
     <p class="find__errorMessage" v-if="errors.findfield">{{ errors.findfield }}</p>
   </form>

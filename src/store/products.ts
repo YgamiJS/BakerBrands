@@ -26,7 +26,7 @@ export const useProductsStore = defineStore("products", () => {
     firstSortBy: ["byPrice"],
     secondSortBy: ["byPopularity"]
   });
-
+  const currentQuery = ref<string>("");
   const currentCategory = ref<ICategory>("all");
   const currentFilter = ref<SortBy>();
   const maxPriceByCategory = ref<number>(0);
@@ -47,7 +47,12 @@ export const useProductsStore = defineStore("products", () => {
   */
 
   const fetchByFindField = async ({ findfield }: IFind) => {
-    if (!(findfield.trim().length > 0)) return;
+    if (findfield.trim().length < 1) {
+      fetchProducts();
+      return;
+    }
+
+    currentQuery.value = findfield;
 
     loading.value = true;
 
@@ -304,6 +309,7 @@ export const useProductsStore = defineStore("products", () => {
     categories,
     currentCategory,
     currentProduct,
+    currentQuery,
     fetchByFindField,
     fetchCurrentProduct,
     fetchMinAndMaxPriceByCategory,

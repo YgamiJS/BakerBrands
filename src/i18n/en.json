@@ -48,7 +48,9 @@
     },
     "Empty": {
       "noProducts": "No products found",
-      "noProductsByCategory": "By сategory {category} nothing found"
+      "noProductsByCategoryAndQuery": "By the category {category} and the request {query} has nothing to find",
+      "noProductsByCategory": "By сategory {category} nothing found",
+      "noProductsByQuery": "There is nothing to find on the request {query}"
     },
     "loadMore": "Show more",
     "Product": {
@@ -80,7 +82,9 @@
     "findAnyWay": "Find anything",
     "ThisSearchFieldRequired": "This is the search field",
     "minLengthLetters": "Minimum search length 3 characters",
-    "maxLengthLetters": "Maximum search length 32 symbols"
+    "maxLengthLetters": "Maximum search length 32 symbols",
+    "see": "Look",
+    "noResults": "There are no search results"
   },
   "SingIn": {
     "ThisEmailFieldRequired": "This email field is required",

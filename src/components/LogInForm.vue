@@ -18,7 +18,7 @@ const emit = defineEmits<{
 const { t } = useI18n();
 
 const schema = yup.object({
-  email: yup.string().required(t("LogIn.ThisEmailFieldRequired")),
+  email: yup.string().email().required(t("LogIn.ThisEmailFieldRequired")),
   password: yup
     .string()
     .min(6, t("LogIn.minLengthLetters", { minLengthLetters: 6 }))
@@ -68,7 +68,12 @@ const onSubmit = handleSubmit((data) => {
       min="6"
     />
     <p class="login-form__errorMessage" v-if="errors.password">{{ errors.password }}</p>
-    <ButtonForm class="login-form__button" type="submit" :disabled="!meta.valid">
+    <ButtonForm
+      class="login-form__button"
+      type="submit"
+      :class="{ error: errors.email || errors.password }"
+      :disabled="!meta.valid"
+    >
       {{ $t("LogIn.logIn") }}
     </ButtonForm>
   </form>

@@ -20,7 +20,7 @@ const props = defineProps<{
   cursor: pointer;
   outline: 0;
   border: 0;
-  &:disabled {
+  &.error {
     opacity: 0.5;
     cursor: not-allowed;
   }

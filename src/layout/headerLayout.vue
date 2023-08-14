@@ -57,7 +57,11 @@ const toggleMobileNav = () => {
                 </RouterLink>
               </li>
               <li class="menu__item">
-                <RouterLink class="menu__link-img" to="#" :description="$t('header.favorites')">
+                <RouterLink
+                  class="menu__link-img"
+                  to="/Favorites/"
+                  :description="$t('header.favorites')"
+                >
                   <FavoriteIcon class="menu__icon" />
                 </RouterLink>
               </li>
@@ -71,7 +75,11 @@ const toggleMobileNav = () => {
                 </RouterLink>
               </li>
               <li class="menu__item">
-                <RouterLink class="menu__link-img" to="#" :description="$t('header.shoppingCard')">
+                <RouterLink
+                  class="menu__link-img"
+                  to="/Basket/"
+                  :description="$t('header.shoppingCard')"
+                >
                   <ShopIcon class="menu__icon" />
                 </RouterLink>
               </li>
@@ -90,7 +98,11 @@ const toggleMobileNav = () => {
             </RouterLink>
           </li>
           <li class="menu__item">
-            <RouterLink class="menu__link-img" to="#" :description="$t('header.favorites')">
+            <RouterLink
+              class="menu__link-img"
+              to="/Favorites/"
+              :description="$t('header.favorites')"
+            >
               <FavoriteIcon class="menu__icon" />
             </RouterLink>
           </li>
@@ -100,7 +112,11 @@ const toggleMobileNav = () => {
             </RouterLink>
           </li>
           <li class="menu__item">
-            <RouterLink class="menu__link-img" to="#" :description="$t('header.shoppingCard')">
+            <RouterLink
+              class="menu__link-img"
+              to="/Basket/"
+              :description="$t('header.shoppingCard')"
+            >
               <ShopIcon class="menu__icon" />
             </RouterLink>
           </li>
@@ -148,7 +164,7 @@ const toggleMobileNav = () => {
   padding: 10px 0;
   position: fixed;
   z-index: 5;
-  background: white;
+  background: $white;
   &__container {
     display: flex;
     align-items: center;
@@ -197,7 +213,15 @@ const toggleMobileNav = () => {
       }
     }
 
+    @media (min-width: 950px) {
+      align-items: center;
+    }
+
     :deep(.menu__link-img:hover .menu__icon path) {
+      stroke: $lowspacegrey;
+    }
+
+    :deep(.menu__link-img.router-link-active .menu__icon path) {
       stroke: $lowspacegrey;
     }
 

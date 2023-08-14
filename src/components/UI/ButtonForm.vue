@@ -25,7 +25,7 @@ const props = defineProps<{
   border: 0;
   width: 100%;
   color: $white;
-  &:disabled {
+  &.error {
     opacity: 0.5;
     cursor: not-allowed;
   }
