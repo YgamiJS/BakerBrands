@@ -23,17 +23,11 @@ const selectedSizes = ref<string[]>([]);
 
 const onSelectSize = (size: string) => selectedSizes.value.push(size);
 
-const addToBasketProducts = async (product: IProduct) => {
-  console.log(12);
-
-  await addBasketProduct(product);
-};
+const addToBasketProducts = async (product: IProduct) => await addBasketProduct(product);
 
 const isInBasket = computed(
   () => !!basketProducts.value.find((basketProduct) => basketProduct.id == id.value)
 );
-
-console.log(isInBasket.value, id.value);
 
 onMounted(() => fetchCurrentProduct(id.value));
 </script>
