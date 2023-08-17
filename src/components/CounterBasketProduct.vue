@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { IFavoriteProduct } from "@/types";
+import type { IBasketProduct } from "@/types";
 
-import { useFavoritesStore } from "@/store/favorites";
+import { useBasketStore } from "@/store/basket";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
@@ -11,20 +11,20 @@ defineEmits<{
 }>();
 
 const props = defineProps<{
-  favoriteProductId: IFavoriteProduct["id"];
+  basketProductId: IBasketProduct["id"];
 }>();
 
-const { favoriteProducts } = storeToRefs(useFavoritesStore());
+const { basketProducts } = storeToRefs(useBasketStore());
 
-const currentFavoriteProduct = computed(() =>
-  favoriteProducts.value.find((favoriteProduct) => favoriteProduct.id === props.favoriteProductId)
+const currentBasketProduct = computed(() =>
+  basketProducts.value.find((basketProduct) => basketProduct.id === props.basketProductId)
 );
 </script>
 
 <template>
   <div class="counterFavoriteProduct">
     <button class="counterFavoriteProduct__increment" @click="$emit('increment')">+</button>
-    <span class="counterFavoriteProduct__count">{{ currentFavoriteProduct?.count }}</span>
+    <span class="counterFavoriteProduct__count">{{ currentBasketProduct?.count }}</span>
     <button class="counterFavoriteProduct__decrement" @click="$emit('decrement')">-</button>
   </div>
 </template>

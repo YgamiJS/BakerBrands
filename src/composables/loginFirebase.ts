@@ -14,6 +14,7 @@ export const LogInFirebase = async ({ email, password }: Pick<IUser, "email" | "
   const addUserToFirebase = async (user: IUser) => {
     await addDoc(collection(db, "users", email), {
       ...user,
+      basketProducts: [],
       boughtProducts: [],
       favoriteProducts: []
     });

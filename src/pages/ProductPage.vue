@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { IProduct } from "@/types";
 
-import CounterFavoriteProduct from "@/components/CounterFavoriteProduct.vue";
+import CounterBasketProduct from "@/components/CounterBasketProduct.vue";
 import Location from "@/components/Location.vue";
-import { useFavoritesStore } from "@/store/favorites";
+import { useBasketStore } from "@/store/basket";
 import { useProductsStore } from "@/store/products";
 import { storeToRefs } from "pinia";
 import { computed, onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
 import { RouterLink } from "vue-router";
+import { useRoute } from "vue-router";
 
 const route = useRoute();
 
@@ -16,22 +16,24 @@ const id = ref<string>(route.params.id as string);
 
 const { fetchCurrentProduct } = useProductsStore();
 const { currentProduct, loading } = storeToRefs(useProductsStore());
-const { addFavoriteProduct, decrementFavoriteProductCount, incrementFavoriteProductCount } =
-  useFavoritesStore();
-const { favoriteProducts } = storeToRefs(useFavoritesStore());
+const { addBasketProduct, decrementBasketProductCount, incrementBasketProductCount } =
+  useBasketStore();
+const { basketProducts } = storeToRefs(useBasketStore());
 const selectedSizes = ref<string[]>([]);
 
-const onSelectSize = (size: string) => {
-  selectedSizes.value.push(size);
+const onSelectSize = (size: string) => selectedSizes.value.push(size);
+
+const addToBasketProducts = async (product: IProduct) => {
+  console.log(12);
+
+  await addBasketProduct(product);
 };
 
-const addToFavoriteProducts = async (product: IProduct) => {
-  await addFavoriteProduct(product);
-};
-
-const isLike = computed(
-  () => !!favoriteProducts.value.find((favoriteProduct) => (favoriteProduct.id = id.value))
+const isInBasket = computed(
+  () => !!basketProducts.value.find((basketProduct) => basketProduct.id == id.value)
 );
+
+console.log(isInBasket.value, id.value);
 
 onMounted(() => fetchCurrentProduct(id.value));
 </script>
@@ -73,19 +75,20 @@ onMounted(() => fetchCurrentProduct(id.value));
                 {{ size }}
               </p>
             </div>
+            <div>{{ currentProduct?.inStock }}</div>
             <button
               class="Product-info__buy-button"
-              v-if="!isLike"
-              @click="addToFavoriteProducts(currentProduct!)"
+              v-if="!isInBasket"
+              @click="addToBasketProducts(currentProduct!)"
             >
               {{ $t("Product.addToBasket") }}
             </button>
             <div class="Product-info__bought" v-else>
-              <RouterLink to="">{{ $t("Product.goToBasket") }}</RouterLink>
-              <CounterFavoriteProduct
-                :favorite-product-id="id"
-                @increment="incrementFavoriteProductCount(id)"
-                @decrement="decrementFavoriteProductCount(id)"
+              <RouterLink to="/Basket/">{{ $t("Product.goToBasket") }}</RouterLink>
+              <CounterBasketProduct
+                :basket-product-id="id"
+                @increment="incrementBasketProductCount(id)"
+                @decrement="decrementBasketProductCount(id)"
               />
             </div>
           </div>

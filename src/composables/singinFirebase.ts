@@ -1,6 +1,7 @@
-import type { IFavoriteProduct, IUser } from "@/types";
+import type { IBasketProduct, IFavoriteProduct, IUser } from "@/types";
 
 import { db } from "@/services/vuefire";
+import { useBasketStore } from "@/store/basket";
 import { useFavoritesStore } from "@/store/favorites";
 import { useUserStore } from "@/store/user";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -11,11 +12,16 @@ import { ref } from "vue";
 export const SingInFirebase = async ({ email, password }: Pick<IUser, "email" | "password">) => {
   const { setUser } = useUserStore();
   const { favoriteProducts } = storeToRefs(useFavoritesStore());
+  const { basketProducts } = storeToRefs(useBasketStore());
   const auth = getAuth();
   const user = ref<IUser>();
 
-  const addFavoriteProductsToFireBase = async (favoriteProducts: IFavoriteProduct[]) => {
+  const addFavoriteProductsAndBasketProductsToFireBase = async (
+    favoriteProducts: IFavoriteProduct[],
+    basketProducts: IBasketProduct[]
+  ) => {
     await updateDoc(doc(db, "users", email), {
+      basketProducts: arrayUnion(basketProducts),
       favoriteProducts: arrayUnion(favoriteProducts)
     });
   };
@@ -34,5 +40,7 @@ export const SingInFirebase = async ({ email, password }: Pick<IUser, "email" | 
 
       setUser(SingInUser);
     })
-    .then(() => addFavoriteProductsToFireBase(favoriteProducts.value!));
+    .then(() =>
+      addFavoriteProductsAndBasketProductsToFireBase(favoriteProducts.value, basketProducts.value)
+    );
 };

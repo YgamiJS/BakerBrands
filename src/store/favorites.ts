@@ -13,80 +13,27 @@ export const useFavoritesStore = defineStore("favorites", () => {
   const loading = ref<boolean>(false);
   const { isAuth, user } = useUserStore();
 
-  const addFavoriteProduct = async (favoriteProduct: IProduct) => {
-    const NewFavoriteProduct = {
-      ...favoriteProduct,
-      count: 1
-    };
+  const fetchFavoriteProducts = async () => {
+    loading.value = true;
 
+    const fbBasketProductsStore = await getDoc(doc(db, "users", user.email));
+
+    loading.value = false;
+
+    favoriteProducts.value = fbBasketProductsStore.data()!.favoriteProducts;
+  };
+
+  const addFavoriteProduct = async (favoriteProduct: IProduct) => {
     if (isAuth()) {
       loading.value = true;
       updateDoc(doc(db, "users", user.email), {
-        favoriteProducts: arrayUnion(NewFavoriteProduct)
+        favoriteProducts: arrayUnion(favoriteProduct)
       }).then(() => {
-        favoriteProducts.value.push(NewFavoriteProduct);
+        favoriteProducts.value.push(favoriteProduct);
         loading.value = false;
       });
     } else {
-      favoriteProducts.value.push(NewFavoriteProduct);
-    }
-  };
-
-  const isInStock = (favoriteProductId: IFavoriteProduct["id"]) => {
-    const favoriteProduct = favoriteProducts.value.find(
-      (favoriteProduct) => favoriteProduct.id === favoriteProductId
-    );
-
-    if (!favoriteProduct) return;
-
-    return !!favoriteProduct.inStock;
-  };
-
-  const incrementFavoriteProductCount = async (favoriteProductId: IFavoriteProduct["id"]) => {
-    const favoriteProduct = favoriteProducts.value.find(
-      (favoriteProduct) => favoriteProduct.id === favoriteProductId
-    );
-
-    if (!favoriteProduct) return;
-
-    if (!(favoriteProduct.count >= favoriteProduct.inStock)) {
-      if (isAuth()) {
-        let count = (await getDoc(
-          doc(db, "users", user.email, "favoriteProducts", favoriteProductId!)
-        ))!.data()!.count!;
-
-        await updateDoc(doc(db, "users", user.email, "favoriteProducts", favoriteProductId), {
-          count: ++count
-        });
-
-        favoriteProduct.count += 1;
-      } else {
-        favoriteProduct.count += 1;
-      }
-    }
-  };
-
-  const decrementFavoriteProductCount = async (favoriteProductId: IFavoriteProduct["id"]) => {
-    const favoriteProduct = favoriteProducts.value.find(
-      (favoriteProduct) => favoriteProduct.id === favoriteProductId
-    );
-
-    if (!favoriteProduct) return;
-
-    if (!(favoriteProduct.count <= 1)) {
-      if (isAuth()) {
-        let count = (await getDoc(
-          doc(db, "users", user.email, "favoriteProducts", favoriteProductId!)
-        ))!.data()!.count!;
-
-        await updateDoc(doc(db, "users", user.email, "favoriteProducts", favoriteProductId), {
-          count: ++count
-        });
-
-        favoriteProduct.count -= 1;
-      } else {
-        favoriteProduct.count -= 1;
-      }
+      favoriteProducts.value.push(favoriteProduct);
     }
   };
 
@@ -105,10 +52,8 @@ export const useFavoritesStore = defineStore("favorites", () => {
 
   return {
     addFavoriteProduct,
-    decrementFavoriteProductCount,
     favoriteProducts,
-    incrementFavoriteProductCount,
-    isInStock,
+    fetchFavoriteProducts,
     removeFavoriteProduct
   };
 });
