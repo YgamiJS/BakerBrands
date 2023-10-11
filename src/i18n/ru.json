@@ -6,7 +6,8 @@
     "search": "Поиск",
     "favorites": "Избранное",
     "profile": "Профиль",
-    "shoppingCard": "Корзина покупок"
+    "bought": "Покупки",
+    "basket": "Корзина"
   },
   "Home": {
     "Preview": {
@@ -53,16 +54,27 @@
       "noProductsByQuery": "По запросу {query} нечего не найдено"
     },
     "loadMore": "Показать еще",
+    "somethingWentWrong": "Что то пошло не так",
     "Product": {
       "addToFavorite": "Добавить в понравившиеся",
       "removeFromFavorite": "Убрать из понравившихся"
     }
   },
+  "Favorites": {
+    "favorites": "Избранное",
+    "empty": "Пусто",
+    "noFavoriteProducts": "Нет избранных товаров",
+    "somethingWentWrong": "Что то пошло не так",
+    "watchedProducts": "Вы смотрели"
+  },
   "Product": {
     "new": "Новое",
     "popularity": "Популярное",
     "addToBasket": "Добавить в корзину",
-    "goToBasket": "Перейти в корзину"
+    "noAviable": "Нет в наличии",
+    "goToBasket": "Перейти в корзину",
+    "aviable": "В наличии {count} штук",
+    "minSize": "Необходимо выбрать хотя бы {count} размер"
   },
   "PaymentAndDevelivery": {
     "paymentAndDevelivery": "Оплата и доставка",
@@ -80,11 +92,13 @@
   },
   "Search": {
     "findAnyWay": "Найти что угодно",
+    "query": "Введите запроc",
     "ThisSearchFieldRequired": "Это поле поиска обезательное",
     "minLengthLetters": "Минимальная длина поиска {minLengthLetters} символа",
     "maxLengthLetters": "Максимальная длина поиска {maxLengthLetters} символа",
     "see": "Смотреть",
-    "noResults": "Нет результатов поиска"
+    "noResults": "Нет результатов поиска",
+    "loading": "Загрузка"
   },
   "SingIn": {
     "ThisEmailFieldRequired": "Это поле почты обезательное",
@@ -97,7 +111,8 @@
     "minLengthLetters": "Пароль должен содержать не менее {minLengthLetters} символов",
     "maxLengthLetters": "Пароль может содержать до {maxLengthLetters} символов",
     "singIn": "Войти",
-    "manyRetry": "Слишком много попыток входа. Попробуйте позже."
+    "manyRetry": "Слишком много попыток входа. Попробуйте позже.",
+    "noValidEmail": "Не валидный email"
   },
   "LogIn": {
     "ThisEmailFieldRequired": "Это поле почты обезательное",
@@ -110,6 +125,7 @@
     "maxLengthLetters": "Пароль может содержать до {maxLengthLetters} символов",
     "confirmPassword": "Подтвердите пароль",
     "newPasswordConfirm": "Подтвердите ваш новый пароль",
+    "noValidEmail": "Не валидный email",
     "Registered": {
       "complitedRegistered": "Регистрация прошла успешно",
       "complitedRegisteredDescription": {
@@ -131,7 +147,8 @@
     "somethingWentWrong": "Что то пошло не так",
     "sendConfirm": "Мы отправили вам электронное письмо с подтверждением",
     "singIn": "Войти",
-    "manyRetry": "Слишком много попыток восстановления пароля. Попробуйте позже."
+    "manyRetry": "Слишком много попыток восстановления пароля. Попробуйте позже.",
+    "noValidEmail": "Не валидный email"
   },
   "NotFound": {
     "pageNotFound": "Страница не найдена",
@@ -152,15 +169,27 @@
       "mail": "bakerbrands@gmail.com"
     }
   },
+  "GoBack": {
+    "goBack": "Вернуться назад"
+  },
+  "NoInternet": {
+    "noInternet": "Нет сети",
+    "turnOnInternet": "Включите сеть"
+  },
   "Loader": {
     "loading": "Загрузка"
   },
   "Routes": {
     "Home": "Главная",
     "Shop": "Категории",
-    "PaymentAndDevelivery": "Оплата и доставка",
+    "PayAndDevelivery": "Оплата и доставка",
     "Contacts": "Контакты",
-    "Product": "Продукт"
+    "Product": "Продукт",
+    "Favorites": "Избранное",
+    "Search": "Поиск",
+    "SingIn": "Войти",
+    "LogIn": "Зарегистрироваться",
+    "ForgetPassword": "Восстановление"
   },
   "Categories": {
     "category": "Категория",

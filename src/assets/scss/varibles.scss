@@ -15,8 +15,10 @@ $graySkeleton: #eee;
 $graySkeletonLoading: #dedede;
 $lime50: #84cc16;
 $lime60: #65a30d;
-$yellow: #ffff00;
+$yellow: #ffea00;
 $grey20: #595252c7;
+$red100: rgb(189, 33, 33);
+$blue100: #161697;
 $maxWidth: 1280;
 
 @mixin adaptiv-font($pcSize, $mobSize) {

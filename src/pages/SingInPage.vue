@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import GoBackButton from "@/components/GoBackButton.vue";
+import Location from "@/components/Location.vue";
 import SingInForm from "@/components/SingInForm.vue";
 import { SingInFirebase } from "@/composables";
+import { Routes } from "@/types";
 import { useStorage } from "@vueuse/core";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
@@ -18,7 +21,7 @@ const isError = ref<boolean>(false);
 
 const onSubmit = (data: ISingInForm) => {
   SingInFirebase(data)
-    .then(() => router.push({ path: "/" }))
+    .then(() => router.push({ name: Routes.HOME }))
     .catch((error) => {
       if (error.message) isError.value = !isError.value;
     });
@@ -32,7 +35,7 @@ const manyRetry = () => {
 onMounted(() => {
   if (bannedTime == null) return;
 
-  if (currentTime.getHours() > new Date(bannedTime.value!).getHours()) {
+  if (currentTime > new Date(bannedTime.value!)) {
     manyRetried.value = false;
     bannedTime.value = null;
   } else {
@@ -43,6 +46,10 @@ onMounted(() => {
 
 <template>
   <main class="SingIn">
+    <div class="options">
+      <Location />
+      <GoBackButton />
+    </div>
     <section class="SingIn-form">
       <div class="SingIn-form__container container">
         <h1 class="SingIn-form__h1">{{ $t("SingIn.singIn") }}</h1>
@@ -60,6 +67,10 @@ onMounted(() => {
 
 <style scoped lang="scss">
 @import "@/assets/scss/App.scss";
+
+.options {
+  @extend .container;
+}
 .SingIn {
   flex: 1 0 auto;
   min-height: 90vh;
@@ -80,8 +91,13 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin-top: 15%;
   height: 100%;
+
+  @media (max-width: 767px) {
+    margin-top: 20%;
+  }
+
   &__h1 {
     color: $black;
     font-size: 20px;

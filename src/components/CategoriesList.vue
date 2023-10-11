@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { ICategories, ICategory } from "@/types";
 
+import { ref } from "vue";
+
 import CategoryItem from "./CategoryItem.vue";
 
 defineEmits<{
@@ -11,6 +13,10 @@ const props = defineProps<{
   categories: ICategories;
   isOpenFilterButton: boolean;
 }>();
+
+const activeCategory = ref<ICategory>("all");
+
+const changeActiveCategory = (category: ICategory) => (activeCategory.value = category);
 </script>
 
 <template>
@@ -19,6 +25,8 @@ const props = defineProps<{
       v-for="category of props.categories.categories"
       :key="category"
       :category="category"
+      :active-category="activeCategory"
+      @change-category="changeActiveCategory"
       @click="(category) => $emit('click', category)"
     />
   </ul>

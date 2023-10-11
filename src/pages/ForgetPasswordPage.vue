@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import ForgetPasswordForm from "@/components/ForgetPasswordForm.vue";
+import GoBackButton from "@/components/GoBackButton.vue";
+import Location from "@/components/Location.vue";
 import { ForgetPasswordFirebase } from "@/composables";
 import { useStorage } from "@vueuse/core";
 import { onMounted, ref } from "vue";
@@ -31,7 +33,7 @@ const manyRetry = () => {
 onMounted(() => {
   if (bannedTime == null) return;
 
-  if (currentTime.getHours() > new Date(bannedTime.value!).getHours()) {
+  if (currentTime > new Date(bannedTime.value!)) {
     manyRetried.value = false;
     bannedTime.value = null;
   } else {
@@ -42,6 +44,10 @@ onMounted(() => {
 
 <template>
   <main class="ForgetPasswordPage">
+    <div class="options">
+      <Location />
+      <GoBackButton />
+    </div>
     <section class="ForgetPasswordPage-form">
       <div class="ForgetPasswordPage-form__container container">
         <template v-if="!(isSend && manyRetried)">
@@ -68,6 +74,10 @@ onMounted(() => {
 
 <style scoped lang="scss">
 @import "@/assets/scss/App.scss";
+
+.options {
+  @extend .container;
+}
 .ForgetPasswordPage {
   flex: 1 0 auto;
   min-height: 90vh;
@@ -90,8 +100,12 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin-top: 15%;
   height: 100%;
+
+  @media (max-width: 767px) {
+    margin-top: 20%;
+  }
   &__h1 {
     color: $black;
     font-size: 20px;

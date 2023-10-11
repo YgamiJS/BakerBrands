@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import GoBackButton from "@/components/GoBackButton.vue";
 import Location from "@/components/Location.vue";
 </script>
 
@@ -7,6 +8,7 @@ import Location from "@/components/Location.vue";
     <section class="PaymentAndDevelivery-info">
       <div class="PaymentAndDevelivery-info__container container">
         <Location />
+        <GoBackButton />
         <h1 class="PaymentAndDevelivery-info__h1">
           {{ $t("PaymentAndDevelivery.paymentAndDevelivery") }}
         </h1>
@@ -47,6 +49,7 @@ import Location from "@/components/Location.vue";
 
 .PaymentAndDevelivery {
   flex: 1 0 auto;
+  min-height: 90vh;
 }
 .PaymentAndDevelivery-info {
   &__h1 {

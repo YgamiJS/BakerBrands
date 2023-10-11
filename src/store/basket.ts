@@ -10,12 +10,11 @@ import { useUserStore } from "./user";
 
 export const useBasketStore = defineStore("basket", () => {
   const basketProducts = useStorage<IBasketProduct[]>("basket", []);
+  const currentProduct = ref<IProduct>();
   const loading = ref<boolean>(false);
   const { isAuth, user } = useUserStore();
 
   const fetchBasketProducts = async () => {
-    console.log(14);
-
     loading.value = true;
 
     const fbBasketProductsStore = await getDoc(doc(db, "users", user.email));
@@ -25,12 +24,21 @@ export const useBasketStore = defineStore("basket", () => {
     basketProducts.value = fbBasketProductsStore.data()!.basketProducts;
   };
 
-  const addBasketProduct = async (basketProduct: IProduct) => {
-    console.log(13);
+  const fetchCurrentBasketProduct = async (id: string) => {
+    loading.value = true;
 
+    const fbProduct = await getDoc(doc(db, "products", id));
+
+    currentProduct.value = fbProduct.data() as IProduct;
+
+    loading.value = false;
+  };
+
+  const addBasketProduct = async (id: IProduct["id"], selectedSizes: string[]) => {
     const NewbasketProduct = {
-      ...basketProduct,
-      count: 1
+      count: 1,
+      id,
+      sizes: selectedSizes
     };
 
     if (isAuth()) {
@@ -46,14 +54,46 @@ export const useBasketStore = defineStore("basket", () => {
     }
   };
 
-  const isInStock = (basketProductId: IBasketProduct["id"]) => {
+  const addBasketProductSize = async (basketProductId: IProduct["id"], size: string) => {
     const basketProduct = basketProducts.value.find(
       (basketProduct) => basketProduct.id === basketProductId
     );
 
     if (!basketProduct) return;
 
-    return !!basketProduct.inStock;
+    if (isAuth()) {
+      basketProduct.sizes.push(size);
+
+      await updateDoc(doc(db, "users", user.email), {
+        basketProducts: basketProducts.value
+      });
+    } else {
+      basketProduct.sizes.push(size);
+    }
+  };
+
+  const removeBasketProductSize = async (basketProductId: IProduct["id"], currentSize: string) => {
+    const basketProduct = basketProducts.value.find(
+      (basketProduct) => basketProduct.id === basketProductId
+    );
+
+    if (!basketProduct) return;
+
+    if (isAuth()) {
+      basketProduct.sizes = basketProduct.sizes.filter((size) => size !== currentSize);
+
+      await updateDoc(doc(db, "users", user.email), {
+        basketProducts: basketProducts.value
+      });
+    } else {
+      basketProduct.sizes = basketProduct.sizes.filter((size) => size !== currentSize);
+    }
+  };
+
+  const isInStock = (basketProductId: IBasketProduct["id"]) => {
+    fetchCurrentBasketProduct(basketProductId);
+
+    return !!currentProduct!.value!.inStock;
   };
 
   const incrementBasketProductCount = async (basketProductId: IBasketProduct["id"]) => {
@@ -63,7 +103,7 @@ export const useBasketStore = defineStore("basket", () => {
 
     if (!basketProduct) return;
 
-    if (basketProduct.count <= basketProduct.inStock) {
+    if (basketProduct.count < currentProduct!.value!.inStock) {
       if (isAuth()) {
         const currentProductIndex = basketProducts.value.findIndex(
           (basketProduct) => basketProduct.id === basketProductId
@@ -124,11 +164,14 @@ export const useBasketStore = defineStore("basket", () => {
 
   return {
     addBasketProduct,
+    addBasketProductSize,
     basketProducts,
     decrementBasketProductCount,
     fetchBasketProducts,
+    fetchCurrentBasketProduct,
     incrementBasketProductCount,
     isInStock,
-    removeBasketProduct
+    removeBasketProduct,
+    removeBasketProductSize
   };
 });

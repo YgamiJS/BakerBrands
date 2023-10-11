@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import GoBackButton from "@/components/GoBackButton.vue";
+import Location from "@/components/Location.vue";
 import LogInForm from "@/components/LogInForm.vue";
 import { LogInFirebase } from "@/composables";
+import { Routes } from "@/types";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -17,7 +20,7 @@ const router = useRouter();
 const onSubmit = (data: ILogInForm) => {
   LogInFirebase(data)
     .then(() => (isLogIn.value = !isLogIn.value))
-    .then(() => router.push({ path: "/" }))
+    .then(() => router.push({ path: Routes.HOME }))
     .catch((error) => {
       if (error.message) isError.value = !isError.value;
     });
@@ -26,6 +29,10 @@ const onSubmit = (data: ILogInForm) => {
 
 <template>
   <main class="LogIn">
+    <div class="options">
+      <Location />
+      <GoBackButton />
+    </div>
     <section class="LogIn-form">
       <div class="LogIn-form__container container">
         <h1 class="LogIn-form__h1">{{ $t("LogIn.logIn") }}</h1>
@@ -47,6 +54,10 @@ const onSubmit = (data: ILogInForm) => {
 
 <style scoped lang="scss">
 @import "@/assets/scss/App.scss";
+
+.options {
+  @extend .container;
+}
 .LogIn {
   flex: 1 0 auto;
   min-height: 90vh;
@@ -59,8 +70,13 @@ const onSubmit = (data: ILogInForm) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin-top: 15%;
   height: 100%;
+
+  @media (max-width: 767px) {
+    margin-top: 20%;
+  }
+
   &__h1 {
     color: $black;
     font-size: 20px;

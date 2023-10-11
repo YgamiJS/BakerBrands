@@ -19,6 +19,7 @@ const emit = defineEmits<{
 }>();
 
 const props = defineProps<{
+  isLoading: boolean;
   results: IProduct[];
 }>();
 
@@ -56,9 +57,7 @@ const debouncedSearch = debounce(onSearch, 300);
         :class="{ search: isSearch }"
         name="findfield"
         type="text"
-        :placeholder="
-          errors.findfield ? $t('Search.ThisSearchFieldRequired') : $t('Search.findAnyWay')
-        "
+        :placeholder="errors.findfield ? $t('Search.ThisSearchFieldRequired') : $t('Search.query')"
         @input="debouncedSearch"
         min="3"
         max="32"
@@ -73,7 +72,11 @@ const debouncedSearch = debounce(onSearch, 300);
       </ButtonSearch>
     </div>
     <SearchResultsList :results="props.results" v-if="props.results.length > 0" />
-    <div class="noResults" v-else-if="isSearch">
+    <div class="loading" v-else-if="props.isLoading">
+      <img class="loading__loader" :src="images.loading" :alt="$t('Search.loading')" />
+      <p class="loading__p">{{ $t("Search.loading") }}</p>
+    </div>
+    <div class="noResults" v-else-if="props.results.length < 1 && isSearch">
       <img class="noResults__img" :src="images.noResults" :alt="$t('Search.noResults')" />
       <p class="noResults__p">{{ $t("Search.noResults") }}</p>
     </div>
@@ -143,6 +146,39 @@ const debouncedSearch = debounce(onSearch, 300);
   &__img {
     width: 50px;
     height: 50px;
+  }
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 18px;
+  color: $whiteGrey;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border: 1px solid $black;
+  width: 100%;
+  border-radius: 0 0 28px 28px;
+
+  &__loader {
+    animation: loading 1s ease infinite;
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>

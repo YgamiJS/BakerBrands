@@ -4,28 +4,76 @@ import type { IProduct } from "@/types";
 import InFavoriteIcon from "@/assets/icons/InFavoriteIcon.vue";
 import { useFavoritesStore } from "@/store/favorites";
 import { storeToRefs } from "pinia";
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 
+import ProductItemSwiper from "./ProductItemSwiper.vue";
 import ProductRating from "./ProductRating.vue";
 
 const props = defineProps<{ product: IProduct }>();
+
 const { addFavoriteProduct, removeFavoriteProduct } = useFavoritesStore();
 const { favoriteProducts } = storeToRefs(useFavoritesStore());
+
+const productImgRef = ref<HTMLImageElement | null>(null);
+const length = computed(() => props.product.images.length);
+const fracktion = ref<number>(0);
+const activeFracktion = ref<number>(0);
 
 const isLike = computed(
   () =>
     !!favoriteProducts.value.find((favoriteProduct) => favoriteProduct.id == props.product.id)?.id
 );
 
-const addOrRemoveToFavoriteProducts = async (product: IProduct) => {
-  !isLike.value ? await addFavoriteProduct(product) : await removeFavoriteProduct(product.id);
+const handleMouseMove = (event: MouseEvent) => {
+  if (props.product.images.length < 2) return;
+
+  const imgWidth = (event.target as HTMLImageElement).clientWidth;
+  const xPercentage = (event.offsetX / imgWidth) * 100;
+  activeFracktion.value = Math.min(
+    Math.ceil(xPercentage / fracktion.value),
+    props.product.images.length
+  );
 };
+
+const handleMouseLeave = () => {
+  activeFracktion.value = 0;
+};
+
+const addOrRemoveToFavoriteProducts = async (product: IProduct) => {
+  !isLike.value ? await addFavoriteProduct(product.id) : await removeFavoriteProduct(product.id);
+};
+
+onMounted(() => {
+  fracktion.value =
+    (productImgRef.value?.getBoundingClientRect()?.width &&
+      productImgRef.value?.getBoundingClientRect()?.width / length.value / length.value) ||
+    0;
+});
 </script>
 
 <template>
   <li class="product-list__item">
-    <RouterLink class="product-list__link" :to="props.product.id">
-      <img class="product-list__img" :src="props.product.img" :alt="props.product.name" />
+    <RouterLink class="product-list__link" :to="`/Shop/${props.product.id}`">
+      <div
+        class="product-list-imgwrap"
+        @pointermove="handleMouseMove"
+        @pointerleave="handleMouseLeave"
+      >
+        <img
+          class="product-list__img"
+          :src="
+            activeFracktion == 0 ? props.product.img : props.product.images[activeFracktion - 1]
+          "
+          ref="productImgRef"
+        />
+      </div>
+      <ProductItemSwiper
+        class="mob-swiper"
+        :navigation="false"
+        :currentProduct="props.product"
+        :handleTouchStart="(event: TouchEvent) => event.stopPropagation()"
+        :handleTouchEnd="handleMouseLeave"
+      />
       <div
         class="product-list__favorite"
         :class="{ 'product-list__inFavorite': isLike }"
@@ -39,7 +87,7 @@ const addOrRemoveToFavoriteProducts = async (product: IProduct) => {
       <p class="product-list__name">
         {{ $t(`Categories.${props.product.category}`) }} {{ props.product.name }}
       </p>
-      <ProductRating :product="props.product" />
+      <ProductRating :rating="props.product.rating" />
       <p class="product-list__price">{{ props.product.price }} {{ $t("PayСurrency") }}</p>
       <div class="product-list__sizes">
         <p class="product-list__size" v-for="size of props.product.sizes" :key="size">{{ size }}</p>
@@ -51,16 +99,37 @@ const addOrRemoveToFavoriteProducts = async (product: IProduct) => {
 <style scoped lang="scss">
 @import "@/assets/scss/App.scss";
 
-:deep(.product-list__favorite:hover .product-list__favorite-img path) {
-  stroke: $lowspacegrey;
+@media (min-width: 760px) {
+  :deep(.product-list__favorite:hover .product-list__favorite-img path) {
+    stroke: $lowspacegrey;
+  }
+}
+
+@media (max-width: 760px) {
+  :deep(.product-list__favorite:active .product-list__favorite-img path) {
+    stroke: $lowspacegrey;
+  }
 }
 
 :deep(.product-list__inFavorite .product-list__favorite-img path) {
   stroke: $lowspacegrey;
 }
 
+.mob-swiper {
+  @media (max-width: 950px) {
+    display: block;
+  }
+}
+
+.product-list-imgwrap {
+  @media (max-width: 950px) {
+    display: none;
+  }
+}
+
 .product-list {
   scroll-snap-stop: always;
+
   &__link {
     display: flex;
     flex-direction: column;
@@ -71,6 +140,8 @@ const addOrRemoveToFavoriteProducts = async (product: IProduct) => {
   }
 
   &__img {
+    background: $graySkeleton;
+    width: 100%;
     height: 360px;
     margin-bottom: 10px;
     z-index: -1;
@@ -86,6 +157,7 @@ const addOrRemoveToFavoriteProducts = async (product: IProduct) => {
     width: 40px;
     height: 40px;
     border-radius: 0px 0px 0px 20px;
+    z-index: 2;
 
     @media (min-width: 950px) {
       &:hover::after {

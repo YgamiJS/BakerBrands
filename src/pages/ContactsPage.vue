@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { images } from "@/assets/images";
+import GoBackButton from "@/components/GoBackButton.vue";
 import Location from "@/components/Location.vue";
 </script>
 
@@ -8,6 +9,7 @@ import Location from "@/components/Location.vue";
     <section class="Contacts-info">
       <div class="Contacts-info__container container">
         <Location />
+        <GoBackButton />
         <h1 class="Contacts-info__h1">{{ $t("Contacts.feedback") }}</h1>
         <ul class="Contacts-info__info">
           <ul class="Contacts-info-list__list">
@@ -45,6 +47,7 @@ import Location from "@/components/Location.vue";
 
 .Contacts {
   flex: 1 0 auto;
+  min-height: 90vh;
 }
 .Contacts-info {
   &__h1 {
@@ -61,8 +64,12 @@ import Location from "@/components/Location.vue";
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 50px;
     list-style: none;
+
+    @media (max-width: 950px) {
+      justify-content: center;
+    }
   }
 }
 

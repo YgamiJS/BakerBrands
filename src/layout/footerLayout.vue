@@ -27,7 +27,7 @@ import { RouterLink } from "vue-router";
             <input class="faq-input" type="checkbox" name="faq" id="faq-2" />
             <ul class="faq-text">
               <li class="info__info">
-                <RouterLink class="info__link" to="/PaymentAndDevelivery">{{
+                <RouterLink class="info__link" to="/PayAndDevelivery">{{
                   $t("footer.payAndDelivery")
                 }}</RouterLink>
               </li>
@@ -42,7 +42,9 @@ import { RouterLink } from "vue-router";
             <input class="faq-input" type="checkbox" name="faq" id="faq-3" />
             <ul class="faq-text">
               <li class="info__info">
-                <RouterLink class="info__link" to="">{{ $t("footer.favorites") }}</RouterLink>
+                <RouterLink class="info__link" to="/Favorites/">{{
+                  $t("footer.favorites")
+                }}</RouterLink>
               </li>
               <li class="info__info">
                 <RouterLink class="info__link" to="">{{ $t("footer.policy") }}</RouterLink>
@@ -85,6 +87,7 @@ import { RouterLink } from "vue-router";
   padding: 60px 15px 25px 15px;
 
   @media (max-width: 767px) {
+    padding: 60px 15px 90px 15px;
     &__container {
       padding: 0;
     }

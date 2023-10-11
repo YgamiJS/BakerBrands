@@ -2,12 +2,17 @@
 import type { ICategory } from "@/types";
 
 defineEmits<{
+  (e: "changeCategory", category: ICategory): void;
   (e: "click", category: ICategory): void;
 }>();
-const props = defineProps<{ category: ICategory }>();
+const props = defineProps<{ activeCategory: ICategory; category: ICategory }>();
 </script>
 <template>
-  <li class="Filter__category" @click="$emit('click', props.category)">
+  <li
+    class="Filter__category"
+    :class="{ Filter__category_active: props.category == props.activeCategory }"
+    @click="$emit('click', props.category), $emit('changeCategory', props.category)"
+  >
     {{ $t(`Categories.${props.category}`) }}
   </li>
 </template>
@@ -21,8 +26,10 @@ const props = defineProps<{ category: ICategory }>();
   line-height: 19px;
   color: $black;
   transition: 300ms all ease;
+  &_active,
   &:hover {
-    color: $superspacegrey;
+    color: $whiteGrey;
+    font-weight: 500;
   }
 }
 </style>

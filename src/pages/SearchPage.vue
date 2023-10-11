@@ -1,17 +1,21 @@
 <script setup lang="ts">
-import type { IFind, IProduct } from "@/types";
-
 import GlobalSearch from "@/components/GlobalSearch.vue";
+import GoBackButton from "@/components/GoBackButton.vue";
+import Location from "@/components/Location.vue";
+import ErrorInfo from "@/components/UI/ErrorInfo.vue";
 import { db } from "@/services/vuefire";
+import { type IFind, type IProduct, Routes } from "@/types";
 import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 const results = ref<IProduct[]>([]);
+const isLoading = ref<boolean>(false);
+const error = ref<any | null>(null);
 
 const onSubmit = async (query: IFind) => {
-  await router.push("/Shop/");
+  await router.push({ name: Routes.SHOPNEW });
 
   const elements = document.querySelectorAll(".find__findfield");
 
@@ -23,24 +27,32 @@ const onSubmit = async (query: IFind) => {
 };
 
 const onSearch = async (q: IFind) => {
-  const fbProductsStore = query(
-    collection(db, "products"),
-    where("name", "==", q.findfield),
-    limit(6)
-  );
+  try {
+    isLoading.value = true;
 
-  const documentSnapshots = await getDocs(fbProductsStore);
+    const fbProductsStore = query(
+      collection(db, "products"),
+      where("name", "==", q.findfield),
+      limit(6)
+    );
 
-  const fbProducts: IProduct[] = [];
-  documentSnapshots.forEach((product) => {
-    const prod = {
-      ...product.data()
-    };
+    const documentSnapshots = await getDocs(fbProductsStore);
 
-    fbProducts.push(prod as IProduct);
-  });
+    const fbProducts: IProduct[] = [];
+    documentSnapshots.forEach((product) => {
+      const prod = {
+        ...product.data()
+      };
 
-  results.value = fbProducts;
+      fbProducts.push(prod as IProduct);
+    });
+
+    results.value = fbProducts;
+
+    isLoading.value = false;
+  } catch (err) {
+    error.value = err;
+  }
 };
 </script>
 
@@ -48,8 +60,18 @@ const onSearch = async (q: IFind) => {
   <main class="Search">
     <section class="Search-section">
       <div class="Search-section__container container">
-        <h1 class="Search__h1">{{ $t("Search.findAnyWay") }}</h1>
-        <GlobalSearch :results="results" @submit="onSubmit" @search="onSearch" />
+        <Location class="location" />
+        <GoBackButton />
+        <ErrorInfo v-if="error?.message" :text="$t('Favorites.somethingWentWrong')" />
+        <div class="Search-section__form" v-else>
+          <h1 class="Search__h1">{{ $t("Search.findAnyWay") }}</h1>
+          <GlobalSearch
+            :is-loading="isLoading"
+            :results="results"
+            @submit="onSubmit"
+            @search="onSearch"
+          />
+        </div>
       </div>
     </section>
   </main>
@@ -60,16 +82,26 @@ const onSearch = async (q: IFind) => {
 
 .Search {
   flex: 1 0 auto;
-  display: flex;
-  min-height: 90vh;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
+  min-height: 80vh;
 
   &__h1 {
-    @include adaptiv-font(42, 24);
+    @include adaptiv-font(42, 28);
     text-align: center;
     margin-bottom: 50px;
+  }
+}
+
+.Search-section {
+  &__form {
+    display: flex;
+    min-height: 80vh;
+    flex-direction: column;
+    margin-top: 15%;
+    width: 100%;
+
+    @media (max-width: 767px) {
+      margin-top: 20%;
+    }
   }
 }
 </style>

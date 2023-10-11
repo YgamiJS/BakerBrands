@@ -16,7 +16,8 @@ export const LogInFirebase = async ({ email, password }: Pick<IUser, "email" | "
       ...user,
       basketProducts: [],
       boughtProducts: [],
-      favoriteProducts: []
+      favoriteProducts: [],
+      wathedProducts: []
     });
   };
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import FavoriteIcon from "@/assets/icons/FavoriteIcon.vue";
+import OrderIcon from "@/assets/icons/OrderIcon.vue";
 import SearchIcon from "@/assets/icons/SearchIcon.vue";
 import ShopIcon from "@/assets/icons/ShopIcon.vue";
 import UserIcon from "@/assets/icons/UserIcon.vue";
@@ -57,6 +58,11 @@ const toggleMobileNav = () => {
                 </RouterLink>
               </li>
               <li class="menu__item">
+                <RouterLink class="menu__link-img" to="/Bought/" :description="$t('header.bought')">
+                  <OrderIcon class="menu__icon" />
+                </RouterLink>
+              </li>
+              <li class="menu__item">
                 <RouterLink
                   class="menu__link-img"
                   to="/Favorites/"
@@ -75,11 +81,7 @@ const toggleMobileNav = () => {
                 </RouterLink>
               </li>
               <li class="menu__item">
-                <RouterLink
-                  class="menu__link-img"
-                  to="/Basket/"
-                  :description="$t('header.shoppingCard')"
-                >
+                <RouterLink class="menu__link-img" to="/Basket/" :description="$t('header.basket')">
                   <ShopIcon class="menu__icon" />
                 </RouterLink>
               </li>
@@ -98,6 +100,11 @@ const toggleMobileNav = () => {
             </RouterLink>
           </li>
           <li class="menu__item">
+            <RouterLink class="menu__link-img" to="/Bought/" :description="$t('header.bought')">
+              <OrderIcon class="menu__icon" />
+            </RouterLink>
+          </li>
+          <li class="menu__item">
             <RouterLink
               class="menu__link-img"
               to="/Favorites/"
@@ -112,11 +119,7 @@ const toggleMobileNav = () => {
             </RouterLink>
           </li>
           <li class="menu__item">
-            <RouterLink
-              class="menu__link-img"
-              to="/Basket/"
-              :description="$t('header.shoppingCard')"
-            >
+            <RouterLink class="menu__link-img" to="/Basket/" :description="$t('header.basket')">
               <ShopIcon class="menu__icon" />
             </RouterLink>
           </li>
@@ -227,7 +230,11 @@ const toggleMobileNav = () => {
 
     .menu__link-img {
       position: relative;
-      padding: 10px 20px;
+      padding: 10px 5px;
+
+      @media (max-width: 950px) {
+        padding: 10px 20px;
+      }
 
       &:hover::after {
         content: attr(description);

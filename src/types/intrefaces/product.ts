@@ -2,12 +2,13 @@ export interface IProduct {
   category: "hats" | "hoodies" | "trousers" | "tshirts";
   description: string;
   id: string;
+  images: string[];
   img: string;
   inStock: number;
   name: string;
   new: boolean;
   popularity: boolean;
-  price: string;
+  price: number;
   rating: IRating;
   reviews: IReview[];
   sizes: Partial<["x", "xs", "m", "l", "no_size"]>;

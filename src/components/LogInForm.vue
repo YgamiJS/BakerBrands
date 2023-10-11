@@ -18,7 +18,7 @@ const emit = defineEmits<{
 const { t } = useI18n();
 
 const schema = yup.object({
-  email: yup.string().email().required(t("LogIn.ThisEmailFieldRequired")),
+  email: yup.string().email(t("LogIn.noValidEmail")).required(t("LogIn.ThisEmailFieldRequired")),
   password: yup
     .string()
     .min(6, t("LogIn.minLengthLetters", { minLengthLetters: 6 }))

@@ -1,3 +1,9 @@
 forms width
-save only id for favoriteProduct , boughtProducts , basketProuct
-repair code change
+arhitecture
+ui
+update data
+save token no data...
+
+add loader to product page
+add reviews 
+add rating to product page

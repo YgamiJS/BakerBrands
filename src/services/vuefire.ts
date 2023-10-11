@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getStorage, ref } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APP_API_KEY || "mock_key",
@@ -15,3 +16,5 @@ const firebaseConfig = {
 export const firebaseApp = initializeApp(firebaseConfig);
 
 export const db = getFirestore(firebaseApp);
+export const storage = getStorage(firebaseApp, import.meta.env.VITE_APP_STORAGEKEY);
+export const storageRef = ref(storage);

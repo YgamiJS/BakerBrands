@@ -1,5 +1,5 @@
 import type { IFavoriteProduct } from "./favorite";
 
-export interface IOrderProduct extends IFavoriteProduct {
+export interface IBoughtProduct extends IFavoriteProduct {
   transferDate: Date;
 }

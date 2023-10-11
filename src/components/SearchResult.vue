@@ -17,7 +17,7 @@ const props = defineProps<{
           <h2 class="product-info__h2">
             {{ props.result.name }}
           </h2>
-          <ProductRating :product="props.result" />
+          <ProductRating :rating="props.result.rating" />
           <p class="product-info__price">{{ props.result.price }} {{ $t("PayСurrency") }}</p>
         </div>
       </div>

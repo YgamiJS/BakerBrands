@@ -1,11 +1,16 @@
 import { useUserStore } from "@/store/user";
+import { Routes } from "@/types";
+import { ref } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
+
+const count = ref<number>(-1);
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       component: () => import("@/pages/HomePage.vue"),
+      name: Routes.HOME,
       path: "/"
     },
     {
@@ -17,12 +22,29 @@ const router = createRouter({
       path: `/Shop/:id`
     },
     {
+      name: Routes.SHOPNEW,
+      path: "/ShopNew/",
+      redirect: "/Shop/"
+    },
+    {
       component: () => import("@/pages/SearchPage.vue"),
+      name: Routes.SEARCH,
       path: "/Search/"
     },
     {
       component: () => import("@/pages/PaymentAndDeveliveryPage.vue"),
-      path: "/PaymentAndDevelivery"
+      name: Routes.PAYMENT_AND_DEVELIVERY,
+      path: "/PayAndDevelivery"
+    },
+    {
+      component: () => import("@/pages/BasketPage.vue"),
+      name: Routes.BASKET,
+      path: "/Basket/"
+    },
+    {
+      component: () => import("@/pages/FavoritesPage.vue"),
+      name: Routes.FAVORITES,
+      path: "/Favorites/"
     },
     {
       beforeEnter: (to, from, next) => {
@@ -34,29 +56,40 @@ const router = createRouter({
         }
       },
       component: () => import("@/pages/UserProfilePage.vue"),
+      name: Routes.PROFILE,
       path: "/Profile"
     },
     {
       component: () => import("@/pages/NotFoundPage.vue"),
+      name: Routes.NOT_FOUND,
       path: "/:catchAll(.*)"
     },
     {
       component: () => import("@/pages/ContactsPage.vue"),
+      name: Routes.CONTACTS,
       path: "/Contacts"
     },
     {
       component: () => import("@/pages/SingInPage.vue"),
+      name: Routes.SING_IN,
       path: "/SingIn"
     },
     {
       component: () => import("@/pages/LogInPage.vue"),
+      name: Routes.LOG_IN,
       path: "/LogIn"
     },
     {
       component: () => import("@/pages/ForgetPasswordPage.vue"),
+      name: Routes.FORGET_PASSWORD,
       path: "/ForgetPassword"
     }
   ]
 });
 
+router.afterEach(() => {
+  count.value++;
+});
+
+export { count };
 export default router;

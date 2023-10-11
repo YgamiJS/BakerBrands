@@ -6,7 +6,8 @@
     "search": "Search",
     "favorites": "Favorites",
     "profile": "Profile",
-    "shoppingCard": "Shopping card"
+    "bought": "Purchases",
+    "basket": "Basket"
   },
   "Home": {
     "Preview": {
@@ -52,6 +53,7 @@
       "noProductsByCategory": "By сategory {category} nothing found",
       "noProductsByQuery": "There is nothing to find on the request {query}"
     },
+    "somethingWentWrong": "Something went wrong",
     "loadMore": "Show more",
     "Product": {
       "addToFavorite": "Add to favorite",
@@ -62,7 +64,17 @@
     "new": "New",
     "popularity": "Popularity",
     "addToBasket": "Add to Basket",
-    "goToBasket": "Go to the basket"
+    "noAviable": "Not available",
+    "goToBasket": "Go to the basket",
+    "aviable": "In stock {count} pieces",
+    "minSize": "It is necessary to choose at least {count} size"
+  },
+  "Favorites": {
+    "favorites": "Favorites",
+    "empty": "Empty",
+    "noFavoriteProducts": "There are no selected products",
+    "somethingWentWrong": "Something went wrong",
+    "watchedProducts": "You watched"
   },
   "PaymentAndDevelivery": {
     "paymentAndDevelivery": "Payment and delivery",
@@ -80,11 +92,13 @@
   },
   "Search": {
     "findAnyWay": "Find anything",
+    "query": "Enter the request",
     "ThisSearchFieldRequired": "This is the search field",
-    "minLengthLetters": "Minimum search length 3 characters",
-    "maxLengthLetters": "Maximum search length 32 symbols",
+    "minLengthLetters": "Minimum search length {minLengthLetters} characters",
+    "maxLengthLetters": "Maximum search length {maxLengthLetters} symbols",
     "see": "Look",
-    "noResults": "There are no search results"
+    "noResults": "There are no search results",
+    "loading": "Загрузка"
   },
   "SingIn": {
     "ThisEmailFieldRequired": "This email field is required",
@@ -97,7 +111,8 @@
     "minLengthLetters": "The password must contain at least {minLengthLetters} symbols",
     "maxLengthLetters": "The password may contain before {maxLengthLetters} symbols",
     "singIn": "Sing in",
-    "manyRetry": "Too much attempt to enter. Try later."
+    "manyRetry": "Too much attempt to enter. Try later.",
+    "noValidEmail": "Not valid email"
   },
   "LogIn": {
     "ThisEmailFieldRequired": "This email field is required",
@@ -110,6 +125,7 @@
     "maxLengthLetters": "The password may contain before {maxLengthLetters} symbols",
     "confirmPassword": "Confirm password",
     "newPasswordConfirm": "Confirm your new password",
+    "noValidEmail": "Not valid email",
     "Registered": {
       "complitedRegistered": "registration completed successfully",
       "complitedRegisteredDescription": {
@@ -131,7 +147,8 @@
     "continue": "Continue",
     "sendConfirm": "We sent you an email with confirmation",
     "singIn": "Sing in",
-    "manyRetry": "Too many attempts to restore the password. Try later."
+    "manyRetry": "Too many attempts to restore the password. Try later.",
+    "noValidEmail": "Not valid email"
   },
   "NotFound": {
     "pageNotFound": "Page not found",
@@ -152,15 +169,27 @@
       "mail": "bakerbrands@gmail.com"
     }
   },
+  "GoBack": {
+    "goBack": "Сome back"
+  },
+  "NoInternet": {
+    "noInternet": "No network",
+    "turnOnInternet": "Turn on the network"
+  },
   "Loader": {
     "loading": "Loading"
   },
   "Routes": {
     "Home": "Home",
     "Shop": "Shop",
-    "PaymentAndDevelivery": "Payment and develivery",
+    "PayAndDevelivery": "Pay and develivery",
     "Contacts": "Contacts",
-    "Product": "Product"
+    "Product": "Product",
+    "Favorites": "Favorites",
+    "Search": "Search",
+    "SingIn": "Sing in",
+    "LogIn": "Log in",
+    "ForgetPassword": "Recovery"
   },
   "Categories": {
     "category": "Category",

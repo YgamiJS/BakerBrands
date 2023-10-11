@@ -19,6 +19,7 @@ import { RouterLink } from "vue-router";
 
 .NotFound {
   flex: 1 0 auto;
+  min-height: 90vh;
 }
 .NotFound-info {
   display: flex;

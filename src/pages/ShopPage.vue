@@ -6,6 +6,9 @@ import Location from "@/components/Location.vue";
 import ProductItemSkeleton from "@/components/ProductItemSkeleton.vue";
 import ProductsList from "@/components/ProductsList.vue";
 import ShowMore from "@/components/ShowMore.vue";
+import EmptyInfo from "@/components/UI/EmptyInfo.vue";
+import ErrorInfo from "@/components/UI/ErrorInfo.vue";
+import { useFavoritesStore } from "@/store/favorites";
 import { useProductsStore } from "@/store/products";
 import { storeToRefs } from "pinia";
 import { onMounted } from "vue";
@@ -17,11 +20,13 @@ const {
   fetchProducts,
   fetchProductsByCategory,
   fetchProductsByCategoryWithSettingPrice,
+  resetCategory,
   sortProductsBySortBy
 } = useProductsStore();
-const { currentCategory, currentQuery, length, loading, products } = storeToRefs(
+const { currentCategory, currentQuery, error, length, loading, products } = storeToRefs(
   useProductsStore()
 );
+const { fetchFavoriteProducts } = useFavoritesStore();
 
 const { t } = useI18n();
 
@@ -40,7 +45,9 @@ const submitSetPrice = async (data: ISetPrice) =>
 
 onMounted(async () => {
   await fetchProducts();
+  await fetchFavoriteProducts();
   await fetchMinAndMaxPriceByCategory();
+  resetCategory();
 });
 </script>
 
@@ -49,31 +56,33 @@ onMounted(async () => {
     <section class="Products">
       <div class="Products__container container">
         <Location />
+        <ErrorInfo class="error" :text="$t('Shop.somethingWentWrong')" v-if="error?.message" />
         <FilterMenu
           @click="onClick"
           @submit="onSubmit"
           @submit-set-price="submitSetPrice"
           @select="onSelect"
+          v-else
         >
           <template v-if="!loading">
             <ProductsList :products="products" :length="length" v-if="products.length > 0" />
-            <div class="empty" v-else>
-              <h1 class="empty__h1">{{ $t("Shop.Empty.noProducts") }}</h1>
-              <p class="empty__p">
-                {{
-                  currentCategory !== "all"
-                    ? currentQuery
-                      ? $t("Shop.Empty.noProductsByCategoryAndQuery", {
-                          category: t(`Categories.${currentCategory}`),
-                          query: currentQuery
-                        })
-                      : $t("Shop.Empty.noProductsByCategory", {
-                          category: t(`Categories.${currentCategory}`)
-                        })
-                    : $t("Shop.Empty.noProductsByQuery", { query: currentQuery })
-                }}
-              </p>
-            </div>
+            <EmptyInfo
+              class="empty"
+              :title="$t('Shop.Empty.noProducts')"
+              :description="
+                currentCategory !== 'all'
+                  ? currentQuery
+                    ? $t('Shop.Empty.noProductsByCategoryAndQuery', {
+                        category: t(`Categories.${currentCategory}`),
+                        query: currentQuery
+                      })
+                    : $t('Shop.Empty.noProductsByCategory', {
+                        category: t(`Categories.${currentCategory}`)
+                      })
+                  : $t('Shop.Empty.noProductsByQuery', { query: currentQuery })
+              "
+              v-else
+            />
             <ShowMore v-if="products.length < length" @click="onClick" />
           </template>
           <template v-else>
@@ -103,28 +112,15 @@ onMounted(async () => {
 }
 
 .empty {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
+  margin-top: 10%;
+  min-height: 100%;
 
   @media (max-width: 950px) {
     height: 200px;
   }
+}
 
-  &__h1 {
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 23px;
-    color: $black;
-  }
-
-  &__p {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 23px;
-    color: $black;
-  }
+.error {
+  min-height: 90vh;
 }
 </style>

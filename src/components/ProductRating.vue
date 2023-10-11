@@ -2,7 +2,7 @@
 import type { IProduct } from "@/types";
 
 const props = defineProps<{
-  product: IProduct;
+  rating: IProduct["rating"];
 }>();
 </script>
 
@@ -12,7 +12,7 @@ const props = defineProps<{
       class="rating__star"
       v-for="n of 5"
       :key="n"
-      :class="{ active: n <= props.product.rating.rating }"
+      :class="{ active: n <= props.rating.rating }"
     ></div>
   </div>
 </template>

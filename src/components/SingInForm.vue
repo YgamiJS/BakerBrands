@@ -21,7 +21,7 @@ const { t } = useI18n();
 const maxRetry = 3;
 
 const schema = yup.object({
-  email: yup.string().email().required(t("SingIn.ThisEmailFieldRequired")),
+  email: yup.string().email(t("SingIn.noValidEmail")).required(t("SingIn.ThisEmailFieldRequired")),
   password: yup
     .string()
     .min(6, t("SingIn.minLengthLetters", { minLengthLetters: 6 }))

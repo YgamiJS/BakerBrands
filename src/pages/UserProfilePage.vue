@@ -1,7 +1,13 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div></div>
+  <main class="Profile"></main>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+@import "@/assets/scss/App.scss";
+
+.Profile {
+  flex: 1 0 auto;
+}
+</style>
