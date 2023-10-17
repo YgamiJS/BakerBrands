@@ -25,9 +25,9 @@ export const SingInFirebase = async ({ email, password }: Pick<IUser, "email" | 
     wathedProducts: IWatchedProduct[]
   ) => {
     await updateDoc(doc(db, "users", email), {
-      basketProducts: arrayUnion(basketProducts),
-      favoriteProducts: arrayUnion(favoriteProducts),
-      wathedProducts: arrayUnion(wathedProducts)
+      basketProducts: arrayUnion(...basketProducts),
+      favoriteProducts: arrayUnion(...favoriteProducts),
+      wathedProducts: arrayUnion(...wathedProducts)
     });
 
     await fetchFavoriteProducts();

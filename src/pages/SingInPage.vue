@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ISingInForm } from "@/types";
+
 import GoBackButton from "@/components/GoBackButton.vue";
 import Location from "@/components/Location.vue";
 import SingInForm from "@/components/SingInForm.vue";
@@ -7,11 +9,6 @@ import { Routes } from "@/types";
 import { useStorage } from "@vueuse/core";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-
-interface ISingInForm {
-  email: string;
-  password: string;
-}
 
 const bannedTime = useStorage<Date | null>("bannedTimeSingIn", null);
 const currentTime = new Date();
@@ -23,6 +20,7 @@ const onSubmit = (data: ISingInForm) => {
   SingInFirebase(data)
     .then(() => router.push({ name: Routes.HOME }))
     .catch((error) => {
+      console.log(error.message);
       if (error.message) isError.value = !isError.value;
     });
 };

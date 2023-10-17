@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ILogInForm } from "@/types";
+
 import GoBackButton from "@/components/GoBackButton.vue";
 import Location from "@/components/Location.vue";
 import LogInForm from "@/components/LogInForm.vue";
@@ -6,11 +8,6 @@ import { LogInFirebase } from "@/composables";
 import { Routes } from "@/types";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-
-interface ILogInForm {
-  email: string;
-  password: string;
-}
 
 const isLogIn = ref<boolean>(false);
 const isError = ref<boolean>(false);

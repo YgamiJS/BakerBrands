@@ -9,3 +9,5 @@ export * from "./category";
 export * from "./basket";
 export * from "./bought";
 export * from "./watchedProduct";
+export * from "./singinform";
+export * from "./logform";
