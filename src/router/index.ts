@@ -1,4 +1,4 @@
-import { useUserStore } from "@/store/user";
+import { useAuthenticationStore } from "@/store/authentication";
 import { Routes } from "@/types";
 import { ref } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
@@ -48,7 +48,7 @@ const router = createRouter({
     },
     {
       beforeEnter: (to, from, next) => {
-        const { isAuth } = useUserStore();
+        const { isAuth } = useAuthenticationStore();
         if (!isAuth()) {
           next("/SingIn");
         } else {

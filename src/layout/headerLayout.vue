@@ -6,10 +6,18 @@ import ShopIcon from "@/assets/icons/ShopIcon.vue";
 import UserIcon from "@/assets/icons/UserIcon.vue";
 import { images } from "@/assets/images";
 import ChangeLocale from "@/components/ChangeLocale.vue";
+import { useBasketStore } from "@/store/basket";
+import { useOrdersStore } from "@/store/bought";
+import { useFavoritesStore } from "@/store/favorites";
+import { storeToRefs } from "pinia";
 import { ref } from "vue";
 import { RouterLink } from "vue-router";
 
 const isVisible = ref<boolean>(false);
+
+const { favoriteProducts } = storeToRefs(useFavoritesStore());
+const { basketProducts } = storeToRefs(useBasketStore());
+const { boughtsProducts } = storeToRefs(useOrdersStore());
 
 const toggleMobileNav = () => {
   isVisible.value = !isVisible.value;
@@ -60,6 +68,9 @@ const toggleMobileNav = () => {
               <li class="menu__item">
                 <RouterLink class="menu__link-img" to="/Bought/" :description="$t('header.bought')">
                   <OrderIcon class="menu__icon" />
+                  <div v-if="boughtsProducts.length >= 1" class="menu__count">
+                    {{ boughtsProducts.length }}
+                  </div>
                 </RouterLink>
               </li>
               <li class="menu__item">
@@ -69,6 +80,9 @@ const toggleMobileNav = () => {
                   :description="$t('header.favorites')"
                 >
                   <FavoriteIcon class="menu__icon" />
+                  <div v-if="favoriteProducts.length >= 1" class="menu__count">
+                    {{ favoriteProducts.length }}
+                  </div>
                 </RouterLink>
               </li>
               <li class="menu__item">
@@ -83,6 +97,9 @@ const toggleMobileNav = () => {
               <li class="menu__item">
                 <RouterLink class="menu__link-img" to="/Basket/" :description="$t('header.basket')">
                   <ShopIcon class="menu__icon" />
+                  <div v-if="basketProducts.length >= 1" class="menu__count">
+                    {{ basketProducts.length }}
+                  </div>
                 </RouterLink>
               </li>
               <li class="menu__item-locale">
@@ -102,6 +119,9 @@ const toggleMobileNav = () => {
           <li class="menu__item">
             <RouterLink class="menu__link-img" to="/Bought/" :description="$t('header.bought')">
               <OrderIcon class="menu__icon" />
+              <div v-if="boughtsProducts.length >= 1" class="menu__count">
+                {{ boughtsProducts.length }}
+              </div>
             </RouterLink>
           </li>
           <li class="menu__item">
@@ -111,6 +131,9 @@ const toggleMobileNav = () => {
               :description="$t('header.favorites')"
             >
               <FavoriteIcon class="menu__icon" />
+              <div v-if="favoriteProducts.length >= 1" class="menu__count">
+                {{ favoriteProducts.length }}
+              </div>
             </RouterLink>
           </li>
           <li class="menu__item">
@@ -121,6 +144,9 @@ const toggleMobileNav = () => {
           <li class="menu__item">
             <RouterLink class="menu__link-img" to="/Basket/" :description="$t('header.basket')">
               <ShopIcon class="menu__icon" />
+              <div v-if="basketProducts.length >= 1" class="menu__count">
+                {{ basketProducts.length }}
+              </div>
             </RouterLink>
           </li>
           <li class="menu__item-locale">
@@ -198,6 +224,34 @@ const toggleMobileNav = () => {
   .menu {
     display: flex;
     gap: 26.27px;
+
+    &__item {
+      position: relative;
+    }
+
+    &__count {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      font-family: sans-serif;
+      font-size: 14px;
+      justify-content: center;
+      text-align: center;
+      background: $red90;
+      top: 30%;
+      left: 100%;
+      transform: translate(-30%, -100%);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      color: $white;
+      z-index: 2;
+
+      @media (max-width: 880px) {
+        left: 90%;
+        transform: translate(-30%, -90%);
+      }
+    }
 
     &__link {
       display: inline-block;

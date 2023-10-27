@@ -1,32 +1,29 @@
-import type { IUser } from "@/types";
+import type { IReview, IUser } from "@/types";
 
-import { useStorage } from "@vueuse/core";
+import { db } from "@/services/vuefire";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { defineStore } from "pinia";
+import { ref } from "vue";
 
 export const useUserStore = defineStore("user", () => {
-  const user = useStorage<IUser>("user", {
-    email: "",
-    id: "",
-    password: "",
-    token: ""
-  });
+  const loading = ref<boolean>(false);
+  const error = ref<any | null>(null);
 
-  function $reset() {
-    user.value = {
-      email: "",
-      id: "",
-      password: "",
-      token: ""
-    };
+  async function getUserData(reviewerid: IReview["reviewerid"]) {
+    try {
+      loading.value = true;
+
+      const fbProduct = await query(collection(db, "users"), where("id", "==", reviewerid));
+
+      const data = await (await getDocs(fbProduct)).docs[0].data();
+
+      loading.value = false;
+
+      return { avatar: data.avatar, id: data.id, name: data.name, surname: data.surname } as IUser;
+    } catch (err) {
+      error.value = err;
+    }
   }
 
-  function isAuth() {
-    return !!user.value.email;
-  }
-
-  function setUser(newUser: IUser) {
-    user.value = newUser;
-  }
-
-  return { $reset, isAuth, setUser, user };
+  return { error, getUserData };
 });

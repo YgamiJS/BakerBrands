@@ -1,23 +1,29 @@
-import type { IBasketProduct, IFavoriteProduct, IUser, IWatchedProduct } from "@/types";
+import type {
+  IAuthentication,
+  IBasketProduct,
+  IFavoriteProduct,
+  ISingInForm,
+  IWatchedProduct
+} from "@/types";
 
 import { db } from "@/services/vuefire";
+import { useAuthenticationStore } from "@/store/authentication";
 import { useBasketStore } from "@/store/basket";
 import { useFavoritesStore } from "@/store/favorites";
-import { useUserStore } from "@/store/user";
 import { useWatchedProductsStore } from "@/store/watchedProducts";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 
-export const SingInFirebase = async ({ email, password }: Pick<IUser, "email" | "password">) => {
-  const { setUser } = useUserStore();
+export const SingInFirebase = async ({ email, password }: ISingInForm) => {
+  const { setAuthentication } = useAuthenticationStore();
   const { watchedProducts } = storeToRefs(useWatchedProductsStore());
   const { fetchFavoriteProducts } = useFavoritesStore();
   const { favoriteProducts } = storeToRefs(useFavoritesStore());
   const { basketProducts } = storeToRefs(useBasketStore());
   const auth = getAuth();
-  const user = ref<IUser>();
+  const user = ref<IAuthentication>();
 
   const addFavoriteProductsAndBasketProductsAndWathcedProductsToFireBase = async (
     favoriteProducts: IFavoriteProduct[],
@@ -45,7 +51,7 @@ export const SingInFirebase = async ({ email, password }: Pick<IUser, "email" | 
 
       user.value = SingInUser;
 
-      setUser(SingInUser);
+      setAuthentication(SingInUser);
     })
     .then(() =>
       addFavoriteProductsAndBasketProductsAndWathcedProductsToFireBase(

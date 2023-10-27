@@ -27,6 +27,8 @@ export interface IRating {
 
 export interface IReview {
   comment: string;
+  id: string;
   images: string[];
   rating: number;
+  reviewerid: string;
 }

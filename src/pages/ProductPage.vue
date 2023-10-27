@@ -3,14 +3,16 @@ import { images } from "@/assets/images";
 import CounterBasketProduct from "@/components/CounterBasketProduct.vue";
 import GoBackButton from "@/components/GoBackButton.vue";
 import Location from "@/components/Location.vue";
+import ModalReview from "@/components/ModalReview.vue";
 import ProductItemSwiper from "@/components/ProductItemSwiper.vue";
 import ProductRating from "@/components/ProductRating.vue";
+import ReviewList from "@/components/ReviewList.vue";
 import FavoriteButton from "@/components/UI/FavoriteButton.vue";
 import { useBasketStore } from "@/store/basket";
 import { useFavoritesStore } from "@/store/favorites";
 import { useProductsStore } from "@/store/products";
 import { useWatchedProductsStore } from "@/store/watchedProducts";
-import { type IProduct, Routes } from "@/types";
+import { type IProduct, type IReview, Routes } from "@/types";
 import { storeToRefs } from "pinia";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -18,8 +20,8 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { computed, onMounted, ref, type VNodeRef } from "vue";
 import { useI18n } from "vue-i18n";
-import { useRoute, useRouter } from "vue-router";
 import { RouterLink } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
@@ -48,9 +50,20 @@ const { basketProducts } = storeToRefs(useBasketStore());
 const selectedSizes = ref<string[]>([]);
 const currentImg = ref<string>("");
 const buttonError = ref<boolean>(false);
+const currentReviewIndex = ref<number>(0);
+const currentReview = computed<IReview>(
+  () =>
+    currentProduct?.value?.reviews?.find(
+      (review) => currentProduct?.value?.reviews?.indexOf(review) == currentReviewIndex.value
+    )!
+);
+
+const isOpen = ref<boolean>(false);
 const minCountSize = 1;
 
 const changeCurrentImg = (url: string) => (currentImg.value = url);
+
+const toggleIsOpen = () => (isOpen.value = !isOpen.value);
 
 const isInBasket = computed(
   () => !!basketProducts.value.find((basketProduct) => basketProduct.id == id.value)
@@ -88,9 +101,28 @@ const addOrRemoveSelectedSize = async (size: string) => {
   }
 };
 
+const slideNextReview = (event: Event) => {
+  event.stopPropagation();
+
+  if (
+    currentProduct?.value?.reviews?.length &&
+    currentReviewIndex.value + 1 == currentProduct?.value?.reviews?.length
+  )
+    return;
+
+  currentReviewIndex.value += 1;
+};
+
+const slidePrevReview = (event: Event) => {
+  event.stopPropagation();
+  if (currentReviewIndex.value > 0) currentReviewIndex.value -= 1;
+};
+
 const addOrRemoveToFavoriteProducts = async (product: IProduct) => {
   !isLike.value ? await addFavoriteProduct(product.id) : await removeFavoriteProduct(product.id);
 };
+
+const setCurrentReview = (index: number) => (currentReviewIndex.value = index);
 
 const decrementBasketProductCountMod = (id: string) => {
   decrementBasketProductCount(id);
@@ -118,121 +150,138 @@ onMounted(async () => {
           {{ $t(`Categories.${currentProduct?.category}`) }} {{ currentProduct?.name }}
         </h2>
         <div class="Product-info__info" v-if="!loading">
-          <div class="pc-swiper pc-swiper-wrap">
-            <button
-              class="pc-swiper__button pc-swiper__prev"
-              ref="prev"
-              v-if="currentProduct?.images?.length && currentProduct?.images?.length + 1 > 3"
-            >
-              <img class="pc-swiper__arrowimg" :src="images.arrowUp" />
-            </button>
-            <swiper
-              class="pc-swiper"
-              :navigation="{ prevEl: prev, nextEl: next }"
-              :spaceBetween="'30px'"
-              :slidesPerView="3"
-              :direction="'vertical'"
-              :modules="[Navigation]"
-            >
-              <swiper-slide
-                class="pc-swiper__slide"
-                v-for="img of currentProduct?.images
-                  ? [currentProduct?.img, ...currentProduct?.images]
-                  : []"
-                @click="changeCurrentImg(img)"
-                :key="img"
-              >
-                <img class="pc-swiper__img" :src="img" />
-              </swiper-slide>
-            </swiper>
-            <button
-              class="pc-swiper__button pc-swiper__next"
-              ref="next"
-              v-if="currentProduct?.images?.length && currentProduct?.images?.length + 1 > 3"
-            >
-              <img class="pc-swiper__arrowimg pc-swiper__arrowimg_bottom" :src="images.arrowUp" />
-            </button>
-          </div>
-          <img
-            class="Product-info__img"
-            :src="currentImg ? currentImg : currentProduct?.img"
-            :alt="currentProduct?.name"
-          />
-          <ProductItemSwiper
-            class="mob-swiper"
-            :navigation="true"
-            :currentProduct="currentProduct!"
-          />
-          <div class="Product-info__content">
-            <h2 class="Product-info__name">
-              {{ $t(`Categories.${currentProduct?.category}`) }} {{ currentProduct?.name }}
-            </h2>
-            <ProductRating
-              class="Product-info__rating"
-              :rating="currentProduct?.rating!"
-              v-if="currentProduct?.rating"
-            />
-            <p class="Product-info__description Product-info__p">
-              {{ currentProduct?.description }}
-            </p>
-            <p class="Product-info__category Product-info__p">
-              {{ $t("Categories.category") }} : {{ $t(`Categories.${currentProduct?.category}`) }}
-            </p>
-            <p class="Product-info__price Product-info__p">
-              {{ currentProduct?.price }} {{ $t("PayСurrency") }}
-            </p>
-            <p class="Product-info__new Product-info__p" v-if="currentProduct?.new">
-              {{ $t("Product.new") }}
-            </p>
-            <p class="Product-info__popularity Product-info__p" v-if="currentProduct?.popularity">
-              {{ $t("Product.popularity") }}
-            </p>
-            <div class="Product-info__sizes">
-              <p
-                class="Product-info__size"
-                v-for="size of currentProduct?.sizes"
-                @click="addOrRemoveSelectedSize(size!)"
-                :class="{'selected': selectedSizes.includes(size as string) || basketProducts.find(basketProduct => basketProduct.id === currentProduct?.id )?.sizes.includes(size!)}"
-                :key="size"
-              >
-                {{ size }}
-              </p>
-            </div>
-            <div class="Product-info__inStockCount">
-              {{ $t("Product.aviable", { count: currentProduct?.inStock }) }}
-            </div>
-            <div class="Product-info__btns">
-              <div class="Product-info__noAviable" v-if="!!currentProduct?.inStock == false">
-                {{ $t("Product.noAviable") }}
-              </div>
+          <div class="Product-info__wrap">
+            <div class="pc-swiper pc-swiper-wrap">
               <button
-                class="Product-info__buy-button"
-                v-else-if="!isInBasket"
-                :disabled="!!currentProduct?.inStock == false"
-                @click="addToBasketProducts(currentProduct!.id, selectedSizes)"
+                class="pc-swiper__button pc-swiper__prev"
+                ref="prev"
+                v-if="currentProduct?.images?.length && currentProduct?.images?.length + 1 > 3"
               >
-                {{
-                  buttonError
-                    ? t("Product.minSize", { count: minCountSize })
-                    : t("Product.addToBasket")
-                }}
+                <img class="pc-swiper__arrowimg" :src="images.arrowUp" />
               </button>
-              <div class="Product-info__bought" v-else>
-                <RouterLink class="Product-info__basketLink" to="/Basket/">{{
-                  $t("Product.goToBasket")
-                }}</RouterLink>
-                <CounterBasketProduct
-                  :basket-product-id="id"
-                  @increment="incrementBasketProductCount(id)"
-                  @decrement="decrementBasketProductCountMod(id)"
+              <swiper
+                class="pc-swiper"
+                :navigation="{ prevEl: prev, nextEl: next }"
+                :spaceBetween="'30px'"
+                :slidesPerView="3"
+                :direction="'vertical'"
+                :modules="[Navigation]"
+              >
+                <swiper-slide
+                  class="pc-swiper__slide"
+                  v-for="img of currentProduct?.images
+                    ? [currentProduct?.img, ...currentProduct?.images]
+                    : []"
+                  @click="changeCurrentImg(img)"
+                  :key="img"
+                >
+                  <img class="pc-swiper__img" :src="img" />
+                </swiper-slide>
+              </swiper>
+              <button
+                class="pc-swiper__button pc-swiper__next"
+                ref="next"
+                v-if="currentProduct?.images?.length && currentProduct?.images?.length + 1 > 3"
+              >
+                <img class="pc-swiper__arrowimg pc-swiper__arrowimg_bottom" :src="images.arrowUp" />
+              </button>
+            </div>
+            <img
+              class="Product-info__img"
+              :src="currentImg ? currentImg : currentProduct?.img"
+              :alt="currentProduct?.name"
+            />
+            <ProductItemSwiper
+              class="mob-swiper"
+              :navigation="true"
+              :currentProduct="currentProduct!"
+            />
+            <div class="Product-info__content">
+              <h2 class="Product-info__name">
+                {{ $t(`Categories.${currentProduct?.category}`) }} {{ currentProduct?.name }}
+              </h2>
+              <ProductRating
+                class="Product-info__rating"
+                :rating="currentProduct?.rating!"
+                v-if="currentProduct?.rating"
+              />
+              <p class="Product-info__description Product-info__p">
+                {{ currentProduct?.description }}
+              </p>
+              <p class="Product-info__category Product-info__p">
+                {{ $t("Categories.category") }} : {{ $t(`Categories.${currentProduct?.category}`) }}
+              </p>
+              <p class="Product-info__price Product-info__p">
+                {{ currentProduct?.price }} {{ $t("PayСurrency") }}
+              </p>
+              <p class="Product-info__new Product-info__p" v-if="currentProduct?.new">
+                {{ $t("Product.new") }}
+              </p>
+              <p class="Product-info__popularity Product-info__p" v-if="currentProduct?.popularity">
+                {{ $t("Product.popularity") }}
+              </p>
+              <div class="Product-info__sizes">
+                <p
+                  class="Product-info__size"
+                  v-for="size of currentProduct?.sizes"
+                  @click="addOrRemoveSelectedSize(size!)"
+                  :class="{'selected': selectedSizes.includes(size as string) || basketProducts.find(basketProduct => basketProduct.id === currentProduct?.id )?.sizes?.includes(size!)}"
+                  :key="size"
+                >
+                  {{ size }}
+                </p>
+              </div>
+              <div class="Product-info__inStockCount">
+                {{ $t("Product.aviable", { count: currentProduct?.inStock }) }}
+              </div>
+              <div class="Product-info__btns">
+                <div class="Product-info__noAviable" v-if="!!currentProduct?.inStock == false">
+                  {{ $t("Product.noAviable") }}
+                </div>
+                <button
+                  class="Product-info__buy-button"
+                  v-else-if="!isInBasket"
+                  :disabled="!!currentProduct?.inStock == false"
+                  @click="addToBasketProducts(currentProduct!.id, selectedSizes)"
+                >
+                  {{
+                    buttonError
+                      ? t("Product.minSize", { count: minCountSize })
+                      : t("Product.addToBasket")
+                  }}
+                </button>
+                <div class="Product-info__bought" v-else>
+                  <RouterLink class="Product-info__basketLink" to="/Basket/">{{
+                    $t("Product.goToBasket")
+                  }}</RouterLink>
+                  <CounterBasketProduct
+                    :basket-product-id="id"
+                    @increment="incrementBasketProductCount(id)"
+                    @decrement="decrementBasketProductCountMod(id)"
+                  />
+                </div>
+                <FavoriteButton
+                  @click="currentProduct && addOrRemoveToFavoriteProducts(currentProduct)"
+                  :class="{ favorite__inFavorite: isLike }"
                 />
               </div>
-              <FavoriteButton
-                @click="currentProduct && addOrRemoveToFavoriteProducts(currentProduct)"
-                :class="{ favorite__inFavorite: isLike }"
-              />
             </div>
           </div>
+          <ReviewList
+            :reviews="currentProduct?.reviews || []"
+            @toggle-is-open="toggleIsOpen"
+            @set-current-review="setCurrentReview"
+          />
+          <ModalReview
+            v-if="isOpen"
+            @toggle-is-open="toggleIsOpen"
+            @slide-next-review="slideNextReview"
+            @slide-prev-review="slidePrevReview"
+            :reviewerid="currentReview?.reviewerid"
+            :rating="currentReview?.rating"
+            :reviewimg="currentReview?.images[0]"
+            :comment="currentReview?.comment"
+          />
         </div>
       </div>
     </section>
@@ -255,9 +304,14 @@ onMounted(async () => {
 
   &__img {
     cursor: pointer;
+    transition: 100ms all ease;
     object-fit: cover;
     width: 100%;
     height: 100%;
+
+    &:hover {
+      filter: brightness(70%);
+    }
   }
 
   &__button {
@@ -315,10 +369,11 @@ onMounted(async () => {
 }
 
 .Product-info {
-  &__info {
+  &__wrap {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin-bottom: 100px;
   }
 
   &__h1 {

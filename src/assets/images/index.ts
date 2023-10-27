@@ -1,6 +1,8 @@
 import product from "./54373130299.jpg";
 import arrowRight from "./arrowRight.svg";
 import arrowRightPath from "./arrowRightPath.svg";
+import arrowSwiper from "./arrowSwiper.svg";
+import arrowSwiperReview from "./arrowSwiperReview.svg";
 import arrowUp from "./arrowup.png";
 import burgerMenu from "./burger.png";
 import centerPhoto from "./CENTER.jpg";
@@ -21,12 +23,13 @@ import capHuman from "./portrait-cool-teenage-boy-wearing-cap.jpg";
 import rightPhoto from "./RIGHT.jpg";
 import telegram from "./telegram.svg";
 import arrowDown from "./Vector.png";
-import arrowSwiper from "./arrowSwiper.svg";
 
 export const images = {
   arrowDown,
   arrowRight,
   arrowRightPath,
+  arrowSwiper,
+  arrowSwiperReview,
   arrowUp,
   asianHuman,
   burgerMenu,
@@ -46,6 +49,5 @@ export const images = {
   nowifi,
   product,
   rightPhoto,
-  telegram,
-  arrowSwiper
+  telegram
 };

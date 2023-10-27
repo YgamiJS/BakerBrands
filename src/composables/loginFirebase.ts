@@ -1,22 +1,25 @@
-import type { IUser } from "@/types";
+import type { IAuthentication, ILogInForm } from "@/types";
 
 import { db } from "@/services/vuefire";
-import { useUserStore } from "@/store/user";
+import { useAuthenticationStore } from "@/store/authentication";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { ref } from "vue";
 
-export const LogInFirebase = async ({ email, password }: Pick<IUser, "email" | "password">) => {
-  const { setUser } = useUserStore();
+export const LogInFirebase = async ({ email, name, password, surname }: ILogInForm) => {
+  const { setAuthentication } = useAuthenticationStore();
   const auth = getAuth();
-  const user = ref<IUser>();
+  const user = ref<IAuthentication>();
 
-  const addUserToFirebase = async (user: IUser) => {
-    await addDoc(collection(db, "users", email), {
+  const addUserToFirebase = async (user: IAuthentication, token: string) => {
+    await addDoc(collection(db, "users", token), {
       ...user,
+      avatar: "",
       basketProducts: [],
       boughtProducts: [],
       favoriteProducts: [],
+      name,
+      surname,
       wathedProducts: []
     });
   };
@@ -33,7 +36,9 @@ export const LogInFirebase = async ({ email, password }: Pick<IUser, "email" | "
 
       user.value = LogInUser;
 
-      setUser(LogInUser);
+      setAuthentication(LogInUser);
+
+      return LogInUser.token;
     })
-    .then(() => addUserToFirebase(user.value!));
+    .then((token) => addUserToFirebase(user.value!, token));
 };

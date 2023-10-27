@@ -6,14 +6,14 @@ import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import { useUserStore } from "./user";
+import { useAuthenticationStore } from "./authentication";
 
 export const useWatchedProductsStore = defineStore("watchedProducts", () => {
   const watchedProducts = useStorage<IWatchedProduct[]>("watchedProducts", []);
   const watchedProductsData = ref<IProduct[]>([]);
   const loading = ref<boolean>(false);
   const error = ref<any | null>(null);
-  const { isAuth, user } = useUserStore();
+  const { authentication, isAuth } = useAuthenticationStore();
 
   const addWatchedProduct = async (id: IWatchedProduct["id"]) => {
     try {
@@ -24,7 +24,7 @@ export const useWatchedProductsStore = defineStore("watchedProducts", () => {
 
       if (isAuth()) {
         loading.value = true;
-        updateDoc(doc(db, "users", user.email), {
+        updateDoc(doc(db, "users", authentication.token), {
           wathedProducts: arrayUnion(NewWatchedProduct)
         }).then(() => {
           watchedProducts.value.push(NewWatchedProduct);
@@ -43,7 +43,7 @@ export const useWatchedProductsStore = defineStore("watchedProducts", () => {
       if (isAuth()) {
         loading.value = true;
 
-        const fbWatchedProducts = await getDoc(doc(db, "users", user.email));
+        const fbWatchedProducts = await getDoc(doc(db, "users", authentication.token));
 
         const products = fbWatchedProducts.data()!.wathedProducts as IWatchedProduct[];
 

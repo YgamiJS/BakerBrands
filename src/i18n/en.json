@@ -115,8 +115,12 @@
     "noValidEmail": "Not valid email"
   },
   "LogIn": {
+    "ThisNameFieldRequired": "This is the name field required",
+    "ThisSurnameFieldRequired": "This is the surname field required",
     "ThisEmailFieldRequired": "This email field is required",
     "ThisPasswordFieldRequired": "This password field is required",
+    "name": "Your name",
+    "surname": "Your surname",
     "email": "Your Email",
     "password": "Your Password",
     "logIn": "Register",

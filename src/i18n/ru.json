@@ -115,8 +115,12 @@
     "noValidEmail": "Не валидный email"
   },
   "LogIn": {
+    "ThisNameFieldRequired": "Это поле имени обезательное",
+    "ThisSurnameFieldRequired": "Это поле фамилии обезательное",
     "ThisEmailFieldRequired": "Это поле почты обезательное",
     "ThisPasswordFieldRequired": "Это поле пароля обезательное",
+    "name": "Ваше имя",
+    "surname": "Ваша фамилия",
     "email": "Ваша почта",
     "password": "Ваш пароль",
     "logIn": "Зарегестрироваться",

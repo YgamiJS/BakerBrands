@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ILogInForm } from "@/types";
+
 import { useForm } from "vee-validate";
 import { useI18n } from "vue-i18n";
 import * as yup from "yup";
@@ -6,19 +8,15 @@ import * as yup from "yup";
 import ButtonForm from "./UI/ButtonForm.vue";
 import InputForm from "./UI/InputForm.vue";
 
-interface LogInForm {
-  email: string;
-  password: string;
-}
-
 const emit = defineEmits<{
-  (e: "submit", data: LogInForm): void;
+  (e: "submit", data: ILogInForm): void;
 }>();
 
 const { t } = useI18n();
 
 const schema = yup.object({
   email: yup.string().email(t("LogIn.noValidEmail")).required(t("LogIn.ThisEmailFieldRequired")),
+  name: yup.string().required(t("LogIn.ThisNameFieldRequired")),
   password: yup
     .string()
     .min(6, t("LogIn.minLengthLetters", { minLengthLetters: 6 }))
@@ -29,10 +27,11 @@ const schema = yup.object({
     .min(6, t("LogIn.minLengthLetters", { minLengthLetters: 6 }))
     .max(16, t("LogIn.maxLengthLetters", { maxLengthLetters: 16 }))
     .oneOf([yup.ref("password")])
-    .required()
+    .required(),
+  surname: yup.string().required(t("LogIn.ThisSurnameFieldRequired"))
 });
 
-const { errors, handleSubmit, meta } = useForm<LogInForm>({
+const { errors, handleSubmit, meta } = useForm<ILogInForm>({
   validationSchema: schema
 });
 
@@ -43,6 +42,20 @@ const onSubmit = handleSubmit((data) => {
 
 <template>
   <form class="login-form" @submit.prevent="onSubmit">
+    <InputForm
+      type="text"
+      :placeholder="$t('LogIn.name')"
+      class-name="login-form__name"
+      name="name"
+    />
+    <p class="login-form__errorMessage" v-if="errors.name">{{ errors.name }}</p>
+    <InputForm
+      type="text"
+      :placeholder="$t('LogIn.surname')"
+      class-name="login-form__surname"
+      name="surname"
+    />
+    <p class="login-form__errorMessage" v-if="errors.surname">{{ errors.surname }}</p>
     <InputForm
       type="email"
       :placeholder="$t('LogIn.email')"

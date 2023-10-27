@@ -6,14 +6,14 @@ import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import { useUserStore } from "./user";
+import { useAuthenticationStore } from "./authentication";
 
 export const useFavoritesStore = defineStore("favorites", () => {
   const favoriteProducts = useStorage<IFavoriteProduct[]>("favorites", []);
   const favoriteProductsData = ref<IProduct[]>([]);
   const error = ref<any | null>(null);
   const loading = ref<boolean>(false);
-  const { isAuth, user } = useUserStore();
+  const { authentication, isAuth } = useAuthenticationStore();
 
   const fetchFavoriteProducts = async () => {
     if (!isAuth()) return;
@@ -21,7 +21,7 @@ export const useFavoritesStore = defineStore("favorites", () => {
     try {
       loading.value = true;
 
-      const fbBasketProductsStore = await getDoc(doc(db, "users", user.email));
+      const fbBasketProductsStore = await getDoc(doc(db, "users", authentication.token));
 
       favoriteProducts.value = fbBasketProductsStore.data()!.favoriteProducts;
 
@@ -62,7 +62,7 @@ export const useFavoritesStore = defineStore("favorites", () => {
 
         favoriteProducts.value.push(NewFavoriteProduct);
 
-        updateDoc(doc(db, "users", user.email), {
+        updateDoc(doc(db, "users", authentication.token), {
           favoriteProducts: arrayUnion(NewFavoriteProduct)
         }).then(async () => {
           loading.value = false;
@@ -91,7 +91,7 @@ export const useFavoritesStore = defineStore("favorites", () => {
           (favoriteProduct) => favoriteProduct.id !== favoriteProductId
         );
 
-        await updateDoc(doc(db, "users", user.email), {
+        await updateDoc(doc(db, "users", authentication.token), {
           favoriteProducts: favoriteProducts.value
         });
       } catch (err) {

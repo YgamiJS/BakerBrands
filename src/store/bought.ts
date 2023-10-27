@@ -4,12 +4,12 @@ import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import { useUserStore } from "./user";
+import { useAuthenticationStore } from "./authentication";
 
 export const useOrdersStore = defineStore("boughts", () => {
   const boughtsProducts = useStorage<IBoughtProduct[]>("boughts", []);
   const loading = ref<boolean>(false);
-  const { isAuth, user } = useUserStore();
+  const { authentication, isAuth } = useAuthenticationStore();
 
   return {
     boughtsProducts,
