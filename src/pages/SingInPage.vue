@@ -72,9 +72,11 @@ onMounted(() => {
 .SingIn {
   flex: 1 0 auto;
   min-height: 90vh;
+
   &__something-went-wrong {
     margin-top: 20px;
   }
+
   &__tooManyTry {
     color: $black;
     font-size: 22px;
@@ -89,7 +91,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 15%;
+  margin-top: 10%;
   height: 100%;
 
   @media (max-width: 767px) {

@@ -3,9 +3,3 @@ arhitecture
 ui
 update data
 save token no data...
-
-add loader to product page
-
-
-
-img to webp

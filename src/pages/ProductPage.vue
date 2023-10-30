@@ -2,6 +2,7 @@
 import { images } from "@/assets/images";
 import CounterBasketProduct from "@/components/CounterBasketProduct.vue";
 import GoBackButton from "@/components/GoBackButton.vue";
+import Loader from "@/components/Loader.vue";
 import Location from "@/components/Location.vue";
 import ModalReview from "@/components/ModalReview.vue";
 import ProductItemSwiper from "@/components/ProductItemSwiper.vue";
@@ -144,7 +145,12 @@ onMounted(async () => {
 <template>
   <main class="Product">
     <section class="Product-info">
-      <div class="Product-info__container container" v-if="!loading">
+      <div class="Product-info__container container" v-if="loading">
+        <div class="Product-info__wrap-loader">
+          <Loader class="Product-info__loader" />
+        </div>
+      </div>
+      <div class="Product-info__container container" v-else>
         <Location />
         <GoBackButton />
         <div class="Product__head">
@@ -427,6 +433,14 @@ onMounted(async () => {
     @media (max-width: 767px) {
       display: none;
     }
+  }
+
+  &__wrap-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
   }
 
   &__content {

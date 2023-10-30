@@ -67,7 +67,7 @@ const onSubmit = (data: ILogInForm) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 15%;
+  margin-top: 10%;
   height: 100%;
 
   @media (max-width: 767px) {
