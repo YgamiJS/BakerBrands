@@ -50,37 +50,41 @@ const debouncedSearch = debounce(onSearch, 300);
 </script>
 
 <template>
-  <form class="search-form" :class="$attrs.className" @submit="onSubmit" autocomplete="off">
-    <div class="search-form__form">
-      <InputForm
-        class-name="search-form__input"
-        :class="{ search: isSearch }"
-        name="findfield"
-        type="text"
-        :placeholder="errors.findfield ? $t('Search.ThisSearchFieldRequired') : $t('Search.query')"
-        @input="debouncedSearch"
-        min="3"
-        max="32"
-      />
-      <ButtonSearch
-        class-name="search-form__button"
-        :class="{ error: errors.findfield }"
-        type="submit"
-        :disabled="!meta.valid"
-      >
-        <SearchIcon />
-      </ButtonSearch>
-    </div>
-    <SearchResultsList :results="props.results" v-if="props.results.length > 0" />
-    <div class="loading" v-else-if="props.isLoading">
-      <img class="loading__loader" :src="images.loading" :alt="$t('Search.loading')" />
-      <p class="loading__p">{{ $t("Search.loading") }}</p>
-    </div>
-    <div class="noResults" v-else-if="props.results.length < 1 && isSearch">
-      <img class="noResults__img" :src="images.noResults" :alt="$t('Search.noResults')" />
-      <p class="noResults__p">{{ $t("Search.noResults") }}</p>
-    </div>
-  </form>
+  <search role="search">
+    <form class="search-form" :class="$attrs.className" @submit="onSubmit" autocomplete="off">
+      <div class="search-form__form">
+        <InputForm
+          class-name="search-form__input"
+          :class="{ search: isSearch }"
+          name="findfield"
+          type="text"
+          :placeholder="
+            errors.findfield ? $t('Search.ThisSearchFieldRequired') : $t('Search.query')
+          "
+          @input="debouncedSearch"
+          min="3"
+          max="32"
+        />
+        <ButtonSearch
+          class-name="search-form__button"
+          :class="{ error: errors.findfield }"
+          type="submit"
+          :disabled="!meta.valid"
+        >
+          <SearchIcon />
+        </ButtonSearch>
+      </div>
+      <SearchResultsList :results="props.results" v-if="props.results.length > 0" />
+      <div class="loading" v-else-if="props.isLoading">
+        <img class="loading__loader" :src="images.loading" :alt="$t('Search.loading')" />
+        <p class="loading__p">{{ $t("Search.loading") }}</p>
+      </div>
+      <div class="noResults" v-else-if="props.results.length < 1 && isSearch">
+        <img class="noResults__img" :src="images.noResults" :alt="$t('Search.noResults')" />
+        <p class="noResults__p">{{ $t("Search.noResults") }}</p>
+      </div>
+    </form>
+  </search>
 </template>
 
 <style scoped lang="scss">

@@ -6,7 +6,9 @@ import Location from "@/components/Location.vue";
 import ModalReview from "@/components/ModalReview.vue";
 import ProductItemSwiper from "@/components/ProductItemSwiper.vue";
 import ProductRating from "@/components/ProductRating.vue";
+import RatingTable from "@/components/RatingTable.vue";
 import ReviewList from "@/components/ReviewList.vue";
+import ShareButton from "@/components/ShareButton.vue";
 import FavoriteButton from "@/components/UI/FavoriteButton.vue";
 import { useBasketStore } from "@/store/basket";
 import { useFavoritesStore } from "@/store/favorites";
@@ -20,8 +22,8 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { computed, onMounted, ref, type VNodeRef } from "vue";
 import { useI18n } from "vue-i18n";
-import { RouterLink } from "vue-router";
 import { useRoute, useRouter } from "vue-router";
+import { RouterLink } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
@@ -57,6 +59,8 @@ const currentReview = computed<IReview>(
       (review) => currentProduct?.value?.reviews?.indexOf(review) == currentReviewIndex.value
     )!
 );
+
+const currentLocation = computed<string>(() => window.location.toString());
 
 const isOpen = ref<boolean>(false);
 const minCountSize = 1;
@@ -101,9 +105,7 @@ const addOrRemoveSelectedSize = async (size: string) => {
   }
 };
 
-const slideNextReview = (event: Event) => {
-  event.stopPropagation();
-
+const slideNextReview = () => {
   if (
     currentProduct?.value?.reviews?.length &&
     currentReviewIndex.value + 1 == currentProduct?.value?.reviews?.length
@@ -113,8 +115,7 @@ const slideNextReview = (event: Event) => {
   currentReviewIndex.value += 1;
 };
 
-const slidePrevReview = (event: Event) => {
-  event.stopPropagation();
+const slidePrevReview = () => {
   if (currentReviewIndex.value > 0) currentReviewIndex.value -= 1;
 };
 
@@ -146,9 +147,17 @@ onMounted(async () => {
       <div class="Product-info__container container" v-if="!loading">
         <Location />
         <GoBackButton />
-        <h2 class="Product-info__h1">
-          {{ $t(`Categories.${currentProduct?.category}`) }} {{ currentProduct?.name }}
-        </h2>
+        <div class="Product__head">
+          <h1 class="Product-info__h1">
+            {{ $t(`Categories.${currentProduct?.category}`) }} {{ currentProduct?.name }}
+          </h1>
+          <ShareButton
+            class="Product__share"
+            :title="currentProduct?.name || ''"
+            :text="currentProduct?.description || ''"
+            :url="currentLocation"
+          />
+        </div>
         <div class="Product-info__info" v-if="!loading">
           <div class="Product-info__wrap">
             <div class="pc-swiper pc-swiper-wrap">
@@ -194,7 +203,7 @@ onMounted(async () => {
             <ProductItemSwiper
               class="mob-swiper"
               :navigation="true"
-              :currentProduct="currentProduct!"
+              :currentProduct="currentProduct || {} as IProduct"
             />
             <div class="Product-info__content">
               <h2 class="Product-info__name">
@@ -267,6 +276,15 @@ onMounted(async () => {
               </div>
             </div>
           </div>
+          <RatingTable
+            class="Product-info__ratingTable"
+            :rating="
+              currentProduct?.rating || {
+                rating: 0,
+                ratings: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+              }
+            "
+          />
           <ReviewList
             :reviews="currentProduct?.reviews || []"
             @toggle-is-open="toggleIsOpen"
@@ -281,6 +299,8 @@ onMounted(async () => {
             :rating="currentReview?.rating"
             :reviewimg="currentReview?.images[0]"
             :comment="currentReview?.comment"
+            :length="currentProduct?.reviews?.length || 0"
+            :review-index="currentProduct?.reviews?.indexOf(currentReview) || 0"
           />
         </div>
       </div>
@@ -292,6 +312,11 @@ onMounted(async () => {
 @import "@/assets/scss/App.scss";
 .Product {
   flex: 1 0 auto;
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .pc-swiper {
@@ -373,7 +398,7 @@ onMounted(async () => {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin-bottom: 100px;
+    margin-bottom: 80px;
   }
 
   &__h1 {
@@ -430,6 +455,10 @@ onMounted(async () => {
 
   &__rating {
     justify-content: start;
+  }
+
+  &__ratingTable {
+    margin-bottom: 20px;
   }
 
   &__description {

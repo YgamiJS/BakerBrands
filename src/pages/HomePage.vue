@@ -12,9 +12,24 @@ import { RouterLink } from "vue-router";
           $t("Home.Preview.watchТovelties")
         }}</RouterLink>
       </div>
-      <img class="Preview__img" :src="images.leftPhoto" :alt="$t('Home.Preview.boyAndGirl')" />
-      <img class="Preview__img" :src="images.centerPhoto" :alt="$t('Home.Preview.boy')" />
-      <img class="Preview__img" :src="images.rightPhoto" :alt="$t('Home.Preview.boy')" />
+      <img
+        class="Preview__img"
+        :src="images.leftPhoto"
+        fetchpriority="high"
+        :alt="$t('Home.Preview.boyAndGirl')"
+      />
+      <img
+        class="Preview__img"
+        :src="images.centerPhoto"
+        fetchpriority="high"
+        :alt="$t('Home.Preview.boy')"
+      />
+      <img
+        class="Preview__img"
+        :src="images.rightPhoto"
+        fetchpriority="high"
+        :alt="$t('Home.Preview.boy')"
+      />
     </section>
     <section class="Categories">
       <div class="Categories__container container">
@@ -22,25 +37,25 @@ import { RouterLink } from "vue-router";
         <ul class="categories-list">
           <li class="categories-list__item">
             <RouterLink to="/Shop">
-              <img class="categories-list__img" :src="images.capHuman" alt="Boy" />
+              <img class="categories-list__img" :src="images.capHuman" alt="Boy" loading="lazy" />
               <div class="categories-list__category">{{ $t("Home.Categories.tshirts") }}</div>
             </RouterLink>
           </li>
           <li class="categories-list__item">
             <RouterLink to="/Shop">
-              <img class="categories-list__img" :src="images.hotHuman" alt="Boy" />
+              <img class="categories-list__img" :src="images.hotHuman" alt="Boy" loading="lazy" />
               <div class="categories-list__category">{{ $t("Home.Categories.hoodies") }}</div>
             </RouterLink>
           </li>
           <li class="categories-list__item">
             <RouterLink to="/Shop">
-              <img class="categories-list__img" :src="images.asianHuman" alt="Boy" />
+              <img class="categories-list__img" :src="images.asianHuman" alt="Boy" loading="lazy" />
               <div class="categories-list__category">{{ $t("Home.Categories.trousers") }}</div>
             </RouterLink>
           </li>
           <li class="categories-list__item">
             <RouterLink to="/Shop">
-              <img class="categories-list__img" :src="images.hatHuman" alt="Boy" />
+              <img class="categories-list__img" :src="images.hatHuman" alt="Boy" loading="lazy" />
               <div class="categories-list__category">{{ $t("Home.Categories.hats") }}</div>
             </RouterLink>
           </li>
@@ -50,7 +65,7 @@ import { RouterLink } from "vue-router";
     <section class="subscride">
       <div class="subscride__container container">
         <h2 class="subscride__h2">{{ $t("Home.Subscride.knowTovelties") }}</h2>
-        <a class="subscride__telegram" href="#">{{
+        <a class="subscride__telegram" href="https://t.me/BakerBrands1">{{
           $t("Home.Subscride.SubscrideTelegramChannel")
         }}</a>
       </div>
@@ -79,9 +94,10 @@ import { RouterLink } from "vue-router";
 
   &__h1 {
     font-weight: 600;
-    font-size: 42px;
     line-height: 49px;
     color: $white;
+    @include adaptiv-font(42, 40);
+
     &::after {
       content: "";
       display: flex;

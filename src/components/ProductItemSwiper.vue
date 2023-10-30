@@ -34,6 +34,13 @@ const props = defineProps<{
       <img
         class="mob-swiper__img"
         :src="img"
+        :fetchpriority="
+          (props.currentProduct?.images
+            ? [props.currentProduct?.img, ...props.currentProduct?.images]
+            : []
+          ).indexOf(img) == 0 && 'high'
+        "
+        loading="lazy"
         @touchstart="props?.handleTouchStart"
         @touchend="props?.handleTouchEnd"
       />

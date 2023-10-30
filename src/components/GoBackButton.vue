@@ -9,16 +9,21 @@ const goBack = () => router.back();
 </script>
 
 <template>
-  <div class="GoBack" @click="goBack" v-if="count >= 1">
+  <button class="GoBack" @click="goBack" v-if="count >= 1" translate="no">
     <img class="GoBack__img-arrow" :src="images.arrowRightPath" :alt="$t('GoBack.goBack')" />
     {{ $t("GoBack.goBack") }}
-  </div>
+  </button>
 </template>
 
 <style scoped lang="scss">
 .GoBack {
   display: flex;
   align-items: center;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: "Raleway-Regular", sans-serif;
+  font-size: 16px;
   gap: 5px;
   padding: 10px 10px 10px 0;
   cursor: pointer;

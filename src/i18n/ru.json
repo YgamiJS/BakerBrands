@@ -173,6 +173,10 @@
       "mail": "bakerbrands@gmail.com"
     }
   },
+  "ShareButton": {
+    "ShareButton": "Поделиться",
+    "CopiedLink": "Ccылка скопирована"
+  },
   "GoBack": {
     "goBack": "Вернуться назад"
   },

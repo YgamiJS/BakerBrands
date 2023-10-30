@@ -3,26 +3,42 @@ import type { IReview, IUser } from "@/types";
 
 import { images } from "@/assets/images";
 import { useUserStore } from "@/store/user";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 
 const dataReview = ref<IUser>({ avatar: "", id: "", name: "", surname: "" });
 const { getUserData } = useUserStore();
 
 const props = defineProps<{
   comment: string;
+  length: number;
   rating: number;
   reviewerid: IReview["reviewerid"];
   reviewimg: string;
+  reviewIndex: number;
 }>();
 
 const emit = defineEmits<{
-  (e: "slideNextReview", event: Event): void;
-  (e: "slidePrevReview", event: Event): void;
+  (e: "slideNextReview"): void;
+  (e: "slidePrevReview"): void;
   (e: "toggleIsOpen"): void;
 }>();
 
+const keyboardCheck = (event: KeyboardEvent) => {
+  if (event.keyCode == 37) {
+    emit("slidePrevReview");
+  } else if (event.keyCode == 39) {
+    emit("slideNextReview");
+  }
+};
+
 onMounted(async () => {
   dataReview.value = ((await getUserData(props.reviewerid)) as IUser) || dataReview.value;
+
+  document.addEventListener("keydown", keyboardCheck);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("keydown", keyboardCheck);
 });
 </script>
 
@@ -30,7 +46,11 @@ onMounted(async () => {
   <div class="ModalReview" @click="emit('toggleIsOpen')">
     <div class="ModalReview__container">
       <div class="ModalReview__content">
-        <div class="ModalReview__prev" @click="(event) => emit('slidePrevReview', event)">
+        <div
+          class="ModalReview__prev"
+          :class="{ ModalReview__prev_hidden: !props.reviewIndex }"
+          @click.stop="emit('slidePrevReview')"
+        >
           <img
             class="ModalReview__arrow-img ModalReview__arrow-img_prev"
             :src="images.arrowSwiperReview"
@@ -55,7 +75,11 @@ onMounted(async () => {
             </div>
           </div>
         </div>
-        <div class="ModalReview__next" @click="(event) => emit('slideNextReview', event)">
+        <div
+          class="ModalReview__next"
+          :class="{ ModalReview__next_hidden: props.reviewIndex + 1 == props.length }"
+          @click.stop="emit('slideNextReview')"
+        >
           <img
             class="ModalReview__arrow-img ModalReview__arrow-img_next"
             :src="images.arrowSwiperReview"
@@ -90,7 +114,7 @@ onMounted(async () => {
     align-items: center;
     gap: 20px;
 
-    @media (max-width: 500px) {
+    @media (max-width: 1080px) {
       gap: 8px;
     }
   }
@@ -114,6 +138,11 @@ onMounted(async () => {
     min-width: 60%;
     height: 60vh;
 
+    @media (max-width: 1080px) {
+      width: 100%;
+      height: 40vh;
+    }
+
     @media (max-width: 500px) {
       width: 100%;
       height: 30vh;
@@ -133,6 +162,10 @@ onMounted(async () => {
     width: 50px;
     height: 50px;
     border-radius: 50%;
+
+    &_hidden {
+      visibility: hidden;
+    }
   }
 }
 .ModalReview-modal {
@@ -143,7 +176,7 @@ onMounted(async () => {
   border-radius: 20px;
   width: 60vw;
 
-  @media (max-width: 500px) {
+  @media (max-width: 1080px) {
     flex-wrap: wrap;
     width: 65vw;
   }
@@ -188,6 +221,7 @@ onMounted(async () => {
 
   &__comment {
     margin-top: 20px;
+    word-break: break-all;
 
     &::first-letter {
       text-transform: uppercase;
