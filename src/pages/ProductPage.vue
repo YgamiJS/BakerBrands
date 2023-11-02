@@ -227,6 +227,9 @@ onMounted(async () => {
                 {{ $t("Categories.category") }} : {{ $t(`Categories.${currentProduct?.category}`) }}
               </p>
               <p class="Product-info__price Product-info__p">
+                <del class="Product-info__oldprice" v-if="currentProduct?.oldprice">{{
+                  currentProduct?.oldprice
+                }}</del>
                 {{ currentProduct?.price }} {{ $t("PayСurrency") }}
               </p>
               <p class="Product-info__new Product-info__p" v-if="currentProduct?.new">
@@ -465,6 +468,10 @@ onMounted(async () => {
   &__name {
     font-weight: 900;
     @include adaptiv-font(40, 20);
+  }
+
+  &__oldprice {
+    margin-right: 15px;
   }
 
   &__rating {

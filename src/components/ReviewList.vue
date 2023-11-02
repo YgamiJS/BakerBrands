@@ -16,6 +16,7 @@ const emit = defineEmits<{
 <template>
   <div class="reviews-list" v-if="props?.reviews?.length && props?.reviews?.length >= 1">
     <ReviewItem
+      class="reviews-list__item"
       v-for="review of props?.reviews.slice(0, 11)"
       :is-remainder="
         props?.reviews?.indexOf(review) == props?.reviews.length - 1 &&
@@ -35,8 +36,8 @@ const emit = defineEmits<{
 <style scoped lang="scss">
 .reviews-list {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   width: 100%;
-  height: 100px;
 }
 </style>

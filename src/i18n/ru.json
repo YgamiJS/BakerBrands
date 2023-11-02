@@ -154,6 +154,11 @@
     "manyRetry": "Слишком много попыток восстановления пароля. Попробуйте позже.",
     "noValidEmail": "Не валидный email"
   },
+  "Basket": {
+    "sizes": "Размеры",
+    "empty": "Пусто",
+    "noBasketProducts": "Нет продуктов в корзине"
+  },
   "NotFound": {
     "pageNotFound": "Страница не найдена",
     "goToHome": "Вернуться на главную страницу"
@@ -197,7 +202,8 @@
     "Search": "Поиск",
     "SingIn": "Войти",
     "LogIn": "Зарегистрироваться",
-    "ForgetPassword": "Восстановление"
+    "ForgetPassword": "Восстановление",
+    "Basket": "Корзина"
   },
   "Categories": {
     "category": "Категория",

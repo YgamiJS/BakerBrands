@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import FavoriteIcon from "@/assets/icons/FavoriteIcon.vue";
+import TrashIcon from "@/assets/icons/TrashIcon.vue";
 </script>
 
 <template>
-  <div class="favorite">
-    <FavoriteIcon class="favorite__img" />
+  <div class="trash">
+    <TrashIcon class="trash__img" />
   </div>
 </template>
 
@@ -12,22 +12,18 @@ import FavoriteIcon from "@/assets/icons/FavoriteIcon.vue";
 @import "@/assets/scss/App.scss";
 
 @media (min-width: 760px) {
-  .favorite:hover > :deep(.favorite__img path) {
-    stroke: $lowspacegrey;
+  .trash:hover > :deep(.trash__img path) {
+    fill: $lowspacegrey;
   }
 }
 
 @media (max-width: 760px) {
-  .favorite:active > :deep(.favorite__img path) {
-    stroke: $lowspacegrey;
+  .trash:active > :deep(.trash__img path) {
+    fill: $lowspacegrey;
   }
 }
 
-.favorite__inFavorite > :deep(.favorite__img path) {
-  stroke: $lowspacegrey;
-}
-
-.favorite {
+.trash {
   background: $graySkeletonLoading;
   display: flex;
   justify-content: center;

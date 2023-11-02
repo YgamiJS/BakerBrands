@@ -154,6 +154,11 @@
     "manyRetry": "Too many attempts to restore the password. Try later.",
     "noValidEmail": "Not valid email"
   },
+  "Basket": {
+    "sizes": "Sizes",
+    "empty": "Empty",
+    "noBasketProducts": "No products in the basket"
+  },
   "NotFound": {
     "pageNotFound": "Page not found",
     "goToHome": "Go back to main page"
@@ -197,7 +202,8 @@
     "Search": "Search",
     "SingIn": "Sing in",
     "LogIn": "Log in",
-    "ForgetPassword": "Recovery"
+    "ForgetPassword": "Recovery",
+    "Basket": "Basket"
   },
   "Categories": {
     "category": "Category",

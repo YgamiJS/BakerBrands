@@ -7,6 +7,7 @@ export interface IProduct {
   inStock: number;
   name: string;
   new: boolean;
+  oldprice?: number;
   popularity: boolean;
   price: number;
   rating: IRating;

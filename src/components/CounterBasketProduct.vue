@@ -23,9 +23,19 @@ const currentBasketProduct = computed(() =>
 
 <template>
   <div class="counterFavoriteProduct">
-    <button class="counterFavoriteProduct__button counterFavoriteProduct__increment" @click="$emit('increment')">+</button>
+    <button
+      class="counterFavoriteProduct__button counterFavoriteProduct__increment"
+      @click.prevent="$emit('increment')"
+    >
+      +
+    </button>
     <span class="counterFavoriteProduct__count">{{ currentBasketProduct?.count }}</span>
-    <button class="counterFavoriteProduct__button counterFavoriteProduct__decrement" @click="$emit('decrement')">-</button>
+    <button
+      class="counterFavoriteProduct__button counterFavoriteProduct__decrement"
+      @click.prevent="$emit('decrement')"
+    >
+      -
+    </button>
   </div>
 </template>
 
@@ -38,11 +48,12 @@ const currentBasketProduct = computed(() =>
   gap: 10px;
 
   &__count {
+    display: inline-block;
     width: 20px;
     text-align: center;
     font-size: 18px;
   }
-  
+
   &__button {
     background: $graySkeleton;
     cursor: pointer;
@@ -51,14 +62,14 @@ const currentBasketProduct = computed(() =>
     padding: 16px;
     outline: none;
     border: none;
-    
+
     @media (min-width: 950px) {
       &:hover {
         background: $graySkeletonLoading;
       }
     }
 
-    &:active { 
+    &:active {
       background: $graySkeletonLoading;
     }
   }

@@ -70,7 +70,7 @@ export const useProductsStore = defineStore("products", () => {
               collection(db, "products"),
               where("name", "==", findfield),
               // orderBy(currentCategory.value),
-              where("category" , "==" , currentCategory.value),
+              where("category", "==", currentCategory.value),
               limit(16)
             );
       const documentSnapshots = await getDocs(fbProductsStore);

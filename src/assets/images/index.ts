@@ -4,6 +4,7 @@ import arrowRightPath from "./arrowRightPath.svg";
 import arrowSwiper from "./arrowSwiper.svg";
 import arrowSwiperReview from "./arrowSwiperReview.svg";
 import arrowUp from "./arrowup.png";
+import basket from "./basket.png";
 import burgerMenu from "./burger.png";
 import centerPhoto from "./CENTER.webp";
 import chevronWhite from "./chevron-down-black.svg";
@@ -22,6 +23,7 @@ import nowifi from "./nowifi.png";
 import capHuman from "./portrait-cool-teenage-boy-wearing-cap.webp";
 import rightPhoto from "./RIGHT.webp";
 import telegram from "./telegram.svg";
+import trash from "./trash.png";
 import arrowDown from "./Vector.png";
 
 export const images = {
@@ -32,6 +34,7 @@ export const images = {
   arrowSwiperReview,
   arrowUp,
   asianHuman,
+  basket,
   burgerMenu,
   capHuman,
   centerPhoto,
@@ -49,5 +52,6 @@ export const images = {
   nowifi,
   product,
   rightPhoto,
-  telegram
+  telegram,
+  trash
 };
