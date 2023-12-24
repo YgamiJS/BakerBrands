@@ -14,7 +14,7 @@ const { isOnline } = useNetwork();
   <Header></Header>
   <RouterView v-if="isOnline"></RouterView>
   <NoInternet v-else />
-  <AppBar/>
+  <AppBar />
   <Footer></Footer>
 </template>
 

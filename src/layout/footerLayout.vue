@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { images } from "@/assets/images";
+import { Routes } from "@/types";
 import { RouterLink } from "vue-router";
 </script>
 
@@ -13,10 +14,14 @@ import { RouterLink } from "vue-router";
             <input class="faq-input" type="checkbox" name="faq" id="faq-1" />
             <ul class="faq-text">
               <li class="info__info">
-                <RouterLink class="info__link" to="#">{{ $t("footer.aboutUs") }}</RouterLink>
+                <RouterLink class="info__link" :to="`/${Routes.ABOUT_US}`">{{
+                  $t("footer.aboutUs")
+                }}</RouterLink>
               </li>
               <li class="info__info">
-                <RouterLink class="info__link" to="#">{{ $t("footer.contacts") }}</RouterLink>
+                <RouterLink class="info__link" :to="`/${Routes.CONTACTS}`">{{
+                  $t("footer.contacts")
+                }}</RouterLink>
               </li>
             </ul>
           </div>
@@ -69,7 +74,9 @@ import { RouterLink } from "vue-router";
                 </a>
               </li>
               <li class="info__info">
-                <a href="tel:+71234566789" class="info__link" to="">+7 ( 123) 456-67-89</a>
+                <a href="tel:+71234566789" class="info__link" to="tel:71234566789"
+                  >+7 ( 123) 456-67-89</a
+                >
               </li>
             </ul>
           </div>

@@ -1,11 +1,16 @@
-import type { IReview, IUser } from "@/types";
+import type { IProfileForm, IReview, IUser } from "@/types";
 
-import { db } from "@/services/vuefire";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { db, storageRef } from "@/services/vuefire";
+import { collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { ref as firebaseRef, getDownloadURL, uploadBytes } from "firebase/storage";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
+import { useAuthenticationStore } from "./authentication";
+
 export const useUserStore = defineStore("user", () => {
+  const userData = ref<IUser>({ avatar: "", id: "", name: "", surname: "" });
+  const { authentication } = useAuthenticationStore();
   const loading = ref<boolean>(false);
   const error = ref<any | null>(null);
 
@@ -25,5 +30,56 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return { error, getUserData };
+  async function changeUserInfo(data: IProfileForm) {
+    await changeUserDataField("name", data.name);
+    await changeUserDataField("surname", data.surname);
+    await getUserInfo();
+  }
+
+  async function changeUserDataField(field: string, data: any) {
+    await updateDoc(doc(db, "users", authentication.token), {
+      [field]: data
+    });
+  }
+
+  async function getUserInfo() {
+    try {
+      loading.value = true;
+
+      const data = await (await getDoc(doc(db, "users", authentication.token))).data()!;
+
+      userData.value = {
+        avatar: data.avatar,
+        id: data.id,
+        name: data.name,
+        surname: data.surname
+      } as IUser;
+
+      loading.value = false;
+    } catch (err) {
+      error.value = err;
+    }
+  }
+
+  async function changeAvatar(file: File) {
+    try {
+      loading.value = true;
+
+      const profileImagesRef = firebaseRef(storageRef, `profileImages/${file.name}`);
+
+      await uploadBytes(profileImagesRef, file);
+
+      const url = await getDownloadURL(profileImagesRef);
+
+      await changeUserDataField("avatar", url);
+
+      await getUserInfo();
+
+      loading.value = false;
+    } catch (err) {
+      error.value = err;
+    }
+  }
+
+  return { changeAvatar, changeUserInfo, error, getUserData, getUserInfo, loading, userData };
 });

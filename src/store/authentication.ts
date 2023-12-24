@@ -1,22 +1,29 @@
-import type { IAuthentication, IReview, IUser } from "@/types";
+import type { IAuthentication } from "@/types";
 
-import { db } from "@/services/vuefire";
 import { useStorage } from "@vueuse/core";
-import { collection, getDocs, query, where } from "firebase/firestore";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+
+import { useBasketStore } from "./basket";
+import { useOrdersStore } from "./bought";
 
 export const useAuthenticationStore = defineStore("authentication", () => {
   const authentication = useStorage<IAuthentication>("authentication", {
     token: ""
   });
-  const loading = ref<boolean>(false);
-  const error = ref<any | null>(null);
+
+  const { clearBasketData } = useBasketStore();
+  const { clearBoughtData } = useOrdersStore();
 
   function $reset() {
     authentication.value = {
       token: ""
     };
+  }
+
+  function logout() {
+    clearBasketData();
+    clearBoughtData();
+    $reset();
   }
 
   function isAuth() {
@@ -27,5 +34,5 @@ export const useAuthenticationStore = defineStore("authentication", () => {
     authentication.value = newAuthentication;
   }
 
-  return { $reset, authentication, error, isAuth, setAuthentication };
+  return { $reset, authentication, isAuth, logout, setAuthentication };
 });

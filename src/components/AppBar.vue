@@ -8,11 +8,16 @@ import { useBasketStore } from "@/store/basket";
 import { useOrdersStore } from "@/store/bought";
 import { useFavoritesStore } from "@/store/favorites";
 import { storeToRefs } from "pinia";
+import { computed } from "vue";
 import { RouterLink } from "vue-router";
 
 const { favoriteProducts } = storeToRefs(useFavoritesStore());
 const { basketProducts } = storeToRefs(useBasketStore());
-const { boughtsProducts } = storeToRefs(useOrdersStore());
+const { orderProducts } = storeToRefs(useOrdersStore());
+
+const basketProductsCount = computed<number>(() =>
+  basketProducts.value.reduce((a, b) => a + b.count, 0)
+);
 </script>
 
 <template>
@@ -40,15 +45,15 @@ const { boughtsProducts } = storeToRefs(useOrdersStore());
         <RouterLink to="/Basket/" class="menu__link">
           <ShopIcon class="menu__icon" />
           <div v-if="basketProducts.length >= 1" class="menu__count">
-            {{ basketProducts.length }}
+            {{ basketProductsCount }}
           </div>
         </RouterLink>
       </li>
       <li class="menu__item">
         <RouterLink to="/Bought/" class="menu__link">
           <OrderIcon class="menu__icon" />
-          <div v-if="boughtsProducts.length >= 1" class="menu__count">
-            {{ boughtsProducts.length }}
+          <div v-if="orderProducts.length >= 1" class="menu__count">
+            {{ orderProducts.length }}
           </div>
         </RouterLink>
       </li>

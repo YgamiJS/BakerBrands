@@ -101,8 +101,8 @@
     "loading": "Загрузка"
   },
   "SingIn": {
-    "ThisEmailFieldRequired": "Это поле почты обезательное",
-    "ThisPasswordFieldRequired": "Это поле пароля обезательное",
+    "ThisEmailFieldRequired": "Это поле почты обезательное для заполнения",
+    "ThisPasswordFieldRequired": "Это поле пароля обезательное для заполнения",
     "email": "Ваша почта",
     "password": "Ваш пароль",
     "forgetPassword": "Забыли пароль",
@@ -157,7 +157,71 @@
   "Basket": {
     "sizes": "Размеры",
     "empty": "Пусто",
-    "noBasketProducts": "Нет продуктов в корзине"
+    "basket": "Корзина",
+    "noBasketProducts": "Нет продуктов в корзине",
+    "placingOrder": "Перейти к оформлению",
+    "yoursBasket": "Ваша корзина",
+    "goods": "Товары ({count})",
+    "discount": "Скидка",
+    "toggleSelectedBasketProducts": "Выбрать все",
+    "clearAllSelectedBasketProducts": "Удалить все выбранные",
+    "noSelectedBasketProducts": "Необходимо выбрать хотя бы {count} продукт",
+    "clearAll": "Удалить все"
+  },
+  "PlacingOrder": {
+    "ThisCardNumberFieldRequired": "Это поле номера карты обезательное",
+    "invalidCardNumber": "Не валидный номер карты",
+    "minLengthCardNumbers": "Номер карты должен содержать не менее {minLengthCardNumbers} цифр",
+    "minLengthCardValidity": "Срок действия карты должен содержать не менее {minLengthCardValidity} цифр",
+    "maxLengthCardValidity": "Срок действия карты должен содержать до {maxLengthCardValidity} цифр",
+    "maxLengthCardNumbers": "Номер карты может содержать до {maxLengthCardNumbers} цифр",
+    "cardNumber": "Ваш номер карты",
+    "cardCVV": "CVV",
+    "ThisCardCVVFieldRequired": "Это поле CVV карты обезательное",
+    "cardValidity": "Срок действия",
+    "ThisCardValidityFieldRequired": "Это поле срока действия обезательное",
+    "paySum": "Оплатить {sum}",
+    "payment": "Оплата"
+  },
+  "AboutUs": {
+    "title": "О нас",
+    "text": {
+      "page1": "BakerBrands - компания, специализирующаяся на продаже модной одежды и аксессуаров. Мы стремимся предложить нашим клиентам широкий ассортимент стильной и качественной одежды, которая подчеркнет их индивидуальность и уникальный стиль.",
+      "page2": "Одна из наших основных преимуществ - это удобная система доставки. Мы сотрудничаем с курьерской службой СДЭК и Почтой России, чтобы обеспечить быструю и надежную доставку наших товаров в любую точку России. Вы можете быть уверены, что ваш заказ будет доставлен вовремя и в целости.",
+      "page3": "Кроме того, мы активно развиваем современные технологии в своей работе, поэтому у нас есть официальный телеграм-канал, где вы можете следить за нашими новыми поступлениями, акциями и специальными предложениями. Присоединяйтесь к нашему каналу, чтобы всегда быть в курсе последних тенденций моды и получать эксклюзивные предложения только для наших подписчиков.",
+      "page4": "Мы гордимся своим профессионализмом и стремимся предоставить нашим клиентам отличный сервис, высокое качество товаров и приятный опыт покупок. Мы постоянно работаем над улучшением нашего ассортимента и услуг, чтобы удовлетворить потребности и ожидания наших клиентов.",
+      "page5": "Выбирая BakerBrands, вы выбираете надежного партнера в мире моды и комфортных покупок."
+    }
+  },
+  "ComplitedOrder": {
+    "ordernumber": "Заказ № {orderid}",
+    "orderstartdate": "От {day}.{month}",
+    "successfullyorder": "Заказ оплачен",
+    "goToOrders": "Перейти в покупки"
+  },
+  "Profile": {
+    "profile": "Профиль",
+    "logout": "Выйти из аккаунта",
+    "myBougthProducts": "Мои заказы",
+    "myBasketProducts": "Мои товары в корзине",
+    "myFavoritesProducts": "Мои избранные товары",
+    "requiredfield": "Это поле обезательное",
+    "maxlength": "Максимальная длина символов {count}",
+    "minlength": "Минимальная длина символов {count}",
+    "name": "Ваше имя",
+    "surname": "Ваша фамилия"
+  },
+  "Bought": {
+    "orders": "Заказы",
+    "orderstartdate": "От {day}.{month}",
+    "ordertransferdata": "Ожидаемая дата {day}.{month}",
+    "things": "{count} шт.",
+    "empty": "Пусто",
+    "noBoughtProducts": "Нет заказов"
+  },
+  "DeliveryMethods": {
+    "russianpost": "Почта россии",
+    "cdek": "СДЕК"
   },
   "NotFound": {
     "pageNotFound": "Страница не найдена",
@@ -177,6 +241,12 @@
       "byMail": "По почте",
       "mail": "bakerbrands@gmail.com"
     }
+  },
+  "SaveButton": {
+    "save": "Сохранить"
+  },
+  "EditButtons": {
+    "edit": "Редактировать"
   },
   "ShareButton": {
     "ShareButton": "Поделиться",
@@ -203,7 +273,11 @@
     "SingIn": "Войти",
     "LogIn": "Зарегистрироваться",
     "ForgetPassword": "Восстановление",
-    "Basket": "Корзина"
+    "Basket": "Корзина",
+    "PlacingOrder": "Оплата заказа",
+    "AboutUs": "О нас",
+    "Profile": "Профиль",
+    "Bought": "Заказы"
   },
   "Categories": {
     "category": "Категория",
@@ -214,7 +288,7 @@
     "trousers": "Штаны",
     "hats": "Головные уборы"
   },
-  "PayСurrency": "руб",
+  "PayСurrency": "₽",
   "footer": {
     "company": "Компания",
     "aboutUs": "О нас",

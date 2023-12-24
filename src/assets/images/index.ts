@@ -6,6 +6,7 @@ import arrowSwiperReview from "./arrowSwiperReview.svg";
 import arrowUp from "./arrowup.png";
 import basket from "./basket.png";
 import burgerMenu from "./burger.png";
+import cdek from "./cdek.png";
 import centerPhoto from "./CENTER.webp";
 import chevronWhite from "./chevron-down-black.svg";
 import chevron from "./chevron-down.svg";
@@ -22,6 +23,8 @@ import noResults from "./noresults.png";
 import nowifi from "./nowifi.png";
 import capHuman from "./portrait-cool-teenage-boy-wearing-cap.webp";
 import rightPhoto from "./RIGHT.webp";
+import russianpost from "./russianpost.png";
+import success from "./success.png";
 import telegram from "./telegram.svg";
 import trash from "./trash.png";
 import arrowDown from "./Vector.png";
@@ -37,6 +40,7 @@ export const images = {
   basket,
   burgerMenu,
   capHuman,
+  cdek,
   centerPhoto,
   chevron,
   chevronWhite,
@@ -52,6 +56,8 @@ export const images = {
   nowifi,
   product,
   rightPhoto,
+  russianpost,
+  success,
   telegram,
   trash
 };

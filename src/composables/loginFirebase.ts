@@ -3,7 +3,7 @@ import type { IAuthentication, ILogInForm } from "@/types";
 import { db } from "@/services/vuefire";
 import { useAuthenticationStore } from "@/store/authentication";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { ref } from "vue";
 
 export const LogInFirebase = async ({ email, name, password, surname }: ILogInForm) => {
@@ -11,10 +11,11 @@ export const LogInFirebase = async ({ email, name, password, surname }: ILogInFo
   const auth = getAuth();
   const user = ref<IAuthentication>();
 
-  const addUserToFirebase = async (user: IAuthentication, token: string) => {
-    await addDoc(collection(db, "users", token), {
+  const addUserToFirebase = async (user: IAuthentication) => {
+    return await setDoc(doc(db, "users", user.token), {
       ...user,
-      avatar: "",
+      avatar:
+        "https://firebasestorage.googleapis.com/v0/b/bakerbrands-a4259.appspot.com/o/profileImages%2F%D0%91%D0%B5%D0%B7%20%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8.jpg?alt=media&token=a70795a5-f832-424c-ad3c-e89cf0bd062d",
       basketProducts: [],
       boughtProducts: [],
       favoriteProducts: [],
@@ -25,8 +26,9 @@ export const LogInFirebase = async ({ email, name, password, surname }: ILogInFo
   };
 
   return createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
       const currentUser = userCredential.user;
+
       const LogInUser = {
         email,
         id: currentUser.uid,
@@ -36,9 +38,7 @@ export const LogInFirebase = async ({ email, name, password, surname }: ILogInFo
 
       user.value = LogInUser;
 
-      setAuthentication(LogInUser);
-
-      return LogInUser.token;
+      setAuthentication({ token: LogInUser.token });
     })
-    .then((token) => addUserToFirebase(user.value!, token));
+    .then(() => addUserToFirebase(user.value!));
 };

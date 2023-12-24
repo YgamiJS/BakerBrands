@@ -101,8 +101,8 @@
     "loading": "Загрузка"
   },
   "SingIn": {
-    "ThisEmailFieldRequired": "This email field is required",
-    "ThisPasswordFieldRequired": "This password field is required",
+    "ThisEmailFieldRequired": "This email field is required for filling",
+    "ThisPasswordFieldRequired": "This password field is required for filling",
     "email": "Your Email",
     "password": "Your Password",
     "forgetPassword": "Forger password",
@@ -157,26 +157,96 @@
   "Basket": {
     "sizes": "Sizes",
     "empty": "Empty",
-    "noBasketProducts": "No products in the basket"
+    "basket": "Basket",
+    "noBasketProducts": "No products in the basket",
+    "placingOrder": "Proceed to Checkout",
+    "yoursBasket": "Your basket",
+    "goods": "Goods ({count})",
+    "discount": "Discount",
+    "toggleSelectedBasketProducts": "Choose all",
+    "clearAllSelectedBasketProducts": "Delete all selected",
+    "noSelectedBasketProducts": "You need to choose at least {count} the product",
+    "clearAll": "Delete everything"
+  },
+  "PlacingOrder": {
+    "ThisCardNumberFieldRequired": "This is the field of the card number",
+    "invalidCardNumber": "Not a valid card number",
+    "minLengthCardNumbers": "The card number must contain at least {minLengthCardNumbers} numbers",
+    "minLengthCardValidity": "The card of the card must contain at least {minLengthCardValidity} numbers",
+    "maxLengthCardValidity": "The card of the card must contain before {maxLengthCardValidity} numbers",
+    "maxLengthCardNumbers": "The card number may contain up to {maxLengthCardNumbers} numbers",
+    "cardNumber": "Your card number",
+    "cardCVV": "CVV",
+    "ThisCardCVVFieldRequired": "This is the filed CVV card required",
+    "cardValidity": "Validity",
+    "ThisCardValidityFieldRequired": "This is the validity field",
+    "paySum": "Pay {sum}",
+    "payment": "Payment"
+  },
+  "Bought": {
+    "orders": "Orders",
+    "orderstartdate": "From {day}.{month}",
+    "ordertransferdata": "Expected date {day}.{month}",
+    "things": "{count} pcs.",
+    "empty": "Empty",
+    "noBoughtProducts": "No orders"
+  },
+  "AboutUs": {
+    "title": "About us",
+    "text": {
+      "page1": "BakerBrands is a company specializing in the sale of fashionable clothing and accessories. We strive to offer our customers a wide range of stylish and high-quality clothing that will emphasize their individuality and unique style.",
+      "page2": "One of our main advantages is a convenient delivery system. We collaborate with the courier service CDEK and Russian Post to ensure fast and reliable delivery of our products to any part of Russia. You can be confident that your order will be delivered on time and intact.",
+      "page3": "Furthermore, we actively embrace modern technology in our work, which is why we have an official Telegram channel where you can stay updated on our new arrivals, promotions, and special offers. Join our channel to always be in tune with the latest fashion trends and receive exclusive offers exclusively for our subscribers.",
+      "page4": "We take pride in our professionalism and strive to provide our customers with excellent service, high-quality products, and a pleasant shopping experience. We continuously work to improve our product range and services to meet the needs and expectations of our customers.",
+      "page5": "By choosing BakerBrands, you are selecting a reliable partner in the world of fashion and comfortable shopping."
+    }
+  },
+  "ComplitedOrder": {
+    "ordernumber": "Order № {orderid}",
+    "orderstartdate": "From {day}.{month}",
+    "successfullyorder": "Order has been paid",
+    "goToOrders": "Go to purchases"
+  },
+  "Profile": {
+    "profile": "Profile",
+    "logout": "Leave the account",
+    "myBougthProducts": "My orders",
+    "myBasketProducts": "My goods in the basket",
+    "myFavoritesProducts": "My selected goods",
+    "requiredfield": "This is a believing field",
+    "maxlength": "The maximum length of the characters {count}",
+    "minlength": "The minimum symbol length {count}",
+    "name": "Your name",
+    "surname": "Your surname"
+  },
+  "DeliveryMethods": {
+    "russianpost": "Russian Post",
+    "cdek": "CDEK"
   },
   "NotFound": {
     "pageNotFound": "Page not found",
     "goToHome": "Go back to main page"
   },
   "Contacts": {
-    "feedback": "Связаться с нами",
+    "feedback": "Connect with us",
     "social-net": {
-      "social": "В социальных сетях",
+      "social": "In social networks",
       "telegram": "telegram"
     },
     "byNumber": {
-      "byNumber": "По номеру телефона",
+      "byNumber": "By phone number",
       "number": "+7 ( 123) 456-67-89"
     },
     "byMail": {
-      "byMail": "По почте",
+      "byMail": "By mail",
       "mail": "bakerbrands@gmail.com"
     }
+  },
+  "SaveButton": {
+    "save": "Save"
+  },
+  "EditButtons": {
+    "edit": "Edit"
   },
   "ShareButton": {
     "ShareButton": "Share",
@@ -203,7 +273,11 @@
     "SingIn": "Sing in",
     "LogIn": "Log in",
     "ForgetPassword": "Recovery",
-    "Basket": "Basket"
+    "Basket": "Basket",
+    "PlacingOrder": "Placing order",
+    "AboutUs": "About us",
+    "Profile": "Profile",
+    "Bought": "Orders"
   },
   "Categories": {
     "category": "Category",

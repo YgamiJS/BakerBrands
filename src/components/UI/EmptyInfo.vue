@@ -23,7 +23,7 @@ const props = defineProps<{
   flex-direction: column;
   margin-top: 15%;
   width: 100%;
-  height: 100%;
+  height: 65%;
 
   &__nofavoriteProducts {
     font-weight: 400;

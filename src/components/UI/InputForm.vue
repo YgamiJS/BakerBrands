@@ -8,11 +8,14 @@ const props = defineProps<{
   name: string;
   placeholder?: string;
   type: "email" | "number" | "password" | "text";
+  value?: string;
 }>();
 
 const { value: inputValue } = useField(props.name, {
   initialValue: ""
 });
+
+inputValue.value = props?.value || "";
 </script>
 
 <template>

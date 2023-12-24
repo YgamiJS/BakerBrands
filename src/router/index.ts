@@ -55,6 +55,19 @@ const router = createRouter({
           next();
         }
       },
+      component: () => import("@/pages/PlacingOrder.vue"),
+      name: Routes.PLACINGORDER,
+      path: "/PlacingOrder/"
+    },
+    {
+      beforeEnter: (to, from, next) => {
+        const { isAuth } = useAuthenticationStore();
+        if (!isAuth()) {
+          next("/SingIn");
+        } else {
+          next();
+        }
+      },
       component: () => import("@/pages/UserProfilePage.vue"),
       name: Routes.PROFILE,
       path: "/Profile"
@@ -78,6 +91,29 @@ const router = createRouter({
       component: () => import("@/pages/LogInPage.vue"),
       name: Routes.LOG_IN,
       path: "/LogIn"
+    },
+    {
+      component: () => import("@/pages/CompletedOrder.vue"),
+      name: Routes.COMPLETED_ORDER,
+      path: "/CompletedOrder"
+    },
+    {
+      component: () => import("@/pages/AboutUsPage.vue"),
+      name: Routes.ABOUT_US,
+      path: "/AboutUs"
+    },
+    {
+      beforeEnter: (to, from, next) => {
+        const { isAuth } = useAuthenticationStore();
+        if (!isAuth()) {
+          next("/SingIn");
+        } else {
+          next();
+        }
+      },
+      component: () => import("@/pages/BoughtPage.vue"),
+      name: Routes.BOUGHTPAGE,
+      path: "/Bought"
     },
     {
       component: () => import("@/pages/ForgetPasswordPage.vue"),

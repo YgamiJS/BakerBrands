@@ -15,6 +15,10 @@ export const useFavoritesStore = defineStore("favorites", () => {
   const loading = ref<boolean>(false);
   const { authentication, isAuth } = useAuthenticationStore();
 
+  const clearFavoritesData = () => {
+    favoriteProducts.value = [];
+  };
+
   const fetchFavoriteProducts = async () => {
     if (!isAuth()) return;
 
@@ -23,7 +27,7 @@ export const useFavoritesStore = defineStore("favorites", () => {
 
       const fbBasketProductsStore = await getDoc(doc(db, "users", authentication.token));
 
-      favoriteProducts.value = fbBasketProductsStore.data()!.favoriteProducts;
+      favoriteProducts.value = await fbBasketProductsStore.data()!.favoriteProducts;
 
       loading.value = false;
     } catch (err) {
@@ -110,6 +114,7 @@ export const useFavoritesStore = defineStore("favorites", () => {
 
   return {
     addFavoriteProduct,
+    clearFavoritesData,
     error,
     favoriteProducts,
     favoriteProductsData,

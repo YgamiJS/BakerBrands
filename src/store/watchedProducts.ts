@@ -45,9 +45,8 @@ export const useWatchedProductsStore = defineStore("watchedProducts", () => {
 
         const fbWatchedProducts = await getDoc(doc(db, "users", authentication.token));
 
-        const products = fbWatchedProducts.data()!.wathedProducts as IWatchedProduct[];
-
-        watchedProducts.value = products;
+        watchedProducts.value = (await fbWatchedProducts.data()!
+          .wathedProducts) as IWatchedProduct[];
 
         const fbProducts: IProduct[] = [];
 
@@ -62,17 +61,17 @@ export const useWatchedProductsStore = defineStore("watchedProducts", () => {
         loading.value = false;
       } else {
         const fbProducts: IProduct[] = [];
-
         await Promise.all(
           watchedProducts.value.map(async ({ id }) =>
             fbProducts.push((await getDoc(doc(db, "products", id))).data()! as IProduct)
           )
         );
-
         watchedProductsData.value = fbProducts.slice(0, 15);
       }
     } catch (err) {
       error.value = err;
+
+      console.log(err);
     }
   };
 

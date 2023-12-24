@@ -9,16 +9,19 @@ import type {
 import { db } from "@/services/vuefire";
 import { useAuthenticationStore } from "@/store/authentication";
 import { useBasketStore } from "@/store/basket";
+import { useOrdersStore } from "@/store/bought";
 import { useFavoritesStore } from "@/store/favorites";
 import { useWatchedProductsStore } from "@/store/watchedProducts";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 
 export const SingInFirebase = async ({ email, password }: ISingInForm) => {
   const { setAuthentication } = useAuthenticationStore();
+  const { lastWathed } = useWatchedProductsStore();
   const { watchedProducts } = storeToRefs(useWatchedProductsStore());
+  const { fetchBoughtProducts } = useOrdersStore();
   const { fetchFavoriteProducts } = useFavoritesStore();
   const { favoriteProducts } = storeToRefs(useFavoritesStore());
   const { basketProducts } = storeToRefs(useBasketStore());
@@ -30,13 +33,18 @@ export const SingInFirebase = async ({ email, password }: ISingInForm) => {
     basketProducts: IBasketProduct[],
     wathedProducts: IWatchedProduct[]
   ) => {
-    await updateDoc(doc(db, "users", email), {
+    const token = (await getDocs(await query(collection(db, "users"), where("email", "==", email))))
+      .docs[0].id;
+
+    await updateDoc(doc(db, "users", token), {
       basketProducts: arrayUnion(...basketProducts),
       favoriteProducts: arrayUnion(...favoriteProducts),
       wathedProducts: arrayUnion(...wathedProducts)
     });
 
     await fetchFavoriteProducts();
+    await fetchBoughtProducts();
+    await lastWathed();
   };
 
   return signInWithEmailAndPassword(auth, email, password)
@@ -51,7 +59,7 @@ export const SingInFirebase = async ({ email, password }: ISingInForm) => {
 
       user.value = SingInUser;
 
-      setAuthentication(SingInUser);
+      setAuthentication({ token: SingInUser.token });
     })
     .then(() =>
       addFavoriteProductsAndBasketProductsAndWathcedProductsToFireBase(

@@ -71,8 +71,7 @@ onMounted(() => {
         class="mob-swiper"
         :navigation="false"
         :currentProduct="props.product"
-        :handleTouchStart="(event: TouchEvent) => event.stopPropagation()"
-        :handleTouchEnd="handleMouseLeave"
+        @handleTouchEnd="handleMouseLeave"
       />
       <div
         class="product-list__favorite"

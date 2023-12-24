@@ -10,18 +10,22 @@ import { useBasketStore } from "@/store/basket";
 import { useOrdersStore } from "@/store/bought";
 import { useFavoritesStore } from "@/store/favorites";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { RouterLink } from "vue-router";
 
 const isVisible = ref<boolean>(false);
 
 const { favoriteProducts } = storeToRefs(useFavoritesStore());
 const { basketProducts } = storeToRefs(useBasketStore());
-const { boughtsProducts } = storeToRefs(useOrdersStore());
+const { orderProducts } = storeToRefs(useOrdersStore());
 
 const toggleMobileNav = () => {
   isVisible.value = !isVisible.value;
 };
+
+const basketProductsCount = computed<number>(() =>
+  basketProducts.value.reduce((a, b) => a + b.count, 0)
+);
 </script>
 <template>
   <header class="header">
@@ -68,8 +72,8 @@ const toggleMobileNav = () => {
               <li class="menu__item">
                 <RouterLink class="menu__link-img" to="/Bought/" :description="$t('header.bought')">
                   <OrderIcon class="menu__icon" />
-                  <div v-if="boughtsProducts.length >= 1" class="menu__count">
-                    {{ boughtsProducts.length }}
+                  <div v-if="orderProducts.length >= 1" class="menu__count">
+                    {{ orderProducts.length }}
                   </div>
                 </RouterLink>
               </li>
@@ -98,7 +102,7 @@ const toggleMobileNav = () => {
                 <RouterLink class="menu__link-img" to="/Basket/" :description="$t('header.basket')">
                   <ShopIcon class="menu__icon" />
                   <div v-if="basketProducts.length >= 1" class="menu__count">
-                    {{ basketProducts.length }}
+                    {{ basketProductsCount }}
                   </div>
                 </RouterLink>
               </li>
@@ -119,8 +123,8 @@ const toggleMobileNav = () => {
           <li class="menu__item">
             <RouterLink class="menu__link-img" to="/Bought/" :description="$t('header.bought')">
               <OrderIcon class="menu__icon" />
-              <div v-if="boughtsProducts.length >= 1" class="menu__count">
-                {{ boughtsProducts.length }}
+              <div v-if="orderProducts.length >= 1" class="menu__count">
+                {{ orderProducts.length }}
               </div>
             </RouterLink>
           </li>
@@ -145,7 +149,7 @@ const toggleMobileNav = () => {
             <RouterLink class="menu__link-img" to="/Basket/" :description="$t('header.basket')">
               <ShopIcon class="menu__icon" />
               <div v-if="basketProducts.length >= 1" class="menu__count">
-                {{ basketProducts.length }}
+                {{ basketProductsCount }}
               </div>
             </RouterLink>
           </li>

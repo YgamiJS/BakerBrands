@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ISingInForm } from "@/types";
+
 import { useForm } from "vee-validate";
 import { useI18n } from "vue-i18n";
 import * as yup from "yup";
@@ -6,14 +8,9 @@ import * as yup from "yup";
 import ButtonForm from "./UI/ButtonForm.vue";
 import InputForm from "./UI/InputForm.vue";
 
-interface SingInForm {
-  email: string;
-  password: string;
-}
-
 const emit = defineEmits<{
   (e: "manyRetry"): void;
-  (e: "submit", data: SingInForm): void;
+  (e: "submit", data: ISingInForm): void;
 }>();
 
 const { t } = useI18n();
@@ -29,7 +26,7 @@ const schema = yup.object({
     .required(t("SingIn.ThisPasswordFieldRequired"))
 });
 
-const { errors, handleSubmit, meta, submitCount } = useForm<SingInForm>({
+const { errors, handleSubmit, meta, submitCount } = useForm<ISingInForm>({
   validationSchema: schema
 });
 

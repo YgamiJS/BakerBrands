@@ -9,9 +9,12 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 
 const props = defineProps<{
   currentProduct: IProduct;
-  handleTouchEnd?: () => void;
-  handleTouchStart?: (event: TouchEvent) => void;
   navigation: boolean;
+}>();
+
+const emit = defineEmits<{
+  (e: "handleTouchEnd"): void;
+  (e: "handleTouchStart"): void;
 }>();
 </script>
 
@@ -41,8 +44,8 @@ const props = defineProps<{
           ).indexOf(img) == 0 && 'high'
         "
         loading="lazy"
-        @touchstart="props?.handleTouchStart"
-        @touchend="props?.handleTouchEnd"
+        @touchstart.stop="emit('handleTouchStart')"
+        @touchend.stop="emit('handleTouchEnd')"
       />
     </swiper-slide>
   </swiper>

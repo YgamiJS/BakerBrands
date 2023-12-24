@@ -59,7 +59,7 @@ const currentBasketProduct = computed(() =>
     cursor: pointer;
     font-size: 20px;
     border-radius: 14px;
-    padding: 16px;
+    padding: 14px;
     outline: none;
     border: none;
 

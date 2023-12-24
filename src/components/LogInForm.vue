@@ -20,7 +20,7 @@ const schema = yup.object({
   password: yup
     .string()
     .min(6, t("LogIn.minLengthLetters", { minLengthLetters: 6 }))
-    .max(6, t("LogIn.maxLengthLetters", { maxLengthLetters: 16 }))
+    .max(16, t("LogIn.maxLengthLetters", { maxLengthLetters: 16 }))
     .required(t("LogIn.ThisPasswordFieldRequired")),
   passwordConfirm: yup
     .string()
@@ -45,28 +45,28 @@ const onSubmit = handleSubmit((data) => {
     <InputForm
       type="text"
       :placeholder="$t('LogIn.name')"
-      class-name="login-form__name"
+      class-name="login-form__input login-form__name"
       name="name"
     />
     <p class="login-form__errorMessage" v-if="errors.name">{{ errors.name }}</p>
     <InputForm
       type="text"
       :placeholder="$t('LogIn.surname')"
-      class-name="login-form__surname"
+      class-name="login-form__input login-form__surname"
       name="surname"
     />
     <p class="login-form__errorMessage" v-if="errors.surname">{{ errors.surname }}</p>
     <InputForm
       type="email"
       :placeholder="$t('LogIn.email')"
-      class-name="login-form__email"
+      class-name="login-form__input login-form__email"
       name="email"
     />
     <p class="login-form__errorMessage" v-if="errors.email">{{ errors.email }}</p>
     <InputForm
       type="password"
       :placeholder="$t('LogIn.password')"
-      class-name="login-form__password"
+      class-name="login-form__input login-form__password"
       name="password"
       max="16"
       min="6"
@@ -75,7 +75,7 @@ const onSubmit = handleSubmit((data) => {
     <InputForm
       type="password"
       :placeholder="$t('LogIn.newPasswordConfirm')"
-      class-name="login-form__password"
+      class-name="login-form__input login-form__password"
       name="passwordConfirm"
       max="16"
       min="6"
@@ -99,13 +99,12 @@ const onSubmit = handleSubmit((data) => {
   max-width: 400px;
   width: 100%;
 
-  :deep(.login-form__email) {
+  :deep(.login-form__input) {
     padding: 17px 30px 14px 30px;
     margin-bottom: 20px;
   }
 
   :deep(.login-form__password) {
-    padding: 17px 30px 14px 30px;
     margin-bottom: 18px;
   }
 

@@ -239,15 +239,16 @@ onMounted(async () => {
                 {{ $t("Product.popularity") }}
               </p>
               <div class="Product-info__sizes">
-                <p
+                <button
                   class="Product-info__size"
                   v-for="size of currentProduct?.sizes"
                   @click="addOrRemoveSelectedSize(size!)"
                   :class="{'selected': selectedSizes.includes(size as string) || basketProducts.find(basketProduct => basketProduct.id === currentProduct?.id )?.sizes?.includes(size!)}"
+                  :disabled="!currentProduct?.inStock"
                   :key="size"
                 >
                   {{ size }}
-                </p>
+                </button>
               </div>
               <div class="Product-info__inStockCount">
                 {{ $t("Product.aviable", { count: currentProduct?.inStock }) }}
@@ -443,7 +444,7 @@ onMounted(async () => {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100vh;
+    height: 85vh;
   }
 
   &__content {
@@ -545,6 +546,7 @@ onMounted(async () => {
     font-size: 17px;
     font-weight: 500;
     padding: 5px 10px;
+    border: none;
     &.selected {
       background: $black;
       color: $white;

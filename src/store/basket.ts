@@ -93,6 +93,18 @@ export const useBasketStore = defineStore("basket", () => {
     }
   };
 
+  const clearBasketProducts = async () => {
+    basketProducts.value = [];
+    basketProductsData.value = [];
+
+    if (isAuth()) {
+      loading.value = true;
+      updateDoc(doc(db, "users", authentication.token), {
+        basketProducts: []
+      }).then(() => (loading.value = false));
+    }
+  };
+
   const addBasketProductSize = async (basketProductId: IProduct["id"], size: string) => {
     try {
       const basketProduct = basketProducts.value.find(
@@ -181,11 +193,27 @@ export const useBasketStore = defineStore("basket", () => {
 
           basketProducts.value[currentProductIndex].count += 1;
 
+          const currentBasketProductData = basketProductsData.value.findIndex(
+            (basketProduct) => basketProduct.id === basketProductId
+          );
+
+          if (currentBasketProductData == -1) return;
+
+          basketProductsData.value[currentBasketProductData].count += 1;
+
           await updateDoc(doc(db, "users", authentication.token), {
             basketProducts: basketProducts.value
           });
         } else {
           basketProduct.count += 1;
+
+          const currentBasketProductData = basketProductsData.value.findIndex(
+            (basketProduct) => basketProduct.id === basketProductId
+          );
+
+          if (currentBasketProductData == -1) return;
+
+          basketProductsData.value[currentBasketProductData].count += 1;
         }
       }
     } catch (err) {
@@ -209,11 +237,27 @@ export const useBasketStore = defineStore("basket", () => {
 
           basketProducts.value[currentProductIndex].count -= 1;
 
+          const currentBasketProductData = basketProductsData.value.findIndex(
+            (basketProduct) => basketProduct.id === basketProductId
+          );
+
+          if (currentBasketProductData == -1) return;
+
+          basketProductsData.value[currentBasketProductData].count -= 1;
+
           await updateDoc(doc(db, "users", authentication.token), {
             basketProducts: basketProducts.value
           });
         } else {
           basketProduct.count -= 1;
+
+          const currentBasketProductData = basketProductsData.value.findIndex(
+            (basketProduct) => basketProduct.id === basketProductId
+          );
+
+          if (currentBasketProductData == -1) return;
+
+          basketProductsData.value[currentBasketProductData].count -= 1;
         }
       } else {
         removeBasketProduct(basketProductId);
@@ -251,11 +295,18 @@ export const useBasketStore = defineStore("basket", () => {
     }
   };
 
+  const clearBasketData = () => {
+    console.log(1, "basket");
+    basketProducts.value = [];
+  };
+
   return {
     addBasketProduct,
     addBasketProductSize,
     basketProducts,
     basketProductsData,
+    clearBasketData,
+    clearBasketProducts,
     decrementBasketProductCount,
     error,
     fetchBasketProducts,

@@ -15,9 +15,13 @@ const isError = ref<boolean>(false);
 const router = useRouter();
 
 const onSubmit = (data: ILogInForm) => {
+  console.log(1);
+
   LogInFirebase(data)
     .then(() => (isLogIn.value = !isLogIn.value))
-    .then(() => router.push({ path: Routes.HOME }))
+    .then(() => {
+      router.push({ path: Routes.HOME });
+    })
     .catch((error) => {
       if (error.message) isError.value = !isError.value;
     });
@@ -57,7 +61,7 @@ const onSubmit = (data: ILogInForm) => {
 }
 .LogIn {
   flex: 1 0 auto;
-  min-height: 90vh;
+  min-height: 100vh;
 
   &__something-went-wrong {
     margin-top: 20px;
@@ -67,16 +71,16 @@ const onSubmit = (data: ILogInForm) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10%;
+  margin-top: 5%;
   height: 100%;
 
   @media (max-width: 767px) {
-    margin-top: 20%;
+    margin-top: 15%;
   }
 
   &__h1 {
     color: $black;
-    font-size: 20px;
+    font-size: 22px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
