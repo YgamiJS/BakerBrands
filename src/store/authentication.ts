@@ -34,5 +34,5 @@ export const useAuthenticationStore = defineStore("authentication", () => {
     authentication.value = newAuthentication;
   }
 
-  return { $reset, authentication, isAuth, logout, setAuthentication };
+  return { authentication, isAuth, logout, setAuthentication };
 });

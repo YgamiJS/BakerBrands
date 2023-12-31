@@ -121,7 +121,7 @@ const onSubmit = handleSubmit((data) => {
 
     @media (max-width: 400px) {
       width: 100%;
-      height: min(30%, 300px);
+      height: min(100%, 300px);
     }
   }
 

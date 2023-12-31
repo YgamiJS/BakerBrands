@@ -10,7 +10,7 @@ import { useAuthenticationStore } from "./authentication";
 
 export const useUserStore = defineStore("user", () => {
   const userData = ref<IUser>({ avatar: "", id: "", name: "", surname: "" });
-  const { authentication } = useAuthenticationStore();
+  const auth = useAuthenticationStore();
   const loading = ref<boolean>(false);
   const error = ref<any | null>(null);
 
@@ -37,23 +37,27 @@ export const useUserStore = defineStore("user", () => {
   }
 
   async function changeUserDataField(field: string, data: any) {
-    await updateDoc(doc(db, "users", authentication.token), {
+    await updateDoc(doc(db, "users", auth.authentication.token), {
       [field]: data
     });
+  }
+
+  async function getUserIntelligence() {
+    const data = await (await getDoc(doc(db, "users", auth.authentication.token))).data()!;
+
+    return {
+      avatar: data.avatar,
+      id: data.id,
+      name: data.name,
+      surname: data.surname
+    } as IUser;
   }
 
   async function getUserInfo() {
     try {
       loading.value = true;
 
-      const data = await (await getDoc(doc(db, "users", authentication.token))).data()!;
-
-      userData.value = {
-        avatar: data.avatar,
-        id: data.id,
-        name: data.name,
-        surname: data.surname
-      } as IUser;
+      userData.value = await getUserIntelligence();
 
       loading.value = false;
     } catch (err) {
@@ -81,5 +85,15 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  return { changeAvatar, changeUserInfo, error, getUserData, getUserInfo, loading, userData };
+  return {
+    changeAvatar,
+    changeUserDataField,
+    changeUserInfo,
+    error,
+    getUserData,
+    getUserInfo,
+    getUserIntelligence,
+    loading,
+    userData
+  };
 });

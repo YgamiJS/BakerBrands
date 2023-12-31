@@ -295,6 +295,12 @@ onMounted(async () => {
               }
             "
           />
+          <h2
+            class="Product-info__h2"
+            v-if="currentProduct?.reviews.length && currentProduct?.reviews.length > 0"
+          >
+            {{ $t("Product.reviews") }}
+          </h2>
           <ReviewList
             :reviews="currentProduct?.reviews || []"
             @toggle-is-open="toggleIsOpen"
@@ -420,6 +426,14 @@ onMounted(async () => {
     @media (max-width: 950px) {
       display: none;
     }
+  }
+
+  &__h2 {
+    font-weight: 300;
+    @include adaptiv-font(40, 32);
+    line-height: 23px;
+    color: $black;
+    margin: 25px 0;
   }
 
   &__img {

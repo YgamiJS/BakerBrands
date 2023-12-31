@@ -67,7 +67,8 @@
     "noAviable": "Not available",
     "goToBasket": "Go to the basket",
     "aviable": "In stock {count} pieces",
-    "minSize": "It is necessary to choose at least {count} size"
+    "minSize": "It is necessary to choose at least {count} size",
+    "reviews": "Blinds"
   },
   "Favorites": {
     "favorites": "Favorites",
@@ -189,7 +190,24 @@
     "ordertransferdata": "Expected date {day}.{month}",
     "things": "{count} pcs.",
     "empty": "Empty",
-    "noBoughtProducts": "No orders"
+    "noBoughtProducts": "No orders",
+    "somethingWentWrong": "Something went wrong",
+    "estimateOrder": "Evaluate the order",
+    "statusInfo": "Status: {status}",
+    "status": {
+      "accepted": "Accepted",
+      "going": "Gathering",
+      "sent": "Sent",
+      "onway": "On way",
+      "arrived": "Arrived"
+    },
+    "estimateOrderPanel": {
+      "comment": "Commentary...",
+      "photos": "Photos",
+      "selectImages": "Select images",
+      "gratitude": "Thank you for rating!",
+      "close": "Close"
+    }
   },
   "AboutUs": {
     "title": "About us",

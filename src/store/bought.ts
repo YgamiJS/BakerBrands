@@ -1,25 +1,28 @@
-import type { IBoughtProduct, IOrder, IOrderData, IProduct } from "@/types";
+import type { IBoughtProduct, IOrder, IOrderData, IReviewOrder } from "@/types";
 import type { deliveryOrganizations } from "@/types/enums/deliveryOrganizations";
 
-import { db } from "@/services/vuefire";
+import { db, storageRef } from "@/services/vuefire";
 import { uuid } from "@/utils";
 import { useStorage } from "@vueuse/core";
 import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
+import { ref as firebaseRef, getDownloadURL, uploadBytes } from "firebase/storage";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
 import { useAuthenticationStore } from "./authentication";
 import { useBasketStore } from "./basket";
 import { useCurrentOrderStore } from "./currentOrder";
+import { useUserStore } from "./user";
 
 export const useOrdersStore = defineStore("boughts", () => {
   const orderProducts = useStorage<IOrder[]>("order", []);
   const { clearBasketProducts } = useBasketStore();
   const orderProductsData = ref<IOrderData[]>([]);
-  const loading = ref<boolean>(false);
+  const loading = ref<boolean>(true);
   const error = ref<any | null>(null);
-  const { authentication, isAuth } = useAuthenticationStore();
+  const auth = useAuthenticationStore();
   const { setCurrentOrder } = useCurrentOrderStore();
+  const { changeUserDataField, getUserIntelligence } = useUserStore();
 
   const addBoughtProducts = async (
     deliveryOrganization: deliveryOrganizations,
@@ -31,15 +34,16 @@ export const useOrdersStore = defineStore("boughts", () => {
         deliveryOrganization,
         id: uuid(),
         startDate: new Date().toString(),
-        transferDate: new Date()
-          .setDate(new Date().getDate() >= 31 ? 1 : new Date().getDate() + 1)
-          .toString()
+        status: 0,
+        transferDate: new Date(
+          new Date().setDate(new Date().getDate() >= 31 ? 1 : new Date().getDate() + 1)
+        ).toString()
       };
 
-      if (isAuth()) {
+      if (auth.isAuth()) {
         loading.value = true;
 
-        updateDoc(doc(db, "users", authentication.token), {
+        updateDoc(doc(db, "users", auth.authentication.token), {
           boughtProducts: arrayUnion(NewPlacingOrder)
         });
 
@@ -51,12 +55,12 @@ export const useOrdersStore = defineStore("boughts", () => {
       setCurrentOrder(NewPlacingOrder);
 
       boughtProducts.forEach(async (item) => {
-        let count = await (await getDoc(doc(db, "products", item.id))).data()!.count;
+        let inStock = await (await getDoc(doc(db, "products", item.id))).data()!.inStock;
 
-        count -= item.count;
+        inStock -= item.count;
 
         await updateDoc(doc(db, "products", item.id), {
-          count
+          inStock
         });
       });
 
@@ -66,9 +70,48 @@ export const useOrdersStore = defineStore("boughts", () => {
     }
   };
 
+  const addReview = async (review: IReviewOrder, id: string) => {
+    const images: string[] = await Promise.all(
+      review.images.map(async (file) => {
+        const profileImagesRef = firebaseRef(storageRef, `productsReviesImages/${file.name}`);
+
+        await uploadBytes(profileImagesRef, file);
+
+        return await getDownloadURL(profileImagesRef);
+      })
+    );
+
+    const reviewerid = await (await getUserIntelligence()).id;
+
+    await updateDoc(doc(db, "products", id), {
+      reviews: arrayUnion({
+        ...review,
+        id: uuid(),
+        images,
+        reviewerid
+      })
+    });
+  };
+
+  const changeDevilieryStatus = async () => {
+    try {
+      [...orderProductsData.value, ...orderProducts.value].forEach((item) => {
+        if (item.status >= 3) return;
+
+        item.status += 1;
+      });
+
+      await updateDoc(doc(db, "users", auth.authentication.token), {
+        boughtProducts: orderProducts.value
+      });
+    } catch (err) {
+      error.value = err;
+    }
+  };
+
   const fetchBoughtProducts = async () => {
     try {
-      const fbBoughtProducts = await getDoc(doc(db, "users", authentication.token));
+      const fbBoughtProducts = await getDoc(doc(db, "users", auth.authentication.token));
 
       orderProducts.value = (await fbBoughtProducts.data()!.boughtProducts) as IOrder[];
     } catch (err) {
@@ -76,13 +119,28 @@ export const useOrdersStore = defineStore("boughts", () => {
     }
   };
 
-  const getBoughtProducts = async () => {
+  const removeBougthtProduct = async (id: string) => {
     try {
-      if (!isAuth()) return;
+      orderProductsData.value = orderProductsData.value.filter((item) => item.id !== id);
+      orderProducts.value = orderProducts.value.filter((item) => item.id !== id);
 
       loading.value = true;
 
-      const fbBasketProductsStore = await getDoc(doc(db, "users", authentication.token));
+      await changeUserDataField("boughtProducts", orderProducts.value);
+
+      loading.value = false;
+    } catch (err) {
+      error.value = err;
+    }
+  };
+
+  const getBoughtProducts = async () => {
+    try {
+      if (!auth.isAuth()) return;
+
+      loading.value = true;
+
+      const fbBasketProductsStore = await getDoc(doc(db, "users", auth.authentication.token));
 
       const data: IOrder[] = (await fbBasketProductsStore.data()!.boughtProducts) as IOrder[];
 
@@ -114,11 +172,15 @@ export const useOrdersStore = defineStore("boughts", () => {
 
   return {
     addBoughtProducts,
+    addReview,
+    changeDevilieryStatus,
     clearBoughtData,
+    error,
     fetchBoughtProducts,
     getBoughtProducts,
     loading,
     orderProducts,
-    orderProductsData
+    orderProductsData,
+    removeBougthtProduct
   };
 });

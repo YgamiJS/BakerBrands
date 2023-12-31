@@ -12,6 +12,7 @@ export interface IOrder {
   deliveryOrganization: deliveryOrganizations;
   id: string;
   startDate: string;
+  status: number;
   transferDate: string;
 }
 
@@ -20,5 +21,6 @@ export interface IOrderData {
   deliveryOrganization: deliveryOrganizations;
   id: string;
   startDate: string;
+  status: number;
   transferDate: string;
 }

@@ -74,7 +74,8 @@
     "noAviable": "Нет в наличии",
     "goToBasket": "Перейти в корзину",
     "aviable": "В наличии {count} штук",
-    "minSize": "Необходимо выбрать хотя бы {count} размер"
+    "minSize": "Необходимо выбрать хотя бы {count} размер",
+    "reviews": "Отзовы"
   },
   "PaymentAndDevelivery": {
     "paymentAndDevelivery": "Оплата и доставка",
@@ -217,7 +218,24 @@
     "ordertransferdata": "Ожидаемая дата {day}.{month}",
     "things": "{count} шт.",
     "empty": "Пусто",
-    "noBoughtProducts": "Нет заказов"
+    "noBoughtProducts": "Нет заказов",
+    "somethingWentWrong": "Что то пошло не так",
+    "estimateOrder": "Оценить заказ",
+    "statusInfo": "Статус: {status}",
+    "status": {
+      "accepted": "Принято",
+      "going": "Собирается",
+      "sent": "Отправлено",
+      "onway": "В пути",
+      "arrived": "Прибыл"
+    },
+    "estimateOrderPanel": {
+      "comment": "Коментарий...",
+      "photos": "Фотографии",
+      "selectImages": "Выбрать изображения",
+      "gratitude": "Спасибо за оценку!",
+      "close": "Закрыть"
+    }
   },
   "DeliveryMethods": {
     "russianpost": "Почта россии",

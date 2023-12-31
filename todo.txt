@@ -4,7 +4,5 @@ update data
 
 add only one main
 
-add comment add for users after get products
-add profile page
-
 add many throw expections on forms
+add checkbox for forms payments and auth

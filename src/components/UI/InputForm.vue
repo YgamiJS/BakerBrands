@@ -15,7 +15,10 @@ const { value: inputValue } = useField(props.name, {
   initialValue: ""
 });
 
-inputValue.value = props?.value || "";
+// inputValue.value = props?.value && props.value;
+
+// eslint-disable-next-line vue/no-setup-props-destructure
+props.value && (inputValue.value = props.value);
 </script>
 
 <template>

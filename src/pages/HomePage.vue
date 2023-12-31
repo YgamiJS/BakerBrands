@@ -1,6 +1,23 @@
 <script setup lang="ts">
 import { images } from "@/assets/images";
+import { useBasketStore } from "@/store/basket";
+import { useOrdersStore } from "@/store/bought";
+import { useFavoritesStore } from "@/store/favorites";
+import { useWatchedProductsStore } from "@/store/watchedProducts";
+import { onMounted } from "vue";
 import { RouterLink } from "vue-router";
+
+const { fetchBasketProducts } = useBasketStore();
+const { fetchBoughtProducts } = useOrdersStore();
+const { fetchFavoriteProducts } = useFavoritesStore();
+const { lastWathed } = useWatchedProductsStore();
+
+onMounted(async () => {
+  await fetchFavoriteProducts();
+  await fetchBasketProducts();
+  await fetchBoughtProducts();
+  await lastWathed();
+});
 </script>
 
 <template>

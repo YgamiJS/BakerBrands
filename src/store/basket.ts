@@ -9,20 +9,20 @@ import { ref } from "vue";
 import { useAuthenticationStore } from "./authentication";
 
 export const useBasketStore = defineStore("basket", () => {
+  const auth = useAuthenticationStore();
   const basketProducts = useStorage<IBasketProduct[]>("basket", []);
   const basketProductsData = ref<IBasketProductData[]>([]);
   const currentProduct = ref<IProduct>();
   const loading = ref<boolean>(false);
   const error = ref<any | null>(null);
-  const { authentication, isAuth } = useAuthenticationStore();
 
   const fetchBasketProducts = async () => {
     try {
-      if (!isAuth()) return;
+      if (!auth.isAuth()) return;
 
       loading.value = true;
 
-      const fbBasketProductsStore = await getDoc(doc(db, "users", authentication.token));
+      const fbBasketProductsStore = await getDoc(doc(db, "users", auth.authentication.token));
 
       loading.value = false;
 
@@ -77,9 +77,9 @@ export const useBasketStore = defineStore("basket", () => {
         sizes: selectedSizes
       };
 
-      if (isAuth()) {
+      if (auth.isAuth()) {
         loading.value = true;
-        updateDoc(doc(db, "users", authentication.token), {
+        updateDoc(doc(db, "users", auth.authentication.token), {
           basketProducts: arrayUnion(NewbasketProduct)
         }).then(() => {
           basketProducts.value.push(NewbasketProduct);
@@ -97,9 +97,9 @@ export const useBasketStore = defineStore("basket", () => {
     basketProducts.value = [];
     basketProductsData.value = [];
 
-    if (isAuth()) {
+    if (auth.isAuth()) {
       loading.value = true;
-      updateDoc(doc(db, "users", authentication.token), {
+      updateDoc(doc(db, "users", auth.authentication.token), {
         basketProducts: []
       }).then(() => (loading.value = false));
     }
@@ -113,10 +113,10 @@ export const useBasketStore = defineStore("basket", () => {
 
       if (!basketProduct) return;
 
-      if (isAuth()) {
+      if (auth.isAuth()) {
         basketProduct.sizes.push(size);
 
-        await updateDoc(doc(db, "users", authentication.token), {
+        await updateDoc(doc(db, "users", auth.authentication.token), {
           basketProducts: basketProducts.value
         });
       } else {
@@ -135,10 +135,10 @@ export const useBasketStore = defineStore("basket", () => {
 
       if (!basketProduct) return;
 
-      if (isAuth()) {
+      if (auth.isAuth()) {
         basketProduct.sizes = basketProduct.sizes.filter((size) => size !== currentSize);
 
-        await updateDoc(doc(db, "users", authentication.token), {
+        await updateDoc(doc(db, "users", auth.authentication.token), {
           basketProducts: basketProducts.value
         });
 
@@ -186,7 +186,7 @@ export const useBasketStore = defineStore("basket", () => {
       if (!basketProduct) return;
 
       if (basketProduct.count < currentProduct!.value!.inStock) {
-        if (isAuth()) {
+        if (auth.isAuth()) {
           const currentProductIndex = basketProducts.value.findIndex(
             (basketProduct) => basketProduct.id === basketProductId
           );
@@ -201,7 +201,7 @@ export const useBasketStore = defineStore("basket", () => {
 
           basketProductsData.value[currentBasketProductData].count += 1;
 
-          await updateDoc(doc(db, "users", authentication.token), {
+          await updateDoc(doc(db, "users", auth.authentication.token), {
             basketProducts: basketProducts.value
           });
         } else {
@@ -230,7 +230,7 @@ export const useBasketStore = defineStore("basket", () => {
       if (!basketProduct) return;
 
       if (!(basketProduct.count < 2)) {
-        if (isAuth()) {
+        if (auth.isAuth()) {
           const currentProductIndex = basketProducts.value.findIndex(
             (basketProduct) => basketProduct.id === basketProductId
           );
@@ -245,7 +245,7 @@ export const useBasketStore = defineStore("basket", () => {
 
           basketProductsData.value[currentBasketProductData].count -= 1;
 
-          await updateDoc(doc(db, "users", authentication.token), {
+          await updateDoc(doc(db, "users", auth.authentication.token), {
             basketProducts: basketProducts.value
           });
         } else {
@@ -269,7 +269,7 @@ export const useBasketStore = defineStore("basket", () => {
 
   const removeBasketProduct = async (basketProductId: IBasketProduct["id"]) => {
     try {
-      if (isAuth()) {
+      if (auth.isAuth()) {
         basketProducts.value = basketProducts.value.filter(
           (basketProduct) => basketProduct.id !== basketProductId
         );
@@ -278,7 +278,7 @@ export const useBasketStore = defineStore("basket", () => {
           (basketProduct) => basketProduct.id !== basketProductId
         );
 
-        await updateDoc(doc(db, "users", authentication.token), {
+        await updateDoc(doc(db, "users", auth.authentication.token), {
           basketProducts: basketProducts.value
         });
       } else {
@@ -296,7 +296,6 @@ export const useBasketStore = defineStore("basket", () => {
   };
 
   const clearBasketData = () => {
-    console.log(1, "basket");
     basketProducts.value = [];
   };
 
