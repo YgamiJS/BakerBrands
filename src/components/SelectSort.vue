@@ -30,7 +30,7 @@ const change = async (event: Event) => {
 
 .wrapper {
   &::after {
-    content: url("@/assets/images/vector.png");
+    content: url("@/assets/images/Vector.png");
     margin-left: 9.5px;
   }
 }
