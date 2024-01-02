@@ -10,3 +10,4 @@
 - Swiper
 - Firebase (VueFire)
 - Vee-validate
+- SCSS
