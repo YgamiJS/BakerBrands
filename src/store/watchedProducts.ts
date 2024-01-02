@@ -13,7 +13,7 @@ export const useWatchedProductsStore = defineStore("watchedProducts", () => {
   const watchedProductsData = ref<IProduct[]>([]);
   const loading = ref<boolean>(false);
   const error = ref<any | null>(null);
-  const { authentication, isAuth } = useAuthenticationStore();
+  const auth = useAuthenticationStore();
 
   const addWatchedProduct = async (id: IWatchedProduct["id"]) => {
     try {
@@ -22,17 +22,16 @@ export const useWatchedProductsStore = defineStore("watchedProducts", () => {
       if (watchedProducts.value.find((watchedProduct) => watchedProduct.id == NewWatchedProduct.id))
         return;
 
-      if (isAuth()) {
+      if (auth.isAuth()) {
         loading.value = true;
-        updateDoc(doc(db, "users", authentication.token), {
+        updateDoc(doc(db, "users", auth.authentication.token), {
           wathedProducts: arrayUnion(NewWatchedProduct)
         }).then(() => {
-          watchedProducts.value.push(NewWatchedProduct);
           loading.value = false;
         });
-      } else {
-        watchedProducts.value.push(NewWatchedProduct);
       }
+
+      watchedProducts.value.push(NewWatchedProduct);
     } catch (err) {
       error.value = err;
     }
@@ -40,13 +39,15 @@ export const useWatchedProductsStore = defineStore("watchedProducts", () => {
 
   const lastWathed = async () => {
     try {
-      if (isAuth()) {
+      if (auth.isAuth()) {
         loading.value = true;
 
-        const fbWatchedProducts = await getDoc(doc(db, "users", authentication.token));
+        const fbWatchedProducts = await getDoc(doc(db, "users", auth.authentication.token));
 
         watchedProducts.value = (await fbWatchedProducts.data()!
           .wathedProducts) as IWatchedProduct[];
+
+        console.log((await fbWatchedProducts.data()!.wathedProducts) as IWatchedProduct[], "tyt");
 
         const fbProducts: IProduct[] = [];
 
@@ -61,6 +62,7 @@ export const useWatchedProductsStore = defineStore("watchedProducts", () => {
         loading.value = false;
       } else {
         const fbProducts: IProduct[] = [];
+
         await Promise.all(
           watchedProducts.value.map(async ({ id }) =>
             fbProducts.push((await getDoc(doc(db, "products", id))).data()! as IProduct)
@@ -70,8 +72,6 @@ export const useWatchedProductsStore = defineStore("watchedProducts", () => {
       }
     } catch (err) {
       error.value = err;
-
-      console.log(err);
     }
   };
 

@@ -54,8 +54,8 @@ const emit = defineEmits<{
 
   &__img {
     border-radius: 10px;
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 }

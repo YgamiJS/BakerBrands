@@ -1,10 +1,4 @@
-import type {
-  IAuthentication,
-  IBasketProduct,
-  IFavoriteProduct,
-  ISingInForm,
-  IWatchedProduct
-} from "@/types";
+import type { IBasketProduct, IFavoriteProduct, ISingInForm, IWatchedProduct } from "@/types";
 
 import { db } from "@/services/vuefire";
 import { useAuthenticationStore } from "@/store/authentication";
@@ -15,7 +9,6 @@ import { useWatchedProductsStore } from "@/store/watchedProducts";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { arrayUnion, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
 
 export const SingInFirebase = async ({ email, password }: ISingInForm) => {
   const { setAuthentication } = useAuthenticationStore();
@@ -26,17 +19,19 @@ export const SingInFirebase = async ({ email, password }: ISingInForm) => {
   const { favoriteProducts } = storeToRefs(useFavoritesStore());
   const { basketProducts } = storeToRefs(useBasketStore());
   const auth = getAuth();
-  const user = ref<IAuthentication>();
 
   const addFavoriteProductsAndBasketProductsAndWathcedProductsToFireBase = async (
     favoriteProducts: IFavoriteProduct[],
     basketProducts: IBasketProduct[],
     wathedProducts: IWatchedProduct[]
   ) => {
-    const token = (await getDocs(await query(collection(db, "users"), where("email", "==", email))))
-      .docs[0].id;
+    const token = await (
+      await getDocs(await query(collection(db, "users"), where("email", "==", email)))
+    ).docs[0].data();
 
-    await updateDoc(doc(db, "users", token), {
+    setAuthentication({ token: token.token });
+
+    await updateDoc(doc(db, "users", token.token), {
       basketProducts: arrayUnion(...basketProducts),
       favoriteProducts: arrayUnion(...favoriteProducts),
       wathedProducts: arrayUnion(...wathedProducts)
@@ -47,25 +42,11 @@ export const SingInFirebase = async ({ email, password }: ISingInForm) => {
     await lastWathed();
   };
 
-  return signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const currentUser = userCredential.user;
-      const SingInUser = {
-        email,
-        id: currentUser.uid,
-        password,
-        token: currentUser.refreshToken
-      };
-
-      user.value = SingInUser;
-
-      setAuthentication({ token: SingInUser.token });
-    })
-    .then(() =>
-      addFavoriteProductsAndBasketProductsAndWathcedProductsToFireBase(
-        favoriteProducts.value,
-        basketProducts.value,
-        watchedProducts.value
-      )
-    );
+  return signInWithEmailAndPassword(auth, email, password).then(() =>
+    addFavoriteProductsAndBasketProductsAndWathcedProductsToFireBase(
+      favoriteProducts.value,
+      basketProducts.value,
+      watchedProducts.value
+    )
+  );
 };

@@ -71,23 +71,23 @@ export const useBasketStore = defineStore("basket", () => {
 
   const addBasketProduct = async (id: IProduct["id"], selectedSizes: string[]) => {
     try {
+      loading.value = true;
+
       const NewbasketProduct = {
         count: 1,
         id,
         sizes: selectedSizes
       };
 
+      basketProducts.value.push(NewbasketProduct);
+
       if (auth.isAuth()) {
-        loading.value = true;
-        updateDoc(doc(db, "users", auth.authentication.token), {
+        await updateDoc(doc(db, "users", auth.authentication.token), {
           basketProducts: arrayUnion(NewbasketProduct)
-        }).then(() => {
-          basketProducts.value.push(NewbasketProduct);
-          loading.value = false;
         });
-      } else {
-        basketProducts.value.push(NewbasketProduct);
       }
+
+      loading.value = false;
     } catch (err) {
       error.value = err;
     }
@@ -113,14 +113,12 @@ export const useBasketStore = defineStore("basket", () => {
 
       if (!basketProduct) return;
 
-      if (auth.isAuth()) {
-        basketProduct.sizes.push(size);
+      basketProduct.sizes.push(size);
 
+      if (auth.isAuth()) {
         await updateDoc(doc(db, "users", auth.authentication.token), {
           basketProducts: basketProducts.value
         });
-      } else {
-        basketProduct.sizes.push(size);
       }
     } catch (err) {
       error.value = err;
@@ -135,36 +133,23 @@ export const useBasketStore = defineStore("basket", () => {
 
       if (!basketProduct) return;
 
-      if (auth.isAuth()) {
-        basketProduct.sizes = basketProduct.sizes.filter((size) => size !== currentSize);
+      basketProduct.sizes = basketProduct.sizes.filter((size) => size !== currentSize);
 
+      const currentBasketProductDataIndex = basketProductsData.value.findIndex(
+        (basketProduct) => basketProduct.id == basketProductId
+      );
+
+      if (currentBasketProductDataIndex === -1) return;
+
+      (basketProductsData.value[currentBasketProductDataIndex].sizes as string[]) =
+        basketProductsData.value[currentBasketProductDataIndex].sizes.filter(
+          (size) => size !== currentSize
+        );
+
+      if (auth.isAuth()) {
         await updateDoc(doc(db, "users", auth.authentication.token), {
           basketProducts: basketProducts.value
         });
-
-        const currentBasketProductDataIndex = basketProductsData.value.findIndex(
-          (basketProduct) => basketProduct.id == basketProductId
-        );
-
-        if (currentBasketProductDataIndex === -1) return;
-
-        (basketProductsData.value[currentBasketProductDataIndex].sizes as string[]) =
-          basketProductsData.value[currentBasketProductDataIndex].sizes.filter(
-            (size) => size !== currentSize
-          );
-      } else {
-        basketProduct.sizes = basketProduct.sizes.filter((size) => size !== currentSize);
-
-        const currentBasketProductDataIndex = basketProductsData.value.findIndex(
-          (basketProduct) => basketProduct.id == basketProductId
-        );
-
-        if (currentBasketProductDataIndex === -1) return;
-
-        (basketProductsData.value[currentBasketProductDataIndex].sizes as string[]) =
-          basketProductsData.value[currentBasketProductDataIndex].sizes.filter(
-            (size) => size !== currentSize
-          );
       }
     } catch (err) {
       error.value = err;
@@ -186,34 +171,26 @@ export const useBasketStore = defineStore("basket", () => {
       if (!basketProduct) return;
 
       if (basketProduct.count < currentProduct!.value!.inStock) {
+        basketProduct.count += 1;
+
+        const currentProductIndex = basketProducts.value.findIndex(
+          (basketProduct) => basketProduct.id === basketProductId
+        );
+
+        const currentBasketProductData = basketProductsData.value.findIndex(
+          (basketProduct) => basketProduct.id === basketProductId
+        );
+
+        if (currentBasketProductData == -1) return;
+
+        basketProductsData.value[currentBasketProductData].count += 1;
+
         if (auth.isAuth()) {
-          const currentProductIndex = basketProducts.value.findIndex(
-            (basketProduct) => basketProduct.id === basketProductId
-          );
-
           basketProducts.value[currentProductIndex].count += 1;
-
-          const currentBasketProductData = basketProductsData.value.findIndex(
-            (basketProduct) => basketProduct.id === basketProductId
-          );
-
-          if (currentBasketProductData == -1) return;
-
-          basketProductsData.value[currentBasketProductData].count += 1;
 
           await updateDoc(doc(db, "users", auth.authentication.token), {
             basketProducts: basketProducts.value
           });
-        } else {
-          basketProduct.count += 1;
-
-          const currentBasketProductData = basketProductsData.value.findIndex(
-            (basketProduct) => basketProduct.id === basketProductId
-          );
-
-          if (currentBasketProductData == -1) return;
-
-          basketProductsData.value[currentBasketProductData].count += 1;
         }
       }
     } catch (err) {
@@ -230,34 +207,26 @@ export const useBasketStore = defineStore("basket", () => {
       if (!basketProduct) return;
 
       if (!(basketProduct.count < 2)) {
+        const currentProductIndex = basketProducts.value.findIndex(
+          (basketProduct) => basketProduct.id === basketProductId
+        );
+
+        const currentBasketProductData = basketProductsData.value.findIndex(
+          (basketProduct) => basketProduct.id === basketProductId
+        );
+
+        if (currentBasketProductData == -1) return;
+
+        basketProducts.value[currentProductIndex].count -= 1;
+
+        basketProductsData.value[currentBasketProductData].count -= 1;
+
         if (auth.isAuth()) {
-          const currentProductIndex = basketProducts.value.findIndex(
-            (basketProduct) => basketProduct.id === basketProductId
-          );
-
-          basketProducts.value[currentProductIndex].count -= 1;
-
-          const currentBasketProductData = basketProductsData.value.findIndex(
-            (basketProduct) => basketProduct.id === basketProductId
-          );
-
-          if (currentBasketProductData == -1) return;
-
-          basketProductsData.value[currentBasketProductData].count -= 1;
-
           await updateDoc(doc(db, "users", auth.authentication.token), {
             basketProducts: basketProducts.value
           });
         } else {
           basketProduct.count -= 1;
-
-          const currentBasketProductData = basketProductsData.value.findIndex(
-            (basketProduct) => basketProduct.id === basketProductId
-          );
-
-          if (currentBasketProductData == -1) return;
-
-          basketProductsData.value[currentBasketProductData].count -= 1;
         }
       } else {
         removeBasketProduct(basketProductId);
@@ -269,26 +238,18 @@ export const useBasketStore = defineStore("basket", () => {
 
   const removeBasketProduct = async (basketProductId: IBasketProduct["id"]) => {
     try {
+      basketProducts.value = basketProducts.value.filter(
+        (basketProduct) => basketProduct.id !== basketProductId
+      );
+
+      basketProductsData.value = basketProductsData.value.filter(
+        (basketProduct) => basketProduct.id !== basketProductId
+      );
+
       if (auth.isAuth()) {
-        basketProducts.value = basketProducts.value.filter(
-          (basketProduct) => basketProduct.id !== basketProductId
-        );
-
-        basketProductsData.value = basketProductsData.value.filter(
-          (basketProduct) => basketProduct.id !== basketProductId
-        );
-
         await updateDoc(doc(db, "users", auth.authentication.token), {
           basketProducts: basketProducts.value
         });
-      } else {
-        basketProducts.value = basketProducts.value.filter(
-          (basketProduct) => basketProduct.id !== basketProductId
-        );
-
-        basketProductsData.value = basketProductsData.value.filter(
-          (basketProduct) => basketProduct.id !== basketProductId
-        );
       }
     } catch (err) {
       error.value = err;

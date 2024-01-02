@@ -35,9 +35,21 @@ const emit = defineEmits<{
 
 <style scoped lang="scss">
 .reviews-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  grid-auto-rows: 100px;
   gap: 20px;
-  width: 100%;
+
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 600px) and (min-width: 500px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (max-width: 700px) and (min-width: 600px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
 </style>

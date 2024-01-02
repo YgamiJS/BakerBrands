@@ -81,6 +81,7 @@ const onSubmit = handleSubmit((data) => {
       min="6"
     />
     <p class="login-form__errorMessage" v-if="errors.password">{{ errors.password }}</p>
+    <p class="login-form__accept" v-html="$t('LogIn.accept')"></p>
     <ButtonForm
       class="login-form__button"
       type="submit"
@@ -119,6 +120,20 @@ const onSubmit = handleSubmit((data) => {
     font-weight: 400;
     line-height: normal;
     margin-bottom: 20px;
+  }
+}
+</style>
+
+<style lang="scss">
+@import "@/assets/scss/App.scss";
+
+.login-form {
+  &__accept {
+    margin: 10px 0;
+
+    a {
+      color: $blue100;
+    }
   }
 }
 </style>

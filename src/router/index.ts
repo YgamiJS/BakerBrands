@@ -73,6 +73,16 @@ const router = createRouter({
       path: "/Profile"
     },
     {
+      component: () => import("@/pages/PolicyPage.vue"),
+      name: Routes.POLICY,
+      path: "/Policy"
+    },
+    {
+      component: () => import("@/pages/UserAcceptedPage.vue"),
+      name: Routes.USER_ACCEPTED,
+      path: "/UserAccepted"
+    },
+    {
       component: () => import("@/pages/NotFoundPage.vue"),
       name: Routes.NOT_FOUND,
       path: "/:catchAll(.*)"

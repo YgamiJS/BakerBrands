@@ -1,8 +1,0 @@
-arhitecture
-ui
-update data
-
-add only one main
-
-add many throw expections on forms
-add checkbox for forms payments and auth

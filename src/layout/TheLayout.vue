@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppBar from "@/components/AppBar.vue";
-import NoInternet from "@/components/noInternet.vue";
+import NoInternet from "@/components/NoInternet.vue";
 import { useNetwork } from "@vueuse/core";
 import { RouterView } from "vue-router";
 

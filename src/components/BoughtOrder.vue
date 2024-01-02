@@ -14,7 +14,10 @@ const props = defineProps<{
 }>();
 
 const isArrived = computed(() => {
-  return !!(new Date().getDate() >= new Date(props.order.transferDate).getDate());
+  return !!(
+    new Date().getDate() >= new Date(props.order.transferDate).getDate() ||
+    new Date().getMonth() < new Date(props.order.transferDate).getMonth()
+  );
 });
 </script>
 

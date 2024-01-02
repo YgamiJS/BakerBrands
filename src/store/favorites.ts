@@ -56,59 +56,46 @@ export const useFavoritesStore = defineStore("favorites", () => {
   };
 
   const addFavoriteProduct = async (id: IProduct["id"]) => {
-    const NewFavoriteProduct = {
-      id
-    };
+    try {
+      loading.value = true;
 
-    if (isAuth()) {
-      try {
-        loading.value = true;
+      const NewFavoriteProduct = {
+        id
+      };
 
-        favoriteProducts.value.push(NewFavoriteProduct);
-
-        updateDoc(doc(db, "users", authentication.token), {
-          favoriteProducts: arrayUnion(NewFavoriteProduct)
-        }).then(async () => {
-          loading.value = false;
-          favoriteProductsData.value.push(
-            (await getDoc(doc(db, "products", id))).data()! as IProduct
-          );
-        });
-      } catch (err) {
-        error.value = err;
-      }
-    } else {
       favoriteProducts.value.push(NewFavoriteProduct);
 
       favoriteProductsData.value.push((await getDoc(doc(db, "products", id))).data()! as IProduct);
+
+      if (isAuth()) {
+        await updateDoc(doc(db, "users", authentication.token), {
+          favoriteProducts: arrayUnion(NewFavoriteProduct)
+        });
+      }
+
+      loading.value = false;
+    } catch (err) {
+      error.value = err;
     }
   };
 
   const removeFavoriteProduct = async (favoriteProductId: IFavoriteProduct["id"]) => {
+    favoriteProducts.value = favoriteProducts.value.filter(
+      (favoriteProduct) => favoriteProduct.id !== favoriteProductId
+    );
+
+    favoriteProductsData.value = favoriteProductsData.value.filter(
+      (favoriteProduct) => favoriteProduct.id !== favoriteProductId
+    );
+
     if (isAuth()) {
       try {
-        favoriteProducts.value = favoriteProducts.value.filter(
-          (favoriteProduct) => favoriteProduct.id !== favoriteProductId
-        );
-
-        favoriteProductsData.value = favoriteProductsData.value.filter(
-          (favoriteProduct) => favoriteProduct.id !== favoriteProductId
-        );
-
         await updateDoc(doc(db, "users", authentication.token), {
           favoriteProducts: favoriteProducts.value
         });
       } catch (err) {
         error.value = err;
       }
-    } else {
-      favoriteProducts.value = favoriteProducts.value.filter(
-        (favoriteProduct) => favoriteProduct.id !== favoriteProductId
-      );
-
-      favoriteProductsData.value = favoriteProductsData.value.filter(
-        (favoriteProduct) => favoriteProduct.id !== favoriteProductId
-      );
     }
   };
 

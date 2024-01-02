@@ -11,9 +11,11 @@ export enum Routes {
   NOT_FOUND = "NotFound",
   PAYMENT_AND_DEVELIVERY = "PaymentAndDevelivery",
   PLACINGORDER = "PlacingOrder",
+  POLICY = "Policy",
   PROFILE = "Profile",
   SEARCH = "Search",
   SHOP = "Shop",
   SHOPNEW = "Shop",
-  SING_IN = "SingIn"
+  SING_IN = "SingIn",
+  USER_ACCEPTED = "UserAccepted"
 }

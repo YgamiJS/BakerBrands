@@ -52,7 +52,12 @@ import { RouterLink } from "vue-router";
                 }}</RouterLink>
               </li>
               <li class="info__info">
-                <RouterLink class="info__link" to="">{{ $t("footer.policy") }}</RouterLink>
+                <RouterLink class="info__link" to="/UserAccepted">{{
+                  $t("footer.useraccepted")
+                }}</RouterLink>
+              </li>
+              <li class="info__info">
+                <RouterLink class="info__link" to="/Policy">{{ $t("footer.policy") }}</RouterLink>
               </li>
             </ul>
           </div>
@@ -111,6 +116,7 @@ import { RouterLink } from "vue-router";
   }
 
   &__copyright {
+    margin-top: 10px;
     text-align: center;
 
     @media (max-width: 767px) {
