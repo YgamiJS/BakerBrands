@@ -27,7 +27,7 @@ import russianpost from "./russianpost.png";
 import success from "./success.png";
 import telegram from "./telegram.svg";
 import trash from "./trash.png";
-import arrowDown from "./Vector.png";
+import arrowDown from "./vector.png";
 
 export const images = {
   arrowDown,
