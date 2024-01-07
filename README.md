@@ -5,6 +5,7 @@
 ### Технологии
 
 - Vue
+- Vue-i18n
 - Pinia
 - TypeScript
 - Swiper
